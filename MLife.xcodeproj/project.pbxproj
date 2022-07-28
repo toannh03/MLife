@@ -17,6 +17,9 @@
 		048FB4DD2892D2060064D883 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4DC2892D2060064D883 /* HomeViewController.swift */; };
 		048FB4DF2892D2130064D883 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4DE2892D2130064D883 /* SearchViewController.swift */; };
 		048FB4E12892D3CF0064D883 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E02892D3CF0064D883 /* ProfileViewController.swift */; };
+		048FB4E32892E5A60064D883 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E22892E5A60064D883 /* LoginViewController.swift */; };
+		048FB4E62892EACB0064D883 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E52892EACB0064D883 /* Utilities.swift */; };
+		048FB4E92892F8CE0064D883 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E82892F8CE0064D883 /* CustomTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		048FB4DC2892D2060064D883 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		048FB4DE2892D2130064D883 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		048FB4E02892D3CF0064D883 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		048FB4E22892E5A60064D883 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		048FB4E52892EACB0064D883 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		048FB4E82892F8CE0064D883 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,13 +70,14 @@
 		04128C8528915B7C00224FAD /* MLife */ = {
 			isa = PBXGroup;
 			children = (
+				048FB4E72892F8AC0064D883 /* Customs */,
 				04128CAB28915D7900224FAD /* Services */,
-				04128CAA28915D7100224FAD /* Extensions */,
 				04128CA028915B9300224FAD /* Controllers */,
 				04128C9F28915B8C00224FAD /* ViewModels */,
 				04128C9E28915B8800224FAD /* Views */,
 				04128C9D28915B8200224FAD /* Models */,
 				04128CA128915B9E00224FAD /* Sources */,
+				048FB4E42892EABA0064D883 /* Utilities */,
 				04128C8C28915B7C00224FAD /* Main.storyboard */,
 				04128C9228915B7D00224FAD /* Assets.xcassets */,
 				04128C9428915B7D00224FAD /* LaunchScreen.storyboard */,
@@ -134,6 +141,7 @@
 		04128CA528915CC700224FAD /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				048FB4E22892E5A60064D883 /* LoginViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -169,18 +177,27 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
-		04128CAA28915D7100224FAD /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		04128CAB28915D7900224FAD /* Services */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		048FB4E42892EABA0064D883 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				048FB4E52892EACB0064D883 /* Utilities.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		048FB4E72892F8AC0064D883 /* Customs */ = {
+			isa = PBXGroup;
+			children = (
+				048FB4E82892F8CE0064D883 /* CustomTextField.swift */,
+			);
+			path = Customs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +275,10 @@
 				048FB4DD2892D2060064D883 /* HomeViewController.swift in Sources */,
 				04128CA328915BDF00224FAD /* TabBarViewController.swift in Sources */,
 				04128C8728915B7C00224FAD /* AppDelegate.swift in Sources */,
+				048FB4E92892F8CE0064D883 /* CustomTextField.swift in Sources */,
+				048FB4E32892E5A60064D883 /* LoginViewController.swift in Sources */,
 				048FB4E12892D3CF0064D883 /* ProfileViewController.swift in Sources */,
+				048FB4E62892EACB0064D883 /* Utilities.swift in Sources */,
 				04128C8928915B7C00224FAD /* SceneDelegate.swift in Sources */,
 				04128C9128915B7C00224FAD /* MLife.xcdatamodeld in Sources */,
 			);
