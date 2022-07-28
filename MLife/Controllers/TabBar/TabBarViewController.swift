@@ -9,8 +9,6 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
     
-    let heightTabBar: CGFloat = 55 
-
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -37,11 +35,13 @@ class TabBarViewController: UITabBarController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        var tabFrame = self.tabBar.frame
-        // 55 is editable , the default value is 49 px, below lowers the tabbar and above increases the tab bar size
-        tabFrame.size.height = heightTabBar
-        tabFrame.origin.y = self.view.frame.size.height - heightTabBar
-        self.tabBar.frame = tabFrame
+//        let heightTabBar: CGFloat = view.frame.size.width / 7.0
+//        
+//        var tabFrame = self.tabBar.frame
+//        // 55 is editable , the default value is 49 px, below lowers the tabbar and above increases the tab bar size
+//        tabFrame.size.height = heightTabBar
+//        tabFrame.origin.y = self.view.frame.size.height - heightTabBar
+//        self.tabBar.frame = tabFrame
         
     }
     
@@ -50,9 +50,10 @@ class TabBarViewController: UITabBarController {
     private func configureColorTabBarItem() {
         
         UITabBar.appearance().tintColor = .systemGray
-        // make unselected icons white
+        // Make unselected icons white
         self.tabBar.unselectedItemTintColor = UIColor.white
         self.tabBar.backgroundColor = .black
+        
     }
     
     // MARK: - Create tab
