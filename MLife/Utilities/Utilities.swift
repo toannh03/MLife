@@ -83,3 +83,19 @@ extension UIView {
     }
     
 }
+
+extension UIView {
+    
+    // MARK: - Create a UIView with color gradient
+    
+    func addGradientWithColor(color: UIColor) {
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = self.bounds
+        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradient.colors = [UIColor.white.cgColor, color.cgColor]
+        
+        self.layer.insertSublayer(gradient, at: 0)
+    }
+}

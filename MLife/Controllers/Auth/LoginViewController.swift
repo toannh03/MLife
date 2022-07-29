@@ -58,18 +58,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        self.view.addGradientWithColor(color: UIColor.red)
+        
         self.hideKeyboardWhenTappedAround() 
         view.addSubview(createAccountButton)
         
-        // Configure stack 
-        stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, asyncLoginButton])
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.distribution = .fillEqually
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stackView)
-        
+        configureStackView()
     }
     
     // MARK: - Layout
@@ -81,7 +75,18 @@ class LoginViewController: UIViewController {
         emailTextField.anchor(height: 50)
         stackView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: view.safeAreaInsets.top + view.frame.size.height / 3.5, paddingLeft: 20, paddingRight: 20)
         createAccountButton.centerX(with: stackView, topAnchor: stackView.bottomAnchor, paddingTop: 10)
-        
+    }
+    
+    // MARK: - Configure
+    
+    func configureStackView() {
+        // Configure stack 
+        stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, asyncLoginButton])
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
     }
 }
 
