@@ -29,7 +29,11 @@ class LoginViewController: UIViewController {
     lazy var indicatorLogin: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.style = .large
-        indicator.color = .systemTeal
+        indicator.clipsToBounds = true
+        indicator.layer.cornerRadius = 8
+        indicator.backgroundColor = .systemGray
+        indicator.alpha = 0.6
+        indicator.color = .white
         return indicator
     }()
     
@@ -56,7 +60,7 @@ class LoginViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = Constants.cornerRadius
-        button.backgroundColor = .systemIndigo
+        button.backgroundColor = .systemMint
         return button
     }()
     
@@ -70,20 +74,17 @@ class LoginViewController: UIViewController {
     
     // MARK: - Lifecycle
     
-    override func viewWillAppear(_ animated: Bool) {
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(backgroundLogin)
 //        self.view.addGradientWithColor(color: UIColor.red)
-        
         self.hideKeyboardWhenTappedAround() 
         view.addSubview(createAccountButton)
         
         configureStackView()
         
         asyncLoginButton.addTarget(self, action: #selector(pressLogin), for: .touchUpInside)
+        createAccountButton.addTarget(self, action: #selector(didTapCreateAccountButton), for: .touchUpInside)
     }
     
     // MARK: - Layout
@@ -96,7 +97,7 @@ class LoginViewController: UIViewController {
         stackView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: view.safeAreaInsets.top + view.frame.size.height / 3, paddingLeft: 20, paddingRight: 20)
         createAccountButton.centerX(with: stackView, topAnchor: stackView.bottomAnchor, paddingTop: 10)
         
-        indicatorLogin.frame = CGRect(x: (stackView.frame.size.width / 2) - 25, y: (stackView.frame.size.height / 2) - 25, width: 50, height: 50)
+        indicatorLogin.frame = CGRect(x: (stackView.frame.size.width / 2) - 40, y: (stackView.frame.size.height / 2) - 40, width: 80, height: 80)
     }
     
     // MARK: - Configure
@@ -126,7 +127,7 @@ class LoginViewController: UIViewController {
         
         guard let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty else { 
             indicatorLogin.stopAnimating()
-            notification(title: "Notification", message: "Please enter an email and password", style: .alert, titleAction: "Dismiss", styleAction: .cancel)
+            floatingNotification(title: "Warning Notification", subtitle: "Please enter an email and password", titleTextAlign: .center, subtitleFont: nil, subtitleTextAlign: .center, style:.warning)
             return 
         }
         
@@ -135,7 +136,7 @@ class LoginViewController: UIViewController {
             self.indicatorLogin.stopAnimating()
             self.indicatorLogin.hidesWhenStopped = true
             
-            notification(title: "Notification", message: "Email is not valid", style: .alert, titleAction: "Dismiss", styleAction: .default)
+            floatingNotification(title: "Warning Notification", subtitle: "Email is not valid, please try again with another email", titleTextAlign: .center, subtitleTextAlign: .center, style: .warning)
             return
         }
         
@@ -167,20 +168,27 @@ class LoginViewController: UIViewController {
     
     private func handleSignIn(success: Bool) {
         guard success else { 
-            notification(title: "Notification", message: "Something went wrong when signing in", style: .alert, titleAction: "Dismiss", styleAction: .cancel)
+            floatingNotification(title: "Error Notification", subtitle: "Something went wrong when signing in", titleTextAlign: .center, subtitleTextAlign: .center, style: .danger)
             return
         }
         
-        let tabBarSwitch = TabBarViewController()
-        tabBarSwitch.modalPresentationStyle = .fullScreen
-        tabBarSwitch.modalTransitionStyle = .flipHorizontal
-        present(tabBarSwitch, animated: true)
+        floatingNotification(title: "Sccessful Login!", titleTextAlign: .center, style: .success)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            let tabBarSwitch = TabBarViewController()
+            tabBarSwitch.modalPresentationStyle = .fullScreen
+            tabBarSwitch.modalTransitionStyle = .flipHorizontal
+            self.present(tabBarSwitch, animated: true)
+        })
     }
     
-    private func notification(title: String?, message: String?, style: UIAlertController.Style, titleAction: String?, styleAction:  UIAlertAction.Style) {
-        let notification = UIAlertController(title: title, message: message, preferredStyle: style)
-        notification.addAction(UIAlertAction(title: titleAction, style: styleAction, handler: nil))
-        self.present(notification, animated: true, completion: nil)
+    @objc private func didTapCreateAccountButton() {
+        let vc = RegistrationViewController()
+        vc.title =  "Create Account"
+        vc.navigationItem.largeTitleDisplayMode = .always
+        let rootVC = UINavigationController(rootViewController: vc)
+        rootVC.navigationBar.prefersLargeTitles = true
+        present(rootVC, animated: true)
     }
     
 }

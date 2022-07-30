@@ -32,6 +32,46 @@ class AuthManager {
         }
     }
     
+    // MARK: - REGISTRATION
+    
+    func registerNewUser(username: String, email: String, password: String, completion: @escaping(Bool) -> ()) {
+        /* 
+         - Create account 
+         - Insert account to database
+         */
+        DatabaseManager.shared.canCreateNewUser(with: email, username: username) { canCreate in
+            if canCreate {
+                /* 
+                 - Create account 
+                 - Insert account to database
+                 */
+                Auth.auth().createUser(withEmail: email, password: password) { result, error in 
+                    
+                    guard result != nil, error == nil else { 
+                            // Firebase auth could not create account
+                        completion(false)
+                        return 
+                        
+                    }
+                    
+                        // Insert into database
+                    DatabaseManager.shared.insertNewUser(with: email, username: username) { success in 
+                        if success {
+                            completion(true)
+                            return
+                        } else {
+                            completion(false)
+                            return
+                        }
+                    }
+                }
+            } else {
+                    // email or password does not exit
+                completion(false)
+            }
+        }
+    }
+    
     // MARK: - LOGOUT
     
     func logOut(completion: (Bool) -> Void) {
