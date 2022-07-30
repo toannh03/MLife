@@ -14,12 +14,16 @@
 		04128C9328915B7D00224FAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04128C9228915B7D00224FAD /* Assets.xcassets */; };
 		04128C9628915B7D00224FAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04128C9428915B7D00224FAD /* LaunchScreen.storyboard */; };
 		04128CA328915BDF00224FAD /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04128CA228915BDF00224FAD /* TabBarViewController.swift */; };
+		0487F3DA289440F2000E86DE /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F3D9289440F2000E86DE /* AuthManager.swift */; };
+		0487F3DE28944575000E86DE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F3DD28944575000E86DE /* LoginViewModel.swift */; };
 		048FB4DD2892D2060064D883 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4DC2892D2060064D883 /* HomeViewController.swift */; };
 		048FB4DF2892D2130064D883 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4DE2892D2130064D883 /* SearchViewController.swift */; };
 		048FB4E12892D3CF0064D883 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E02892D3CF0064D883 /* ProfileViewController.swift */; };
 		048FB4E32892E5A60064D883 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E22892E5A60064D883 /* LoginViewController.swift */; };
 		048FB4E62892EACB0064D883 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E52892EACB0064D883 /* Utilities.swift */; };
 		048FB4E92892F8CE0064D883 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E82892F8CE0064D883 /* CustomTextField.swift */; };
+		04A85D5A2895AA9C00E3EA29 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04A85D592895AA9C00E3EA29 /* GoogleService-Info.plist */; };
+		80D0148A49DC127FD26CDA15 /* Pods_MLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,12 +36,18 @@
 		04128C9528915B7D00224FAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04128C9728915B7D00224FAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04128CA228915BDF00224FAD /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		0487F3D9289440F2000E86DE /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		0487F3DD28944575000E86DE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		048FB4DC2892D2060064D883 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		048FB4DE2892D2130064D883 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		048FB4E02892D3CF0064D883 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		048FB4E22892E5A60064D883 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		048FB4E52892EACB0064D883 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		048FB4E82892F8CE0064D883 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		04A85D592895AA9C00E3EA29 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		770A4F5DD0B2C80A17B27CC1 /* Pods-MLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLife.release.xcconfig"; path = "Target Support Files/Pods-MLife/Pods-MLife.release.xcconfig"; sourceTree = "<group>"; };
+		D8C2B94D3FA91CB0797C0F29 /* Pods-MLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLife.debug.xcconfig"; path = "Target Support Files/Pods-MLife/Pods-MLife.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80D0148A49DC127FD26CDA15 /* Pods_MLife.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +67,8 @@
 			children = (
 				04128C8528915B7C00224FAD /* MLife */,
 				04128C8428915B7C00224FAD /* Products */,
+				D082FABF544197668AB0313C /* Pods */,
+				AB85EDE193C3AF29574CE955 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,19 +83,19 @@
 		04128C8528915B7C00224FAD /* MLife */ = {
 			isa = PBXGroup;
 			children = (
-				048FB4E72892F8AC0064D883 /* Customs */,
 				04128CAB28915D7900224FAD /* Services */,
 				04128CA028915B9300224FAD /* Controllers */,
 				04128C9F28915B8C00224FAD /* ViewModels */,
 				04128C9E28915B8800224FAD /* Views */,
 				04128C9D28915B8200224FAD /* Models */,
+				048FB4E72892F8AC0064D883 /* Customs */,
 				04128CA128915B9E00224FAD /* Sources */,
 				048FB4E42892EABA0064D883 /* Utilities */,
 				04128C8C28915B7C00224FAD /* Main.storyboard */,
 				04128C9228915B7D00224FAD /* Assets.xcassets */,
 				04128C9428915B7D00224FAD /* LaunchScreen.storyboard */,
-				04128C9728915B7D00224FAD /* Info.plist */,
 				04128C8F28915B7C00224FAD /* MLife.xcdatamodeld */,
+				04128C9728915B7D00224FAD /* Info.plist */,
 			);
 			path = MLife;
 			sourceTree = "<group>";
@@ -104,6 +117,7 @@
 		04128C9F28915B8C00224FAD /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				0487F3DD28944575000E86DE /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -126,6 +140,7 @@
 			children = (
 				04128C8628915B7C00224FAD /* AppDelegate.swift */,
 				04128C8828915B7C00224FAD /* SceneDelegate.swift */,
+				04A85D592895AA9C00E3EA29 /* GoogleService-Info.plist */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -180,6 +195,7 @@
 		04128CAB28915D7900224FAD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0487F3D9289440F2000E86DE /* AuthManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -200,6 +216,23 @@
 			path = Customs;
 			sourceTree = "<group>";
 		};
+		AB85EDE193C3AF29574CE955 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D082FABF544197668AB0313C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D8C2B94D3FA91CB0797C0F29 /* Pods-MLife.debug.xcconfig */,
+				770A4F5DD0B2C80A17B27CC1 /* Pods-MLife.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -207,9 +240,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04128C9A28915B7D00224FAD /* Build configuration list for PBXNativeTarget "MLife" */;
 			buildPhases = (
+				1E20B07ED4253EB1DD4C835D /* [CP] Check Pods Manifest.lock */,
 				04128C7F28915B7C00224FAD /* Sources */,
 				04128C8028915B7C00224FAD /* Frameworks */,
 				04128C8128915B7C00224FAD /* Resources */,
+				FD57A1C828C9A7B5DAE48111 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -260,11 +295,54 @@
 			files = (
 				04128C9628915B7D00224FAD /* LaunchScreen.storyboard in Resources */,
 				04128C9328915B7D00224FAD /* Assets.xcassets in Resources */,
+				04A85D5A2895AA9C00E3EA29 /* GoogleService-Info.plist in Resources */,
 				04128C8E28915B7C00224FAD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1E20B07ED4253EB1DD4C835D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MLife-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD57A1C828C9A7B5DAE48111 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MLife/Pods-MLife-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MLife/Pods-MLife-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MLife/Pods-MLife-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		04128C7F28915B7C00224FAD /* Sources */ = {
@@ -279,6 +357,8 @@
 				048FB4E32892E5A60064D883 /* LoginViewController.swift in Sources */,
 				048FB4E12892D3CF0064D883 /* ProfileViewController.swift in Sources */,
 				048FB4E62892EACB0064D883 /* Utilities.swift in Sources */,
+				0487F3DE28944575000E86DE /* LoginViewModel.swift in Sources */,
+				0487F3DA289440F2000E86DE /* AuthManager.swift in Sources */,
 				04128C8928915B7C00224FAD /* SceneDelegate.swift in Sources */,
 				04128C9128915B7C00224FAD /* MLife.xcdatamodeld in Sources */,
 			);
@@ -422,6 +502,7 @@
 		};
 		04128C9B28915B7D00224FAD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8C2B94D3FA91CB0797C0F29 /* Pods-MLife.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -450,6 +531,7 @@
 		};
 		04128C9C28915B7D00224FAD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 770A4F5DD0B2C80A17B27CC1 /* Pods-MLife.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
