@@ -23,6 +23,7 @@
 		048FB4E62892EACB0064D883 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E52892EACB0064D883 /* Utilities.swift */; };
 		048FB4E92892F8CE0064D883 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4E82892F8CE0064D883 /* CustomTextField.swift */; };
 		04A85D5A2895AA9C00E3EA29 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04A85D592895AA9C00E3EA29 /* GoogleService-Info.plist */; };
+		04A85D5C2895B9E600E3EA29 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A85D5B2895B9E600E3EA29 /* RegistrationViewController.swift */; };
 		80D0148A49DC127FD26CDA15 /* Pods_MLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		048FB4E52892EACB0064D883 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		048FB4E82892F8CE0064D883 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		04A85D592895AA9C00E3EA29 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		04A85D5B2895B9E600E3EA29 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		770A4F5DD0B2C80A17B27CC1 /* Pods-MLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLife.release.xcconfig"; path = "Target Support Files/Pods-MLife/Pods-MLife.release.xcconfig"; sourceTree = "<group>"; };
 		D8C2B94D3FA91CB0797C0F29 /* Pods-MLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLife.debug.xcconfig"; path = "Target Support Files/Pods-MLife/Pods-MLife.debug.xcconfig"; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				048FB4E22892E5A60064D883 /* LoginViewController.swift */,
+				04A85D5B2895B9E600E3EA29 /* RegistrationViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				048FB4DD2892D2060064D883 /* HomeViewController.swift in Sources */,
 				04128CA328915BDF00224FAD /* TabBarViewController.swift in Sources */,
 				04128C8728915B7C00224FAD /* AppDelegate.swift in Sources */,
+				04A85D5C2895B9E600E3EA29 /* RegistrationViewController.swift in Sources */,
 				048FB4E92892F8CE0064D883 /* CustomTextField.swift in Sources */,
 				048FB4E32892E5A60064D883 /* LoginViewController.swift in Sources */,
 				048FB4E12892D3CF0064D883 /* ProfileViewController.swift in Sources */,

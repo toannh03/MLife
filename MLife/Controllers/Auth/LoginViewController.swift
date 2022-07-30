@@ -16,8 +16,15 @@ class LoginViewController: UIViewController {
 //    var loginViewModel = LoginViewModel()
     
     // MARK: - Create view
-    
+        
     var stackView: UIStackView!
+    
+    private let backgroundLogin: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "bgLogin")
+        return image
+    }()
     
     lazy var indicatorLogin: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -55,7 +62,7 @@ class LoginViewController: UIViewController {
     
     lazy var createAccountButton: UIButton = {
         let button = UIButton()
-        button.setTitleColor(.label, for: .normal)
+        button.setTitleColor( .white , for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
         button.setTitle("New user? Create an account", for: .normal)
         return button
@@ -63,10 +70,13 @@ class LoginViewController: UIViewController {
     
     // MARK: - Lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.addGradientWithColor(color: UIColor.red)
+        view.addSubview(backgroundLogin)
+//        self.view.addGradientWithColor(color: UIColor.red)
         
         self.hideKeyboardWhenTappedAround() 
         view.addSubview(createAccountButton)
@@ -80,10 +90,10 @@ class LoginViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        backgroundLogin.frame = view.bounds
         // Anchor function is defined in Utilities
         emailTextField.anchor(height: 50)
-        stackView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: view.safeAreaInsets.top + view.frame.size.height / 3.5, paddingLeft: 20, paddingRight: 20)
+        stackView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: view.safeAreaInsets.top + view.frame.size.height / 3, paddingLeft: 20, paddingRight: 20)
         createAccountButton.centerX(with: stackView, topAnchor: stackView.bottomAnchor, paddingTop: 10)
         
         indicatorLogin.frame = CGRect(x: (stackView.frame.size.width / 2) - 25, y: (stackView.frame.size.height / 2) - 25, width: 50, height: 50)
@@ -116,10 +126,7 @@ class LoginViewController: UIViewController {
         
         guard let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty else { 
             indicatorLogin.stopAnimating()
-            let notification = UIAlertController(title: "Error", message: "Please enter an email and password.", preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "Dismis", style: .cancel, handler: nil)
-            notification.addAction(defaultAction)
-            self.present(notification, animated: true, completion: nil)
+            notification(title: "Notification", message: "Please enter an email and password", style: .alert, titleAction: "Dismiss", styleAction: .cancel)
             return 
         }
         
@@ -128,9 +135,7 @@ class LoginViewController: UIViewController {
             self.indicatorLogin.stopAnimating()
             self.indicatorLogin.hidesWhenStopped = true
             
-            let notification = UIAlertController(title: "Error", message: "Email is not valid", preferredStyle: .alert)
-            notification.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(notification, animated: true, completion: nil)
+            notification(title: "Notification", message: "Email is not valid", style: .alert, titleAction: "Dismiss", styleAction: .default)
             return
         }
         
@@ -162,10 +167,7 @@ class LoginViewController: UIViewController {
     
     private func handleSignIn(success: Bool) {
         guard success else { 
-            let alert = UIAlertController(title: "Error", message: "Something went wrong when signing in", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            
-            present(alert, animated: true)
+            notification(title: "Notification", message: "Something went wrong when signing in", style: .alert, titleAction: "Dismiss", styleAction: .cancel)
             return
         }
         
@@ -173,6 +175,12 @@ class LoginViewController: UIViewController {
         tabBarSwitch.modalPresentationStyle = .fullScreen
         tabBarSwitch.modalTransitionStyle = .flipHorizontal
         present(tabBarSwitch, animated: true)
+    }
+    
+    private func notification(title: String?, message: String?, style: UIAlertController.Style, titleAction: String?, styleAction:  UIAlertAction.Style) {
+        let notification = UIAlertController(title: title, message: message, preferredStyle: style)
+        notification.addAction(UIAlertAction(title: titleAction, style: styleAction, handler: nil))
+        self.present(notification, animated: true, completion: nil)
     }
     
 }
