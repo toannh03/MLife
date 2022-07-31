@@ -6,6 +6,7 @@
 //
 
 import FirebaseDatabase
+import FirebaseAuth
 
 class DatabaseManager {
     
@@ -18,23 +19,30 @@ class DatabaseManager {
         ///     - email: String representing email
         ///     - username: String representing username 
     
-    public func canCreateNewUser(with email: String, username: String, completion: (Bool) -> Void) {
-        completion(true)
-    }
-    
-    public func insertNewUser(with email: String, username: String, completion: @escaping(Bool) -> Void) {
-        
-        database.child(email.safeDatabaseKey()).setValue(["username": username]) { error, _ in 
-            if error == nil {
-                    // success
-                completion(true)
-                return
-            } else {
-                    // failed
+    public func canCreateNewUser(with email: String, username: String, completion: @escaping (Bool) -> Void) {
+        database.child(email.safeDatabaseKey()).observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.hasChild(email.safeDatabaseKey()) {
                 completion(false)
-                return
+            } else {
+                completion(true)
             }
         }
+    }
+    
+    public func insertNewUser(with email: String, username: String, id: String, completion: @escaping(Bool) -> Void) {
+    
+        database.child("users").setValue(["id": id, "username": username, "email": email.safeDatabaseKey()]) { error, _ in 
+            if error == nil {
+            // success
+                completion(true)
+            return
+            } else {
+            // failed
+                completion(false)
+            return
+            }
+        }
+        
     }
     
 }

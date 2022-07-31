@@ -14,15 +14,36 @@ class AuthManager {
     
     private init() {}
     
+    var isSignedIn: Bool {
+        return accessToken != nil
+    }
+    
+    private var accessToken: String? {
+        return UserDefaults.standard.string(forKey: "access_token")
+    }
+    
     // MARK: - LOGIN
     
     func login(username: String? ,email: String?, password: String, completion: @escaping(Bool) -> Void) {
         if let email = email {
+            
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in 
                 
-                guard authResult != nil, error == nil else {
+                guard let auth = authResult ,authResult != nil, error == nil else {
                     completion(false)
                     return
+                }
+                
+                auth.user.getIDTokenForcingRefresh(true) { idToken, error in
+                                        
+                    guard let access_token = idToken, error == nil else { return }
+                    
+                    print("Token:", access_token)
+
+                    UserDefaults.standard.setValue(access_token, forKey: "access_token")   
+                    
+                    Auth.auth().signIn(withCustomToken: access_token)
+                    
                 }
                 
                 completion(true)
@@ -51,11 +72,12 @@ class AuthManager {
                             // Firebase auth could not create account
                         completion(false)
                         return 
-                        
                     }
                     
+                    guard let id = result?.user.uid else { return }
+                    
                         // Insert into database
-                    DatabaseManager.shared.insertNewUser(with: email, username: username) { success in 
+                    DatabaseManager.shared.insertNewUser(with: email, username: username, id: id) { success in 
                         if success {
                             completion(true)
                             return
@@ -64,6 +86,7 @@ class AuthManager {
                             return
                         }
                     }
+                ///////
                 }
             } else {
                     // email or password does not exit

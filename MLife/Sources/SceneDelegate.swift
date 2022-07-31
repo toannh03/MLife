@@ -17,7 +17,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = LoginViewController()
+        
+        if AuthManager.shared.isSignedIn {
+            window?.rootViewController = TabBarViewController()
+            print()
+        } else {
+            let loginNavigation = UINavigationController(rootViewController: LoginViewController())
+            loginNavigation.title = "LOGIN MLIFE"
+            loginNavigation.navigationBar.prefersLargeTitles = true
+            loginNavigation.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+            window?.rootViewController = loginNavigation
+        }
+        
         window?.makeKeyAndVisible()
         
     }
