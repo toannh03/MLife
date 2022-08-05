@@ -5,4 +5,6 @@
 A music player app that streams songs online.
 
 1. Logo </br>
-![](music_logo.png)</br>
+<p align="center">
+    <img alt="Swift MLife" src="music_logo.png" width="200" height="200">
+</p>
