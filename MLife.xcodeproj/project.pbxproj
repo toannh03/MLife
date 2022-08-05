@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		04128C8728915B7C00224FAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04128C8628915B7C00224FAD /* AppDelegate.swift */; };
 		04128C8928915B7C00224FAD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04128C8828915B7C00224FAD /* SceneDelegate.swift */; };
-		04128C8E28915B7C00224FAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04128C8C28915B7C00224FAD /* Main.storyboard */; };
 		04128C9128915B7C00224FAD /* MLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04128C8F28915B7C00224FAD /* MLife.xcdatamodeld */; };
 		04128C9328915B7D00224FAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04128C9228915B7D00224FAD /* Assets.xcassets */; };
 		04128C9628915B7D00224FAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04128C9428915B7D00224FAD /* LaunchScreen.storyboard */; };
@@ -33,7 +32,6 @@
 		04128C8328915B7C00224FAD /* MLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04128C8628915B7C00224FAD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04128C8828915B7C00224FAD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		04128C8D28915B7C00224FAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		04128C9028915B7C00224FAD /* MLife.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MLife.xcdatamodel; sourceTree = "<group>"; };
 		04128C9228915B7D00224FAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04128C9528915B7D00224FAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -96,7 +94,6 @@
 				048FB4E72892F8AC0064D883 /* Customs */,
 				048FB4E42892EABA0064D883 /* Utilities */,
 				04128CA128915B9E00224FAD /* Sources */,
-				04128C8C28915B7C00224FAD /* Main.storyboard */,
 				04128C9228915B7D00224FAD /* Assets.xcassets */,
 				04128C9428915B7D00224FAD /* LaunchScreen.storyboard */,
 				04128C8F28915B7C00224FAD /* MLife.xcdatamodeld */,
@@ -297,7 +294,6 @@
 				04128C9628915B7D00224FAD /* LaunchScreen.storyboard in Resources */,
 				04128C9328915B7D00224FAD /* Assets.xcassets in Resources */,
 				04A85D5A2895AA9C00E3EA29 /* GoogleService-Info.plist in Resources */,
-				04128C8E28915B7C00224FAD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,14 +367,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		04128C8C28915B7C00224FAD /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04128C8D28915B7C00224FAD /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		04128C9428915B7D00224FAD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
