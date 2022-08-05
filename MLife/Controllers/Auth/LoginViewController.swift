@@ -110,7 +110,6 @@ class LoginViewController: UIViewController {
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addSubview(indicatorLogin)
-        stackView.addSubview(indicatorLogin)
         view.addSubview(stackView)
         
     }

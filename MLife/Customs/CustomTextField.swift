@@ -26,6 +26,7 @@ class CustomTextField: UITextField {
         self.leftViewMode = .always
         self.autocorrectionType = .no
         self.layer.masksToBounds = true
+        self.textColor = .black
         self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         self.backgroundColor = .white
         self.layer.masksToBounds = false

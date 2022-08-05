@@ -23,7 +23,7 @@ class TabBarViewController: UITabBarController {
         let profileVC = ProfileViewController()
         
         let navigationHome = createTabBarController(view: homeVC, title: "For you", titleTabBar: "Home", imageTabBar: "house", imageTabBarSelected: "house.fill")
-        let navigationSearch = createTabBarController(view: searchVC, title: "Search", titleTabBar: "Search", imageTabBar: "magnifyingglass", imageTabBarSelected: "sparkle.magnifyingglass")
+        let navigationSearch = createTabBarController(view: searchVC, title: "Search", titleTabBar: "Search", imageTabBar: "magnifyingglass", imageTabBarSelected: "text.magnifyingglass")
         let navigationProfile = createTabBarController(view: profileVC, title: "Profile", titleTabBar: "Me", imageTabBar: "person", imageTabBarSelected: "person.fill")
         
         setViewControllers([navigationHome, navigationSearch, navigationProfile], animated: true)
@@ -49,10 +49,13 @@ class TabBarViewController: UITabBarController {
     
     private func configureColorTabBarItem() {
         
-        UITabBar.appearance().tintColor = .systemGray
+        UITabBar.appearance().tintColor = .black
         // Make unselected icons white
-        self.tabBar.unselectedItemTintColor = UIColor.white
-        self.tabBar.backgroundColor = .black
+        tabBar.unselectedItemTintColor = .systemGray
+        tabBar.backgroundColor = .systemBackground
+        tabBar.layer.borderWidth = 0.3
+        tabBar.layer.borderColor = UIColor(red:0.0/255.0, green:0.0/255.0, blue:0.0/255.0, alpha:0.2).cgColor
+        tabBar.clipsToBounds = true
         
     }
     
