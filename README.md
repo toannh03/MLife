@@ -4,7 +4,7 @@
 
 A music player app that streams songs online.
 
-1. Logo </br>
+## Logo
 <p align="center">
-    <img alt="Swift MLife" src="music_logo.png" width="200" height="200">
+    <img alt="Swift MLife" src="music_logo.png" width="400" height="400">
 </p>
