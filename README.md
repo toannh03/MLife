@@ -1,4 +1,4 @@
-<span><img src="https://img.shields.io/badge/Swift-F05138?logo=swift&logoColor=F05138" alt="Swift logo" title="Swift" height="25" /></span>
+<span><img src="https://img.shields.io/badge/Swift-282C34?logo=swift&logoColor=F05138" alt="Swift logo" title="Swift" height="25" /></span>
 &nbsp;
 <span><img src="https://img.shields.io/badge/TypeScript-282C34?logo=typescript&logoColor=3178C6" alt="TypeScript logo" title="TypeScript" height="25" /></span>
 &nbsp;
