@@ -37,9 +37,7 @@ class AuthManager {
                 auth.user.getIDTokenForcingRefresh(true) { idToken, error in
                                         
                     guard let access_token = idToken, error == nil else { return }
-                    
-                    print("Token:", access_token)
-
+            
                     UserDefaults.standard.setValue(access_token, forKey: "access_token")   
                     
                     Auth.auth().signIn(withCustomToken: access_token)
