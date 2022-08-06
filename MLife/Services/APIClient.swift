@@ -34,7 +34,7 @@ class APIClient {
 
     }
     
-    func getSongInAlbum(completion: @escaping (Result<String, Error>) -> Void) {
+    func getSongInAlbum(completion: @escaping (Result<[AlbumResponse], Error>) -> Void) {
         createRequest(url: URL(string: Constant.baseURL + "/getAllSongInAlbum/"), method: .GET) { URLRequest in
             
             URLSession.shared.dataTask(with: URLRequest) { data, _, error in
@@ -43,8 +43,8 @@ class APIClient {
                     return
                 }
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-                    print(json)
+                    let result = try JSONDecoder().decode([AlbumResponse].self, from: data) 
+                    print(result)
                 } catch {
                     print(error.localizedDescription)
                     completion(.failure(APIError.failureToGetData))
