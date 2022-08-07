@@ -8,7 +8,9 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-        
+    
+    var trending = [TredingResponse]()
+
     private let collectionView: UICollectionView = {
         
         let compositionalLayout = UICollectionViewCompositionalLayout { (sectionNumber, env) -> NSCollectionLayoutSection? in
@@ -18,7 +20,7 @@ class HomeViewController: UIViewController {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
         collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        
+
         return collection
     }()
 
@@ -26,16 +28,23 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureNavigationBar() 
-
         view.addSubview(collectionView)
+                
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        APIClient().getSongInAlbum { status in
+        collectionView.register(BannerCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier)
+
+        APIClient.shared.getSongInTrending { status in
             switch status {
                 case .success(let model):
+                    self.trending = model
+                    DispatchQueue.main.async { [weak self] in
+                        self?.collectionView.reloadData()
+                    }
                     break
                 case .failure(let error):
+                    print(error.localizedDescription)
                     break
             }
         }
@@ -83,8 +92,8 @@ extension HomeViewController {
                 
             case 0:
                 
-                return createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(200), top: 10, leading: 15, bottom: 10, trailing: 15, widthHorizotal: .fractionalWidth(1.0), heightHorizotal: .absolute(200), countHorizotal: 1, scrollBehavior: .groupPaging)!
-                
+                return createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(100), top: 10, leading: 15, bottom: 10, trailing: 15, widthHorizotal: .absolute(115), heightHorizotal: .absolute(100), countHorizotal: 1, scrollBehavior: .groupPaging, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(250))!
+                 
             case 1:
                 
                 return createBasicCompositionLayout(widthItem: .absolute(215), heightItem: .absolute(200), top: 5, leading: 15, bottom: 5, trailing: 0, widthHorizotal: .absolute(215), heightHorizotal: .absolute(200), scrollBehavior: .continuous)!
@@ -110,7 +119,7 @@ extension HomeViewController {
 
 // MARK: - DELEGATE && DATASOURCE
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 5
     }
@@ -148,5 +157,15 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         return cell 
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier, for: indexPath) as! BannerCollectionReusableView
+        header.configure(with: trending)
+        return header
+        
+    }
+
+    
 }
 

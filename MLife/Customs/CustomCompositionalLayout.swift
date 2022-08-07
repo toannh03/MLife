@@ -21,13 +21,15 @@ extension HomeViewController {
                                               heightHorizotal: NSCollectionLayoutDimension? = nil,
                                               countVertical: Int = 1,
                                               countHorizotal: Int = 1,
-                                              scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior
+                                              scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
+                                              headerWidth: NSCollectionLayoutDimension? = nil,
+                                              headerHeight: NSCollectionLayoutDimension? = nil
     ) -> NSCollectionLayoutSection? {
     
         let itemSize = NSCollectionLayoutSize(widthDimension: widthItem, heightDimension: heightItem)  
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize) 
-        
+                        
         item.contentInsets = NSDirectionalEdgeInsets(top: top, leading: leading, bottom: bottom, trailing: trailing)
         
         if let widthHorizotal = widthHorizotal, let  heightHorizotal = heightHorizotal {
@@ -35,16 +37,18 @@ extension HomeViewController {
             let groupHorizotalSize = NSCollectionLayoutSize(widthDimension: widthHorizotal, heightDimension: heightHorizotal) 
             
             let groupHorizontal = NSCollectionLayoutGroup.horizontal(layoutSize: groupHorizotalSize, subitem: item, count: countHorizotal)
-            
+                        
             let section = NSCollectionLayoutSection(group: groupHorizontal)  
-            
-            section.orthogonalScrollingBehavior = scrollBehavior
-            
+                                    
+            if let headerWidth = headerWidth, let headerHeight = headerHeight {
                 //MARK: - Supplementary Item
-//            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-//            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: "header", alignment: .top)
-//            section.boundarySupplementaryItems = [headerItem]
-            
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: headerWidth, heightDimension: headerHeight)
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+                section.boundarySupplementaryItems = [headerItem]
+            }
+          
+            section.orthogonalScrollingBehavior = scrollBehavior
+
             return section
         }
         
@@ -56,11 +60,6 @@ extension HomeViewController {
             
             let section = NSCollectionLayoutSection(group: groupVertical)  
             
-//                // Supplementary Item
-//            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-//            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: "header", alignment: .top)
-//            section.boundarySupplementaryItems = [headerItem]
-//            
             return section
         }
         
@@ -103,11 +102,6 @@ extension HomeViewController {
         let section = NSCollectionLayoutSection(group: groupHorizontal)
         
         section.orthogonalScrollingBehavior = .continuous
-        
-            // Supplementary Item
-//        let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-//        let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: "header", alignment: .top)
-//        section.boundarySupplementaryItems = [headerItem]
         
         return section
         

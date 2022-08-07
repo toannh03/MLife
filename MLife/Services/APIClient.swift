@@ -10,6 +10,11 @@ import Foundation
 
 class APIClient {
     
+    // singletion
+    static let shared = APIClient()
+    
+    private init() {}
+    
     struct Constant {
         static let baseURL = "https://yomusic-api.herokuapp.com/api"
     }
@@ -35,16 +40,17 @@ class APIClient {
     }
     
     func getSongInAlbum(completion: @escaping (Result<[AlbumResponse], Error>) -> Void) {
+        
         createRequest(url: URL(string: Constant.baseURL + "/getAllSongInAlbum/"), method: .GET) { URLRequest in
             
-            URLSession.shared.dataTask(with: URLRequest) { data, _, error in
+            URLSession.shared.dataTask(with: URLRequest) { (data, _, error) in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failureToGetData))
                     return
                 }
                 do {
-                    let result = try JSONDecoder().decode([AlbumResponse].self, from: data) 
-                    print(result)
+                    let result = try JSONDecoder().decode([AlbumResponse].self, from: data)
+                    completion(.success(result))
                 } catch {
                     print(error.localizedDescription)
                     completion(.failure(APIError.failureToGetData))
@@ -54,5 +60,28 @@ class APIClient {
             
         }
     }
+    
+    func getSongInTrending(completion: @escaping (Result<[TredingResponse], Error>) -> Void) {
+        
+        createRequest(url: URL(string: Constant.baseURL + "/getSongInTrending/"), method: .GET) { URLRequest in
+            
+            URLSession.shared.dataTask(with: URLRequest) { (data, _, error) in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failureToGetData))
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode([TredingResponse].self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(APIError.failureToGetData))
+                }
+
+            }.resume()
+        }
+    }
+    
     
 }
