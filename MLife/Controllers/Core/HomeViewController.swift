@@ -7,9 +7,17 @@
 
 import UIKit
 
+enum HomeSectionType {
+    case Topic(model: [TopicResponse])
+}
+
 class HomeViewController: UIViewController {
     
     var trending = [TredingResponse]()
+    
+    private var topics: [TopicResponse] = []
+    
+    private var sections = [HomeSectionType]()
 
     private let collectionView: UICollectionView = {
         
@@ -19,8 +27,9 @@ class HomeViewController: UIViewController {
         
         let collection = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
-        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-
+        collection.register(BannerCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier)
+        collection.register(TopicCollectionViewCell.self, forCellWithReuseIdentifier: TopicCollectionViewCell.identifier)
+        
         return collection
     }()
 
@@ -33,22 +42,18 @@ class HomeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        collectionView.register(BannerCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier)
-
-        APIClient.shared.getSongInTrending { status in
-            switch status {
-                case .success(let model):
-                    self.trending = model
-                    DispatchQueue.main.async { [weak self] in
-                        self?.collectionView.reloadData()
-                    }
-                    break
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    break
-            }
-        }
-                
+        fetchData()
+    
+//        APIClient.shared.getTopics { status in
+//            switch status {
+//                case .success(let model):
+//                    print(model)
+//                    break
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//                    break
+//            }
+//        }
         
     }
     
@@ -81,7 +86,51 @@ class HomeViewController: UIViewController {
     @objc func didTapSearchButton(sender: AnyObject){
         
     }
-
+    
+    func fetchData() {
+        let group = DispatchGroup()
+            
+        // The enter() method tells the dispatch group that a task has already been started
+        group.enter()
+        group.enter()
+            
+        APIClient.shared.getSongInTrending { status in
+            defer {
+                group.leave()
+            }
+            switch status {
+                case .success(let model):
+                    self.trending = model
+                    DispatchQueue.main.async { [weak self] in
+                        self?.collectionView.reloadData()
+                    }
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    break
+                }
+            }
+                // Topics
+            APIClient.shared.getTopics() { result in 
+                defer {
+                    group.leave()
+                }
+                switch result {
+                    case .success(let model):
+                        self.topics = model
+                        break
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                }
+                
+            }
+        
+        group.notify(queue: .main) { 
+            self.sections.append(.Topic(model: self.topics))
+            self.collectionView.reloadData()
+        }
+    }
+    
 }
 
 extension HomeViewController {
@@ -92,8 +141,8 @@ extension HomeViewController {
                 
             case 0:
                 
-                return createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(100), top: 10, leading: 15, bottom: 10, trailing: 15, widthHorizotal: .absolute(115), heightHorizotal: .absolute(100), countHorizotal: 1, scrollBehavior: .groupPaging, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(250))!
-                 
+                return createNestedGround( widthItem: .fractionalWidth(1.0), heightItem: .absolute(90),top: 4, leading:4, bottom: 4,trailing: 4, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(188), widthHorizotal: .fractionalWidth(1.0), heightHorizotal: .absolute(188), countVertical: 2, countHorizotal: 2, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(260))!
+                
             case 1:
                 
                 return createBasicCompositionLayout(widthItem: .absolute(215), heightItem: .absolute(200), top: 5, leading: 15, bottom: 5, trailing: 0, widthHorizotal: .absolute(215), heightHorizotal: .absolute(200), scrollBehavior: .continuous)!
@@ -120,43 +169,37 @@ extension HomeViewController {
 // MARK: - DELEGATE && DATASOURCE
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        return sections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        let type = sections[section]
+        switch type {
+            case .Topic(let model):
+                return model.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                
+        let types = sections[indexPath.section]
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        
-        switch indexPath.section {
-            case 0:
-                cell.layer.cornerRadius = 8
-                cell.backgroundColor = .systemPurple
-                if indexPath.item % 2 == 0 {
-                    cell.backgroundColor = .systemRed
-                }
-            case 1: 
-                cell.backgroundColor = .systemRed
-                cell.layer.cornerRadius = 8
-            case 2: 
-                cell.backgroundColor = .systemTeal
-                cell.layer.cornerRadius = 8
-            case 3:
-                cell.backgroundColor = .systemBlue
-                cell.layer.cornerRadius = 8
-            case 4:
-                cell.backgroundColor = .systemPink
-                cell.layer.cornerRadius = 8
-            default: 
-                cell.backgroundColor = .systemFill
-                cell.layer.cornerRadius = 8
+        switch types {
+            case .Topic(let model):
+
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopicCollectionViewCell.identifier, for: indexPath) as? TopicCollectionViewCell else { return UICollectionViewCell() }
+                let viewModel = model[indexPath.row] 
+                cell.layer.cornerRadius = 8.0
+                cell.configure(with: viewModel)                
+                return cell
+            default:
+                return UICollectionViewCell()
         }
-        return cell 
+        
     }
+
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
 
