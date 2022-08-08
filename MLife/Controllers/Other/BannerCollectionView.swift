@@ -15,35 +15,48 @@ class BannerCollectionReusableView: UICollectionReusableView {
     var trending = [TredingResponse]()
 
     var timer: Timer? // A timer that fires after a certain time interval has elapsed
-    var currentPage: Int = 0 
+    var currentPage: Int = 0  {
+        didSet {
+            pageControl.currentPage = currentPage
+        }
+    }
             
     // Collection view for banner 
     lazy var collectionView: GeminiCollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectiton = GeminiCollectionView(frame: .zero, collectionViewLayout: layout)
-        collectiton.translatesAutoresizingMaskIntoConstraints = false 
         collectiton.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: BannerCollectionViewCell.identifier)
         collectiton.showsHorizontalScrollIndicator = false
+//        collectiton.isPagingEnabled = true
         return collectiton 
         }()
     
     fileprivate let pageControl: UIPageControl = {
         let control = UIPageControl()
-        control.pageIndicatorTintColor = .lightGray
-        control.currentPageIndicatorTintColor = .darkGray
+        control.pageIndicatorTintColor = .darkGray
+        control.currentPageIndicatorTintColor = .systemBlue
         return control
+    }()
+    
+    private let label: UILabel = {
+        let label = UILabel() 
+        label.text = "Topics"
+        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.sizeToFit()
+        label.textColor = .label
+        return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        pageControl.numberOfPages = trending.count
+        [label,collectionView, pageControl].forEach {
+            addSubview($0)
+        }
         
-        addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
-        addSubview(pageControl)
         
         // Create animation switch page
         collectionView.gemini
@@ -58,18 +71,22 @@ class BannerCollectionReusableView: UICollectionReusableView {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
+        pageControl.numberOfPages = trending.count
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func addSubview(_ view: UIView) {
-        super.addSubview(view)
-        //Add constraint
-        collectionView.anchor(top: topAnchor, bottom: bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 15, paddingBottom: 15, paddingLeft: 15, paddingRight: 15)
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
-        pageControl.frame = CGRect(x: 0, y: frame.size.height - 56, width: frame.size.width, height: 30)
+        label.anchor(height: 50, top: nil, bottom: bottomAnchor, left: leftAnchor, right: rightAnchor, paddingLeft: 2, paddingRight: 2)
+        
+        collectionView.anchor(top: topAnchor, bottom: label.topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 2, paddingRight: 2)
+        
+        pageControl.anchor(height: 30, top: nil, bottom: collectionView.bottomAnchor, left: leftAnchor, right: rightAnchor,  paddingBottom: 10)
+        
     }
     
     // MARK: - Make transition loop with PageControl
@@ -82,10 +99,12 @@ class BannerCollectionReusableView: UICollectionReusableView {
         
         if currentPage < trending.count - 1 {
             currentPage += 1
+  
         } else {
             currentPage = 0
         }
-        collectionView.scrollToItem(at: IndexPath(item: currentPage, section: 0), at: .centeredHorizontally, animated: true)
+        let indexPath = IndexPath(item: currentPage, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         pageControl.currentPage = currentPage
     }
     
@@ -125,6 +144,9 @@ extension BannerCollectionReusableView: UICollectionViewDelegate, UICollectionVi
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         collectionView.animateVisibleCells()
+        let width = scrollView.frame.width
+        currentPage = Int(scrollView.contentOffset.x / width)
+
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -132,5 +154,5 @@ extension BannerCollectionReusableView: UICollectionViewDelegate, UICollectionVi
             self.collectionView.animateCell(cell)
         }
     }
-    
+
 }

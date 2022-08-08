@@ -39,7 +39,7 @@ extension HomeViewController {
             let groupHorizontal = NSCollectionLayoutGroup.horizontal(layoutSize: groupHorizotalSize, subitem: item, count: countHorizotal)
                         
             let section = NSCollectionLayoutSection(group: groupHorizontal)  
-                                    
+                                                
             if let headerWidth = headerWidth, let headerHeight = headerHeight {
                 //MARK: - Supplementary Item
                 let headerItemSize = NSCollectionLayoutSize(widthDimension: headerWidth, heightDimension: headerHeight)
@@ -48,7 +48,7 @@ extension HomeViewController {
             }
           
             section.orthogonalScrollingBehavior = scrollBehavior
-
+            
             return section
         }
         
@@ -76,7 +76,9 @@ extension HomeViewController {
                                     widthHorizotal: NSCollectionLayoutDimension? = nil,
                                     heightHorizotal: NSCollectionLayoutDimension? = nil,
                                     countVertical: Int = 1,
-                                    countHorizotal: Int = 1 
+                                    countHorizotal: Int = 1,
+                                    headerWidth: NSCollectionLayoutDimension? = nil,
+                                    headerHeight: NSCollectionLayoutDimension? = nil
     ) -> NSCollectionLayoutSection? {
         
         guard let widthVertical = widthVertical,
@@ -101,7 +103,17 @@ extension HomeViewController {
         
         let section = NSCollectionLayoutSection(group: groupHorizontal)
         
-        section.orthogonalScrollingBehavior = .continuous
+        // Set default padding section = 13
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 11, bottom: 0, trailing: 11)
+
+        if let headerWidth = headerWidth, let headerHeight = headerHeight {
+                //MARK: - Supplementary Item
+            let headerItemSize = NSCollectionLayoutSize(widthDimension: headerWidth, heightDimension: headerHeight)
+            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+            section.boundarySupplementaryItems = [headerItem]
+        }
+        
+//        section.orthogonalScrollingBehavior = .continuous
         
         return section
         
