@@ -46,7 +46,9 @@ extension HomeViewController {
                 let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
                 section.boundarySupplementaryItems = [headerItem]
             }
-          
+            
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 7.5, bottom: 0, trailing: 7.5)
+
             section.orthogonalScrollingBehavior = scrollBehavior
             
             return section
@@ -59,7 +61,7 @@ extension HomeViewController {
             let groupVertical = NSCollectionLayoutGroup.horizontal(layoutSize: groupVerticalSize, subitem: item, count: countHorizotal)
             
             let section = NSCollectionLayoutSection(group: groupVertical)  
-            
+
             return section
         }
         
@@ -104,7 +106,7 @@ extension HomeViewController {
         let section = NSCollectionLayoutSection(group: groupHorizontal)
         
         // Set default padding section = 13
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 11, bottom: 0, trailing: 11)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 11, bottom: 15, trailing: 11)
 
         if let headerWidth = headerWidth, let headerHeight = headerHeight {
                 //MARK: - Supplementary Item

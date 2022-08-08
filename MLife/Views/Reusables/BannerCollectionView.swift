@@ -81,9 +81,9 @@ class BannerCollectionReusableView: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        label.anchor(height: 50, top: nil, bottom: bottomAnchor, left: leftAnchor, right: rightAnchor, paddingLeft: 2, paddingRight: 2)
+        label.anchor(height: 50, top: nil, bottom: bottomAnchor, left: leftAnchor, right: rightAnchor,paddingLeft: 2, paddingRight: 2)
         
-        collectionView.anchor(top: topAnchor, bottom: label.topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 2, paddingRight: 2)
+        collectionView.anchor(top: topAnchor, bottom: label.topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingBottom: 15, paddingLeft: 2, paddingRight: 2)
         
         pageControl.anchor(height: 30, top: nil, bottom: collectionView.bottomAnchor, left: leftAnchor, right: rightAnchor,  paddingBottom: 10)
         

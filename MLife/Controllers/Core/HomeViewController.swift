@@ -9,14 +9,18 @@ import UIKit
 
 enum HomeSectionType {
     case Topic(model: [TopicResponse])
+    case Album(model: [AlbumResponse])
+    case PlayList(model: [PlayListResponse])
 }
 
 class HomeViewController: UIViewController {
     
-    var trending = [TredingResponse]()
-    
+    private var trending: [TredingResponse] = []
     private var topics: [TopicResponse] = []
+    private var albums: [AlbumResponse] = []
+    private var playlists: [PlayListResponse] = []
     
+    private var titleHeader: [String] = ["","Today's Like", "New Relase"]
     private var sections = [HomeSectionType]()
 
     private let collectionView: UICollectionView = {
@@ -24,11 +28,14 @@ class HomeViewController: UIViewController {
         let compositionalLayout = UICollectionViewCompositionalLayout { (sectionNumber, env) -> NSCollectionLayoutSection? in
             return createBasicListLayout(section: sectionNumber)
         }
-        
         let collection = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
         collection.register(BannerCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier)
+        collection.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
+        
         collection.register(TopicCollectionViewCell.self, forCellWithReuseIdentifier: TopicCollectionViewCell.identifier)
+        collection.register(AlbumCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCollectionViewCell.identifier)
+        collection.register(PlayListCollectionViewCell.self, forCellWithReuseIdentifier: PlayListCollectionViewCell.identifier)
         
         return collection
     }()
@@ -43,17 +50,6 @@ class HomeViewController: UIViewController {
         collectionView.dataSource = self
         
         fetchData()
-    
-//        APIClient.shared.getTopics { status in
-//            switch status {
-//                case .success(let model):
-//                    print(model)
-//                    break
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                    break
-//            }
-//        }
         
     }
     
@@ -93,6 +89,8 @@ class HomeViewController: UIViewController {
         // The enter() method tells the dispatch group that a task has already been started
         group.enter()
         group.enter()
+        group.enter()
+        group.enter()
             
         APIClient.shared.getSongInTrending { status in
             defer {
@@ -110,8 +108,8 @@ class HomeViewController: UIViewController {
                     break
                 }
             }
-                // Topics
-            APIClient.shared.getTopics() { result in 
+            // Topics
+            APIClient.shared.getTopics { result in 
                 defer {
                     group.leave()
                 }
@@ -122,12 +120,38 @@ class HomeViewController: UIViewController {
                     case .failure(let error):
                         print(error.localizedDescription)
                 }
-                
             }
+        APIClient.shared.getSongInAlbum { result in
+            defer {
+                group.leave()
+            }
+            switch result {
+                case .success(let model):
+                    self.albums = model
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+            }
+        }
+        APIClient.shared.getSongInPlayList { result in
+            defer {
+                group.leave()
+            }
+            switch result {
+                case .success(let model):
+                    self.playlists = model
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+            }
+        }
         
-        group.notify(queue: .main) { 
-            self.sections.append(.Topic(model: self.topics))
-            self.collectionView.reloadData()
+        
+        group.notify(queue: .main) { [weak self] in
+            self?.sections.append(.Topic(model: self!.topics))
+            self?.sections.append(.Album(model: self!.albums))
+            self?.sections.append(.PlayList(model: self!.playlists))
+            self?.collectionView.reloadData()
         }
     }
     
@@ -145,11 +169,11 @@ extension HomeViewController {
                 
             case 1:
                 
-                return createBasicCompositionLayout(widthItem: .absolute(215), heightItem: .absolute(200), top: 5, leading: 15, bottom: 5, trailing: 0, widthHorizotal: .absolute(215), heightHorizotal: .absolute(200), scrollBehavior: .continuous)!
+                return createBasicCompositionLayout(widthItem: .absolute(165), heightItem: .absolute(200), top: 5, leading: 7.5, bottom: 0, trailing: 7.5, widthHorizotal: .absolute(165), heightHorizotal: .absolute(200), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(50))!
                 
             case 2: 
                 
-                return createBasicCompositionLayout(widthItem: .absolute(215), heightItem: .absolute(200), top: 5, leading: 15, bottom: 5, trailing: 0, widthHorizotal: .absolute(215), heightHorizotal: .absolute(200), scrollBehavior: .continuous)!
+                return createBasicCompositionLayout(widthItem: .absolute(165), heightItem: .absolute(200), top: 5, leading: 7.5, bottom: 0, trailing: 7.5, widthHorizotal: .absolute(165), heightHorizotal: .absolute(200), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(50))!
                 
             case 3: 
                 
@@ -177,8 +201,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let type = sections[section]
         switch type {
-            case .Topic(let model):
-                return model.count
+            case .Topic(let topic):
+                return topic.count
+            case .Album(let album):
+                return album.count
+            case .PlayList(let playlist):
+                return playlist.count
         }
     }
     
@@ -194,19 +222,43 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 cell.layer.cornerRadius = 8.0
                 cell.configure(with: viewModel)                
                 return cell
-            default:
-                return UICollectionViewCell()
+                
+            case .Album(let model):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCollectionViewCell.identifier, for: indexPath) as? AlbumCollectionViewCell else { return UICollectionViewCell() }
+                let viewModel = model[indexPath.row] 
+                cell.getDataConfigure(viewModel)    
+                return cell
+            case .PlayList(let model):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlayListCollectionViewCell.identifier, for: indexPath) as? PlayListCollectionViewCell else { return UICollectionViewCell() }
+                let viewModel = model[indexPath.row] 
+                cell.layer.cornerRadius = 8.0
+                cell.getDataConfigure(viewModel)    
+                return cell
         }
         
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier, for: indexPath) as! BannerCollectionReusableView
-        header.configure(with: trending)
-        return header
-        
+        let section = indexPath.section
+        switch section {
+            case 0:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier, for: indexPath) as! BannerCollectionReusableView
+                header.configure(with: trending)
+                return header             
+            case 1:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+                header.configure(with: titleHeader[indexPath.section])
+                return header 
+            case 2:
+                print(indexPath.section)
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+                header.configure(with: titleHeader[indexPath.section])
+                return header 
+            default:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+                    //                header.configure(with: trending)
+                return header 
+        }
     }
 
     

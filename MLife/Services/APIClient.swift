@@ -102,6 +102,30 @@ class APIClient {
 
             }.resume()
         }
+        
+    }
+    
+    func getSongInPlayList(completion: @escaping (Result<[PlayListResponse], Error>) -> Void) {
+        
+        createRequest(url: URL(string: Constant.baseURL + "/getSongPlayList/"), method: .GET) { URLRequest in
+            
+            URLSession.shared.dataTask(with: URLRequest) { (data, _, error) in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failureToGetData))
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode([PlayListResponse].self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(APIError.failureToGetData))
+                }
+                
+            }.resume()
+        }
+        
     }
     
     
