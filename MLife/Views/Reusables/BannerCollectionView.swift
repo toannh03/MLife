@@ -68,9 +68,6 @@ class BannerCollectionReusableView: UICollectionReusableView {
     
     func configure(with model: [TredingResponse]) {
         self.trending = model
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
-        }
         pageControl.numberOfPages = trending.count
     }
     

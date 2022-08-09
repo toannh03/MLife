@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
     private var playlists: [PlayListResponse] = []
     private var likesongs: [Song] = []
     
-    private var titleHeader: [String] = ["","Today's Like", "New Relase"]
+    private var titleHeader: [String] = ["","Today's Like", "New Relase", "Songs"]
     private var sections = [HomeSectionType]()
 
     private let collectionView: UICollectionView = {
@@ -195,7 +195,7 @@ extension HomeViewController {
                 
             case 3: 
                 
-                return createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(100), top: 5, leading: 15, bottom: 5, trailing: 15, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(100), scrollBehavior: .continuous)!
+                return createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(100), top: 5, leading: 7.5, bottom: 5, trailing: 7.5, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(100), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(40))!
                 
             default:
                 
@@ -276,6 +276,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 header.configure(with: titleHeader[indexPath.section])
                 return header 
             case 2:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+                header.configure(with: titleHeader[indexPath.section])
+                return header 
+            case 3: 
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
                 header.configure(with: titleHeader[indexPath.section])
                 return header 
