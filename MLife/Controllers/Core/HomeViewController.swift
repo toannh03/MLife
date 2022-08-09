@@ -67,15 +67,18 @@ class HomeViewController: UIViewController {
         let notificationImage = UIImage(systemName: "bell.badge.fill")
         let searchImage = UIImage(systemName: "magnifyingglass")
         
-        let settingButton   = UIBarButtonItem(image: settingImage,  style: .plain, target: self, action: #selector(didTapEditButton(sender:)))
+        let settingButton   = UIBarButtonItem(image: settingImage,  style: .plain, target: self, action: #selector(didTapSettingButton(sender:)))
         let notificationButton = UIBarButtonItem(image: notificationImage,  style: .plain, target: self, action: #selector(didTapNotificationButton(sender:)))
         let searchButton = UIBarButtonItem(image: searchImage,  style: .plain, target: self, action: #selector(didTapSearchButton(sender:)))
         
         navigationItem.rightBarButtonItems = [notificationButton, settingButton, searchButton]
     }
     
-    @objc func didTapEditButton(sender: AnyObject){
-        
+    @objc func didTapSettingButton(sender: AnyObject){
+        let vc = SettingViewController()
+        vc.title = "Setting"
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func didTapNotificationButton(sender: AnyObject){

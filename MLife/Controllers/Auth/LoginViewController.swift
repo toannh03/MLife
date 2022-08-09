@@ -94,9 +94,11 @@ class LoginViewController: UIViewController {
         backgroundLogin.frame = view.bounds
         // Anchor function is defined in Utilities
         emailTextField.anchor(height: 50)
-        stackView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: view.safeAreaInsets.top + view.frame.size.height / 2, paddingLeft: 20, paddingRight: 20)
-        createAccountButton.centerX(with: stackView, topAnchor: stackView.bottomAnchor, paddingTop: 10)
         
+        stackView.centerY(withView: self.view)
+        stackView.centerX(with: self.view)
+        stackView.setWidth(width: view.frame.size.width - 30)
+        createAccountButton.centerX(with: self.view, topAnchor: stackView.bottomAnchor, paddingTop: 10)
         indicatorLogin.frame = CGRect(x: (stackView.frame.size.width / 2) - 40, y: (stackView.frame.size.height / 2) - 40, width: 80, height: 80)
     }
     
