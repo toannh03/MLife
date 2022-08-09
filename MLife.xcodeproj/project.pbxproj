@@ -39,6 +39,7 @@
 		04D79739289E6FBE0004D050 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79738289E6FBE0004D050 /* Song.swift */; };
 		04D79C6D28A24EB30087522A /* MostLikeSongCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79C6C28A24EB30087522A /* MostLikeSongCollectionViewCell.swift */; };
 		04D79C6F28A28B650087522A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79C6E28A28B650087522A /* SettingViewController.swift */; };
+		04D79C7128A2AB400087522A /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79C7028A2AB400087522A /* NotificationViewController.swift */; };
 		04DCBF6D289EDCC900EB790B /* BannerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCBF6C289EDCC900EB790B /* BannerCollectionView.swift */; };
 		04DCBF74289F055A00EB790B /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCBF73289F055A00EB790B /* BannerCollectionViewCell.swift */; };
 		80D0148A49DC127FD26CDA15 /* Pods_MLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */; };
@@ -79,6 +80,7 @@
 		04D79738289E6FBE0004D050 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		04D79C6C28A24EB30087522A /* MostLikeSongCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostLikeSongCollectionViewCell.swift; sourceTree = "<group>"; };
 		04D79C6E28A28B650087522A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		04D79C7028A2AB400087522A /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		04DCBF6C289EDCC900EB790B /* BannerCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionView.swift; sourceTree = "<group>"; };
 		04DCBF73289F055A00EB790B /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				04D79C6E28A28B650087522A /* SettingViewController.swift */,
+				04D79C7028A2AB400087522A /* NotificationViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 			files = (
 				042CA5F0289D3BA600564B7E /* CustomCompositionalLayout.swift in Sources */,
 				04A85D612895E5F700E3EA29 /* CustomNotification.swift in Sources */,
+				04D79C7128A2AB400087522A /* NotificationViewController.swift in Sources */,
 				04DCBF6D289EDCC900EB790B /* BannerCollectionView.swift in Sources */,
 				04DCBF74289F055A00EB790B /* BannerCollectionViewCell.swift in Sources */,
 				04B9819828A17B51006EDA84 /* PlayListCollectionViewCell.swift in Sources */,

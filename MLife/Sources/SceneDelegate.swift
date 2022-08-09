@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if AuthManager.shared.isSignedIn {
             
-//            window?.rootViewController = LoginViewController()
             window?.rootViewController = TabBarViewController()
             
         } else {

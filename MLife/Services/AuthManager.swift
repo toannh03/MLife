@@ -97,6 +97,7 @@ class AuthManager {
     
     func logOut(completion: (Bool) -> Void) {
         do {
+            UserDefaults.standard.removeObject(forKey: "access_token")
             try Auth.auth().signOut()
             completion(true)
             return

@@ -45,10 +45,10 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemBackground
         configureNavigationBar() 
         view.addSubview(collectionView)
-                
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -82,7 +82,10 @@ class HomeViewController: UIViewController {
     }
     
     @objc func didTapNotificationButton(sender: AnyObject){
-        
+        let vc = NotificationViewController()
+        vc.title = "Notification"
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func didTapSearchButton(sender: AnyObject){
@@ -186,7 +189,7 @@ extension HomeViewController {
                 
             case 0:
                 
-                return createNestedGround( widthItem: .fractionalWidth(1.0), heightItem: .absolute(90),top: 4, leading:4, bottom: 4,trailing: 4, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(188), widthHorizotal: .fractionalWidth(1.0), heightHorizotal: .absolute(188), countVertical: 2, countHorizotal: 2, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(260))!
+                return createNestedGround( widthItem: .fractionalWidth(1.0), heightItem: .absolute(90),top: 0, leading:4, bottom: 4,trailing: 4, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(188), widthHorizotal: .fractionalWidth(1.0), heightHorizotal: .absolute(188), countVertical: 2, countHorizotal: 2, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(260))!
                 
             case 1:
                 

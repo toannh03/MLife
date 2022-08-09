@@ -19,7 +19,7 @@ class SettingViewController: UIViewController {
     private var data = [[SettingCellModel]]()
     
     private var headerSection: [String] = ["General", "Display", "Others", ""]
-
+    
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .insetGrouped) 
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -28,9 +28,11 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
-        
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -122,7 +124,6 @@ class SettingViewController: UIViewController {
         
     }
     
-    
     private func didTapLogOut(){
         
         let actionSheet = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: .actionSheet)
@@ -173,10 +174,16 @@ extension SettingViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) 
-        cell.textLabel?.text = data[indexPath.section][indexPath.row].title
-        
-        // Create a view to the right of cell
         cell.accessoryType = .disclosureIndicator
+
+        if indexPath.section == 3 {
+            cell.textLabel?.textColor = .systemRed
+            cell.textLabel?.textAlignment = .center
+            cell.accessoryType = .none
+            cell.textLabel?.font = .systemFont(ofSize: 18, weight: .bold)
+        }
+        
+        cell.textLabel?.text = data[indexPath.section][indexPath.row].title
         return cell
     }
     

@@ -21,11 +21,11 @@ class LoginViewController: UIViewController {
     
     private let backgroundLogin: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "bgLogin")
+        image.contentMode = .scaleToFill
+        image.image = UIImage(named: "bgRegister")
         return image
     }()
-    
+
     lazy var indicatorLogin: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.style = .large
@@ -56,7 +56,7 @@ class LoginViewController: UIViewController {
     
     lazy var asyncLoginButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Login", for: .normal)
+        button.setTitle("Sign In", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = Constants.cornerRadius
@@ -66,7 +66,7 @@ class LoginViewController: UIViewController {
     
     lazy var createAccountButton: UIButton = {
         let button = UIButton()
-        button.setTitleColor( .white , for: .normal)
+        button.setTitleColor( .black , for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
         button.setTitle("New user? Create an account", for: .normal)
         return button
@@ -76,6 +76,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .secondarySystemBackground
         view.addSubview(backgroundLogin)
 //        self.view.addGradientWithColor(color: UIColor.red)
         self.hideKeyboardWhenTappedAround() 

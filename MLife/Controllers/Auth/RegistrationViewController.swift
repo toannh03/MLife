@@ -63,7 +63,7 @@ class RegistrationViewController: UIViewController {
     
     lazy var asyncSignInButton: UIButton = {
         let button = UIButton()
-        button.setTitle("SignIn", for: .normal)
+        button.setTitle("Sign Up", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = Constants.cornerRadius
