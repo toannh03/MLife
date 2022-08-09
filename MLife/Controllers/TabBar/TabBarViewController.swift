@@ -35,23 +35,15 @@ class TabBarViewController: UITabBarController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-//        let heightTabBar: CGFloat = view.frame.size.width / 7.0
-//        
-//        var tabFrame = self.tabBar.frame
-//        // 55 is editable , the default value is 49 px, below lowers the tabbar and above increases the tab bar size
-//        tabFrame.size.height = heightTabBar
-//        tabFrame.origin.y = self.view.frame.size.height - heightTabBar
-//        self.tabBar.frame = tabFrame
-        
     }
     
     // MARK: - Configure
     
     private func configureColorTabBarItem() {
         
-        UITabBar.appearance().tintColor = .black
+        UITabBar.appearance().tintColor = .label
         // Make unselected icons white
-        tabBar.unselectedItemTintColor = .systemGray
+        tabBar.unselectedItemTintColor = .lightGray
         tabBar.backgroundColor = .systemBackground
         tabBar.layer.borderWidth = 0.3
         tabBar.layer.borderColor = UIColor(red:0.0/255.0, green:0.0/255.0, blue:0.0/255.0, alpha:0.2).cgColor

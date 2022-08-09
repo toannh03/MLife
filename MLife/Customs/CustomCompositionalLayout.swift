@@ -106,7 +106,7 @@ extension HomeViewController {
         let section = NSCollectionLayoutSection(group: groupHorizontal)
         
         // Set default padding section = 13
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 11, bottom: 15, trailing: 11)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 11, bottom: 10, trailing: 11)
 
         if let headerWidth = headerWidth, let headerHeight = headerHeight {
                 //MARK: - Supplementary Item

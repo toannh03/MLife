@@ -39,6 +39,11 @@ class PlayListCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        playlistCoverImageView.image = nil
+        textViewTitle.text = nil
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         playlistCoverImageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - 50)

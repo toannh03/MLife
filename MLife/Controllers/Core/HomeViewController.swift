@@ -11,6 +11,7 @@ enum HomeSectionType {
     case Topic(model: [TopicResponse])
     case Album(model: [AlbumResponse])
     case PlayList(model: [PlayListResponse])
+    case MostLikeSong(model: [Song]) 
 }
 
 class HomeViewController: UIViewController {
@@ -19,6 +20,7 @@ class HomeViewController: UIViewController {
     private var topics: [TopicResponse] = []
     private var albums: [AlbumResponse] = []
     private var playlists: [PlayListResponse] = []
+    private var likesongs: [Song] = []
     
     private var titleHeader: [String] = ["","Today's Like", "New Relase"]
     private var sections = [HomeSectionType]()
@@ -32,11 +34,12 @@ class HomeViewController: UIViewController {
         
         collection.register(BannerCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier)
         collection.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
-        
+   
         collection.register(TopicCollectionViewCell.self, forCellWithReuseIdentifier: TopicCollectionViewCell.identifier)
         collection.register(AlbumCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCollectionViewCell.identifier)
         collection.register(PlayListCollectionViewCell.self, forCellWithReuseIdentifier: PlayListCollectionViewCell.identifier)
-        
+        collection.register(MostLikeSongCollectionViewCell.self, forCellWithReuseIdentifier: MostLikeSongCollectionViewCell.identifier)
+
         return collection
     }()
 
@@ -84,9 +87,11 @@ class HomeViewController: UIViewController {
     }
     
     func fetchData() {
+        
         let group = DispatchGroup()
             
         // The enter() method tells the dispatch group that a task has already been started
+        group.enter()
         group.enter()
         group.enter()
         group.enter()
@@ -146,11 +151,24 @@ class HomeViewController: UIViewController {
             }
         }
         
+        APIClient.shared.getMostLikeSong { result in
+            defer {
+                group.leave()
+            }
+            switch result {
+                case .success(let model):
+                    self.likesongs = model
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+            }
+        }
         
         group.notify(queue: .main) { [weak self] in
             self?.sections.append(.Topic(model: self!.topics))
             self?.sections.append(.Album(model: self!.albums))
             self?.sections.append(.PlayList(model: self!.playlists))
+            self?.sections.append(.MostLikeSong(model: self!.likesongs))
             self?.collectionView.reloadData()
         }
     }
@@ -169,16 +187,14 @@ extension HomeViewController {
                 
             case 1:
                 
-                return createBasicCompositionLayout(widthItem: .absolute(165), heightItem: .absolute(200), top: 5, leading: 7.5, bottom: 0, trailing: 7.5, widthHorizotal: .absolute(165), heightHorizotal: .absolute(200), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(50))!
+                return createBasicCompositionLayout(widthItem: .absolute(165), heightItem: .absolute(200), top: 5, leading: 7.5, bottom: 0, trailing: 7.5, widthHorizotal: .absolute(165), heightHorizotal: .absolute(200), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(40))!
                 
             case 2: 
                 
-                return createBasicCompositionLayout(widthItem: .absolute(165), heightItem: .absolute(200), top: 5, leading: 7.5, bottom: 0, trailing: 7.5, widthHorizotal: .absolute(165), heightHorizotal: .absolute(200), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(50))!
+                return createBasicCompositionLayout(widthItem: .absolute(165), heightItem: .absolute(200), top: 5, leading: 7.5, bottom: 0, trailing: 7.5, widthHorizotal: .absolute(165), heightHorizotal: .absolute(200), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(40))!
                 
             case 3: 
                 
-                return createBasicCompositionLayout(widthItem: .absolute(215), heightItem: .absolute(200), top: 5, leading: 15, bottom: 5, trailing: 0, widthHorizotal: .absolute(215), heightHorizotal: .absolute(200), scrollBehavior: .continuous)!
-            case 4: 
                 return createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(100), top: 5, leading: 15, bottom: 5, trailing: 15, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(100), scrollBehavior: .continuous)!
                 
             default:
@@ -207,6 +223,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return album.count
             case .PlayList(let playlist):
                 return playlist.count
+            case .MostLikeSong(let like):
+                return like.count
         }
     }
     
@@ -234,6 +252,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 cell.layer.cornerRadius = 8.0
                 cell.getDataConfigure(viewModel)    
                 return cell
+            case .MostLikeSong(let model):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MostLikeSongCollectionViewCell.identifier, for: indexPath) as? MostLikeSongCollectionViewCell else { return UICollectionViewCell() }
+                let viewModel = model[indexPath.row]
+                cell.backgroundColor = .systemRed
+                cell.getDataConfigure(viewModel)    
+                cell.layer.cornerRadius = 8.0
+//                cell.getDataConfigure(viewModel)    
+                return cell
         }
         
     }
@@ -250,7 +276,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 header.configure(with: titleHeader[indexPath.section])
                 return header 
             case 2:
-                print(indexPath.section)
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
                 header.configure(with: titleHeader[indexPath.section])
                 return header 

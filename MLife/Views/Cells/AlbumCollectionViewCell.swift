@@ -38,6 +38,11 @@ class AlbumCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        albumCoverImageView.image = nil
+        textViewTitle.text = nil
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         albumCoverImageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - 50)

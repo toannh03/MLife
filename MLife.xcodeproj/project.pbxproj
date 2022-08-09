@@ -37,6 +37,7 @@
 		04D79735289E6BAE0004D050 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79734289E6BAE0004D050 /* HTTPMethod.swift */; };
 		04D79737289E6E3E0004D050 /* AlbumResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79736289E6E3E0004D050 /* AlbumResponse.swift */; };
 		04D79739289E6FBE0004D050 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79738289E6FBE0004D050 /* Song.swift */; };
+		04D79C6D28A24EB30087522A /* MostLikeSongCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79C6C28A24EB30087522A /* MostLikeSongCollectionViewCell.swift */; };
 		04DCBF6D289EDCC900EB790B /* BannerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCBF6C289EDCC900EB790B /* BannerCollectionView.swift */; };
 		04DCBF74289F055A00EB790B /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCBF73289F055A00EB790B /* BannerCollectionViewCell.swift */; };
 		80D0148A49DC127FD26CDA15 /* Pods_MLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */; };
@@ -75,6 +76,7 @@
 		04D79734289E6BAE0004D050 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		04D79736289E6E3E0004D050 /* AlbumResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumResponse.swift; sourceTree = "<group>"; };
 		04D79738289E6FBE0004D050 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		04D79C6C28A24EB30087522A /* MostLikeSongCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostLikeSongCollectionViewCell.swift; sourceTree = "<group>"; };
 		04DCBF6C289EDCC900EB790B /* BannerCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionView.swift; sourceTree = "<group>"; };
 		04DCBF73289F055A00EB790B /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,6 +270,7 @@
 				04B9819128A128AD006EDA84 /* TopicCollectionViewCell.swift */,
 				04B9819328A15C57006EDA84 /* AlbumCollectionViewCell.swift */,
 				04B9819728A17B51006EDA84 /* PlayListCollectionViewCell.swift */,
+				04D79C6C28A24EB30087522A /* MostLikeSongCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				04D79735289E6BAE0004D050 /* HTTPMethod.swift in Sources */,
 				04D79739289E6FBE0004D050 /* Song.swift in Sources */,
 				048FB4E62892EACB0064D883 /* Utilities.swift in Sources */,
+				04D79C6D28A24EB30087522A /* MostLikeSongCollectionViewCell.swift in Sources */,
 				0487F3DA289440F2000E86DE /* AuthManager.swift in Sources */,
 				04128C8928915B7C00224FAD /* SceneDelegate.swift in Sources */,
 				04128C9128915B7C00224FAD /* MLife.xcdatamodeld in Sources */,
