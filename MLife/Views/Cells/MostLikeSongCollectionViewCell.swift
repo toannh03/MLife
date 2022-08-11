@@ -85,13 +85,3 @@ class MostLikeSongCollectionViewCell: UICollectionViewCell {
         songImageView.sd_setImage(with: model.thumbnail, completed: nil)
     }
 }
-
-
-/*
- 
- songImageView.frame = CGRect(x: 10, y: 10, width: 70, height: frame.size.height - 20)
- songImageView.layer.cornerRadius = songImageView.bounds.size.width / 2
- songName.frame = CGRect(x: songImageView.frame.size.width + 15, y: songImageView.frame.origin.x + 5, width: frame.size.width - songImageView.frame.size.width - 50, height: 30)
- songArtists.frame = CGRect(x: songName.frame.origin.x, y: songName.frame.size.height + 10, width: frame.size.width - songImageView.frame.size.width - 50, height: 30)
- 
- */

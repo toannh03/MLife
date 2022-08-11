@@ -171,14 +171,23 @@ class HomeViewController: UIViewController {
         }
         
         group.notify(queue: .main) { [weak self] in
-            self?.sections.append(.Topic(model: self!.topics))
-            self?.sections.append(.Album(model: self!.albums))
-            self?.sections.append(.PlayList(model: self!.playlists))
-            self?.sections.append(.MostLikeSong(model: self!.likesongs))
-            self?.collectionView.reloadData()
+            self?.configureDataResponse(topics: self!.topics, albums: self!.albums, playlists: self!.playlists, likesongs: self!.likesongs)
         }
     }
     
+    private func configureDataResponse(topics: [TopicResponse], albums: [AlbumResponse], playlists: [PlayListResponse], likesongs: [Song]) {
+        
+        self.topics = topics
+        self.albums = albums
+        self.playlists = playlists
+        self.likesongs = likesongs
+        
+        sections.append(.Topic(model: topics))
+        sections.append(.Album(model: albums))
+        sections.append(.PlayList(model: playlists))
+        sections.append(.MostLikeSong(model: likesongs))
+        collectionView.reloadData()
+    }
 }
 
 extension HomeViewController {
@@ -269,6 +278,33 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let section = sections[indexPath.section]
+        
+        switch section {
+            case .Topic:
+                let category = topics[indexPath.row]
+                let vc = CategoryViewController(category: category)
+                vc.title = category.name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                navigationController?.pushViewController(vc, animated: true)
+                break
+            case .Album:
+                let album = albums[indexPath.row]
+                let vc = AlbumDetailViewController(album: album)
+                vc.title = album.name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                navigationController?.pushViewController(vc, animated: true)
+                break
+            case .PlayList:
+                break
+            case .MostLikeSong:
+                break
+        }
+    }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let section = indexPath.section
@@ -296,6 +332,5 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
 
-    
 }
 
