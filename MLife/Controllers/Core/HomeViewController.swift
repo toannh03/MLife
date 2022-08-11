@@ -295,7 +295,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             case .Album:
                 let album = albums[indexPath.row]
                 let vc = AlbumDetailViewController(album: album)
-                vc.title = album.name
                 vc.navigationItem.largeTitleDisplayMode = .never
                 navigationController?.pushViewController(vc, animated: true)
                 break

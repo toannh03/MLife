@@ -30,10 +30,42 @@ final class AlbumHeaderCollectionReusableView: UICollectionReusableView {
         return imageView
     }()
     
+    private let nameAlbum: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.sizeToFit()
+        label.textColor = .label
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let artistsAlbum: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13, weight: .thin)
+        label.sizeToFit()
+        label.textColor = .label
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let playAllSongButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemMint
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.tintColor = .white
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 25
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         addSubview(imagePoster)
+        addSubview(nameAlbum)
+        addSubview(artistsAlbum)
+        addSubview(playAllSongButton)
+        playAllSongButton.addTarget(self, action: #selector(didTapPlayAllButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -42,10 +74,15 @@ final class AlbumHeaderCollectionReusableView: UICollectionReusableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let size: CGFloat = frame.size.height / 1.5
-        imagePoster.frame = CGRect(x: (frame.size.height - size) / 2, y: 20, width: size, height: size)
+        let size: CGFloat = frame.size.width / 1.5
+        imagePoster.frame = CGRect(x: (frame.size.width - size) / 2, y: 20, width: size, height: size)
         imagePoster.clipsToBounds = true
         imagePoster.layer.cornerRadius = 10
+        nameAlbum.frame = CGRect(x: 0, y: imagePoster.frame.size.height + 20, width: frame.size.width, height: 30)
+        artistsAlbum.frame = CGRect(x: 0, y: nameAlbum.frame.origin.y + nameAlbum.frame.size.height, width: frame.size.width, height: 20)
+        
+        playAllSongButton.frame = CGRect(x: (frame.size.width - 100) / 2 , y: frame.size.height - 100, width: 100, height: 50)
+        
     }
     
     override func prepareForReuse() {
@@ -55,6 +92,12 @@ final class AlbumHeaderCollectionReusableView: UICollectionReusableView {
     
     func configure(_ viewModel: AlbumViewModel) {
         imagePoster.sd_setImage(with: viewModel.thumbnail, completed: nil)
+        nameAlbum.text = viewModel.name
+        artistsAlbum.text = viewModel.artists_name
+    }
+    
+    @objc func didTapPlayAllButton() {
+        
     }
     
 }
