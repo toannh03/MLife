@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
     private var playlists: [PlayListResponse] = []
     private var likesongs: [Song] = []
     
-    private var titleHeader: [String] = ["","Today's Like", "New Relase", "Songs"]
+    private var titleHeader: [String] = ["","Today's Like", "New Relases", "Songs"]
     private var sections = [HomeSectionType]()
 
     private let collectionView: UICollectionView = {
@@ -198,7 +198,7 @@ extension HomeViewController {
                 
             case 0:
                 
-                return createNestedGround( widthItem: .fractionalWidth(1.0), heightItem: .absolute(90),top: 0, leading:4, bottom: 4,trailing: 4, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(188), widthHorizotal: .fractionalWidth(1.0), heightHorizotal: .absolute(188), countVertical: 2, countHorizotal: 2, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(260))!
+                return createNestedGround( widthItem: .fractionalWidth(1.0), heightItem: .absolute(70),top: 2, leading:2, bottom: 2,trailing: 2, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(148), widthHorizotal: .fractionalWidth(1.0), heightHorizotal: .absolute(148), countVertical: 2, countHorizotal: 2, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(260))!
                 
             case 1:
                 
@@ -299,6 +299,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 navigationController?.pushViewController(vc, animated: true)
                 break
             case .PlayList:
+                let playlist = playlists[indexPath.row]
+                let vc = PlayListDetailViewController(playlist: playlist)
+                vc.navigationItem.largeTitleDisplayMode = .never
+                navigationController?.pushViewController(vc, animated: true)
                 break
             case .MostLikeSong:
                 break

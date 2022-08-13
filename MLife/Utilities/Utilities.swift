@@ -105,3 +105,29 @@ extension String {
         return self.replacingOccurrences(of: "@", with: "-").replacingOccurrences(of: ".", with: "-")
     }
 }
+
+
+extension DateFormatter {
+    static let dateFormatter: DateFormatter = {
+        let date = DateFormatter()
+        date.dateFormat = "YYYY-MM-dd"
+        return date
+    }()
+    
+    static let displayFormatter: DateFormatter = {
+        let date = DateFormatter()
+        date.dateStyle = .medium
+        return date
+    }()
+}
+
+extension String {
+    static func formatedDate(string: String) -> String {
+        let range = string.firstIndex(of: "T") ?? string.endIndex
+        let subString = string[..<range]
+        guard let date = DateFormatter.dateFormatter.date(from: String(subString)) else { return string }
+        return DateFormatter.displayFormatter.string(from: date)
+    }
+}
+
+

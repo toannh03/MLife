@@ -12,6 +12,7 @@ struct PlayListResponse: Codable {
     let name: String
     let image: URL?
     let thumbnail: URL?
+    let createdAt: String
     let songs: [Song]
 }
 

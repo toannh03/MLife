@@ -14,6 +14,7 @@
 		04128C9628915B7D00224FAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04128C9428915B7D00224FAD /* LaunchScreen.storyboard */; };
 		04128CA328915BDF00224FAD /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04128CA228915BDF00224FAD /* TabBarViewController.swift */; };
 		042CA5F0289D3BA600564B7E /* CustomCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CA5EF289D3BA600564B7E /* CustomCompositionalLayout.swift */; };
+		045D1FD928A695C200246C4E /* PlayListHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D1FD828A695C200246C4E /* PlayListHeaderCollectionReusableView.swift */; };
 		0487F3DA289440F2000E86DE /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F3D9289440F2000E86DE /* AuthManager.swift */; };
 		048FB4DD2892D2060064D883 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4DC2892D2060064D883 /* HomeViewController.swift */; };
 		048FB4DF2892D2130064D883 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4DE2892D2130064D883 /* SearchViewController.swift */; };
@@ -61,6 +62,7 @@
 		04128C9728915B7D00224FAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04128CA228915BDF00224FAD /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		042CA5EF289D3BA600564B7E /* CustomCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCompositionalLayout.swift; sourceTree = "<group>"; };
+		045D1FD828A695C200246C4E /* PlayListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		0487F3D9289440F2000E86DE /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		048FB4DC2892D2060064D883 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		048FB4DE2892D2130064D883 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				04DCBF6C289EDCC900EB790B /* BannerCollectionView.swift */,
 				04B9819A28A18629006EDA84 /* HeaderCollectionReusableView.swift */,
 				049CCC3528A5645100D1A455 /* AlbumHeaderCollectionReusableView.swift */,
+				045D1FD828A695C200246C4E /* PlayListHeaderCollectionReusableView.swift */,
 			);
 			path = Reusables;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				04128CA328915BDF00224FAD /* TabBarViewController.swift in Sources */,
 				04D79737289E6E3E0004D050 /* AlbumResponse.swift in Sources */,
 				04128C8728915B7C00224FAD /* AppDelegate.swift in Sources */,
+				045D1FD928A695C200246C4E /* PlayListHeaderCollectionReusableView.swift in Sources */,
 				049CCC3628A5645100D1A455 /* AlbumHeaderCollectionReusableView.swift in Sources */,
 				04B9819628A1785F006EDA84 /* PlayListResponse.swift in Sources */,
 				04A85D5C2895B9E600E3EA29 /* RegistrationViewController.swift in Sources */,

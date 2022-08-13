@@ -1,28 +1,27 @@
 //
-//  AlbumHeaderCollectionReusableView.swift
+//  PlayListCollectionReusableView.swift
 //  MLife
 //
-//  Created by Nguyễn Hữu Toàn on 11/08/2022.
+//  Created by Nguyễn Hữu Toàn on 12/08/2022.
 //
 
 import UIKit
-import SDWebImage
 
-struct AlbumViewModel {
+struct PlayListViewModel {
     let name: String
-    let artists_name: String
+    let description: String
     let thumbnail: URL?
 }
 
-protocol AlbumHeaderCollectionReusableViewDelegate: AnyObject {
-    func playListAllSong(_ headerSong: AlbumHeaderCollectionReusableView)  
+protocol PlayListHeaderCollectionReusableViewDelegate: AnyObject {
+    func playListAllSong(_ headerSong: PlayListHeaderCollectionReusableView)  
 }
 
-final class AlbumHeaderCollectionReusableView: UICollectionReusableView {
+class PlayListHeaderCollectionReusableView: UICollectionReusableView {
     
-    static let identifier = "AlbumHeaderCollectionReusableView"
-    
-    weak var delegate: AlbumHeaderCollectionReusableViewDelegate?
+    static let identifier = "PlayListHeaderCollectionReusableView"
+        
+    weak var delegate: PlayListHeaderCollectionReusableViewDelegate?
     
     private let imagePoster: UIImageView = {
         let imageView = UIImageView()
@@ -47,7 +46,7 @@ final class AlbumHeaderCollectionReusableView: UICollectionReusableView {
     
     private let artistsAlbum: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 13, weight: .thin)
+        label.font = .systemFont(ofSize: 13, weight: .semibold)
         label.sizeToFit()
         label.textColor = .label
         label.textAlignment = .center
@@ -95,14 +94,13 @@ final class AlbumHeaderCollectionReusableView: UICollectionReusableView {
         imagePoster.image = nil
     }
     
-    func configure(_ viewModel: AlbumViewModel) {
+    func configure(_ viewModel: PlayListViewModel) {
         imagePoster.sd_setImage(with: viewModel.thumbnail, completed: nil)
         nameAlbum.text = viewModel.name
-        artistsAlbum.text = viewModel.artists_name
+        artistsAlbum.text = viewModel.description
     }
     
     @objc func didTapPlayAllButton() {
         delegate?.playListAllSong(self)
     }
-    
 }

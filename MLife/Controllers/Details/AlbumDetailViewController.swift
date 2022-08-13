@@ -26,7 +26,7 @@ class AlbumDetailViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { (_, _) -> NSCollectionLayoutSection? in
-            return HomeViewController.createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(70), top: 3, leading: 0, bottom: 3, trailing: 0, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(70), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(450))!
+            return HomeViewController.createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(70), top: 3, leading: 0, bottom: 3, trailing: 0, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(70), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(420))!
         }))
         collection.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: DetailCollectionViewCell.identifier)
         collection.register(AlbumHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: AlbumHeaderCollectionReusableView.identifier)
@@ -85,7 +85,15 @@ extension AlbumDetailViewController: UICollectionViewDelegate, UICollectionViewD
             kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
         let headerViewMode = AlbumViewModel(name: album.name, artists_name: album.artists_name, thumbnail: album.thumbnail)
         header.configure(headerViewMode)
+        header.delegate = self
         return header
+    }
+    
+}
+
+extension AlbumDetailViewController: AlbumHeaderCollectionReusableViewDelegate {
+    func playListAllSong(_ headerSong: AlbumHeaderCollectionReusableView) {
+        print("Play all....")
     }
     
 }
