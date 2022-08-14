@@ -39,6 +39,8 @@
 		04B9819628A1785F006EDA84 /* PlayListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9819528A1785F006EDA84 /* PlayListResponse.swift */; };
 		04B9819828A17B51006EDA84 /* PlayListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9819728A17B51006EDA84 /* PlayListCollectionViewCell.swift */; };
 		04B9819B28A18629006EDA84 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9819A28A18629006EDA84 /* HeaderCollectionReusableView.swift */; };
+		04BDB3D428A93BFA003D6F4C /* ResultSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BDB3D328A93BFA003D6F4C /* ResultSearchTableViewCell.swift */; };
+		04BDB3D628A94D3B003D6F4C /* ResultSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BDB3D528A94D3B003D6F4C /* ResultSearchViewController.swift */; };
 		04D1CE4428A0111C00622A93 /* TrendingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1CE4328A0111C00622A93 /* TrendingResponse.swift */; };
 		04D79733289E67450004D050 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79732289E67450004D050 /* APIClient.swift */; };
 		04D79735289E6BAE0004D050 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79734289E6BAE0004D050 /* HTTPMethod.swift */; };
@@ -87,6 +89,8 @@
 		04B9819528A1785F006EDA84 /* PlayListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListResponse.swift; sourceTree = "<group>"; };
 		04B9819728A17B51006EDA84 /* PlayListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListCollectionViewCell.swift; sourceTree = "<group>"; };
 		04B9819A28A18629006EDA84 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		04BDB3D328A93BFA003D6F4C /* ResultSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSearchTableViewCell.swift; sourceTree = "<group>"; };
+		04BDB3D528A94D3B003D6F4C /* ResultSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSearchViewController.swift; sourceTree = "<group>"; };
 		04D1CE4328A0111C00622A93 /* TrendingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingResponse.swift; sourceTree = "<group>"; };
 		04D79732289E67450004D050 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		04D79734289E6BAE0004D050 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -236,6 +240,7 @@
 		04128CA828915CF900224FAD /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				04BDB3D528A94D3B003D6F4C /* ResultSearchViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -306,6 +311,7 @@
 				04B9819728A17B51006EDA84 /* PlayListCollectionViewCell.swift */,
 				04D79C6C28A24EB30087522A /* MostLikeSongCollectionViewCell.swift */,
 				049CCC3328A5514C00D1A455 /* DetailCollectionViewCell.swift */,
+				04BDB3D328A93BFA003D6F4C /* ResultSearchTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -444,6 +450,7 @@
 			files = (
 				042CA5F0289D3BA600564B7E /* CustomCompositionalLayout.swift in Sources */,
 				04A85D612895E5F700E3EA29 /* CustomNotification.swift in Sources */,
+				04BDB3D428A93BFA003D6F4C /* ResultSearchTableViewCell.swift in Sources */,
 				04D79C7128A2AB400087522A /* NotificationViewController.swift in Sources */,
 				04DCBF6D289EDCC900EB790B /* BannerCollectionView.swift in Sources */,
 				049CCC3428A5514C00D1A455 /* DetailCollectionViewCell.swift in Sources */,
@@ -462,6 +469,7 @@
 				04A85D5C2895B9E600E3EA29 /* RegistrationViewController.swift in Sources */,
 				049CCC2D28A534D500D1A455 /* AlbumDetailViewController.swift in Sources */,
 				049CCC3228A5350400D1A455 /* CategoryDetailViewController.swift in Sources */,
+				04BDB3D628A94D3B003D6F4C /* ResultSearchViewController.swift in Sources */,
 				048FB4E92892F8CE0064D883 /* CustomTextField.swift in Sources */,
 				04A85D5F2895D02B00E3EA29 /* DatabaseManager.swift in Sources */,
 				04B9819428A15C57006EDA84 /* AlbumCollectionViewCell.swift in Sources */,
