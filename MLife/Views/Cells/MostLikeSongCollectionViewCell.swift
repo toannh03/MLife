@@ -28,13 +28,13 @@ class MostLikeSongCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let playImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        imageView.image = UIImage(systemName: "play.circle")
-        imageView.tintColor = .white
-        return imageView
+    private let likeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 10, weight: .bold)
+        return label
     }()
     
     private let songName: UILabel = {
@@ -56,7 +56,7 @@ class MostLikeSongCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(songCoverImageView)
-        [songImageView, songName, songArtists, playImage].forEach {
+        [songImageView, songName, songArtists, likeLabel].forEach {
             songCoverImageView.addSubview($0)
         }
     }
@@ -72,10 +72,10 @@ class MostLikeSongCollectionViewCell: UICollectionViewCell {
         songImageView.frame = CGRect(x: 10, y: 10, width: 70, height: songCoverImageView.bounds.size.height - 20)
         songImageView.layer.cornerRadius = songImageView.bounds.size.width / 2
         
-        songName.frame = CGRect(x: songImageView.frame.size.width + 15, y: songImageView.frame.origin.x + 5, width: songCoverImageView.bounds.size.width - songImageView.frame.size.width - 55, height: 30)
-        songArtists.frame = CGRect(x: songName.frame.origin.x, y: songName.frame.size.height + 10, width: frame.size.width - songImageView.frame.size.width - 55, height: 30)
+        songName.frame = CGRect(x: songImageView.frame.size.width + 15, y: songImageView.frame.origin.x + 5, width: songCoverImageView.bounds.size.width - songImageView.frame.size.width - 80, height: 30)
+        songArtists.frame = CGRect(x: songName.frame.origin.x, y: songName.frame.size.height + 10, width: frame.size.width - songImageView.frame.size.width - 80, height: 30)
         
-        playImage.frame = CGRect(x: songCoverImageView.bounds.size.width - 40, y: songCoverImageView.bounds.size.height / 2  - 12.5, width: 25, height: 25)
+        likeLabel.frame = CGRect(x: songCoverImageView.bounds.size.width - 60, y: songCoverImageView.bounds.size.height / 2  - 12.5, width: 60, height: 25)
     }
     
     func getDataConfigure(_ model: Song) {
@@ -83,5 +83,6 @@ class MostLikeSongCollectionViewCell: UICollectionViewCell {
         songArtists.text = model.artists
         songCoverImageView.sd_setImage(with: model.thumbnail, completed: nil)
         songImageView.sd_setImage(with: model.thumbnail, completed: nil)
+        likeLabel.text = "\(model.like) Like"
     }
 }
