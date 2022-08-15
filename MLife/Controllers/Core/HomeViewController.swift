@@ -210,8 +210,7 @@ extension HomeViewController {
                 
             case 3: 
                 
-                return createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(100), top: 5, leading: 7.5, bottom: 5, trailing: 7.5, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(100), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(40))!
-                
+                return createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(100), top: 5, leading: 7.5, bottom: 5, trailing: 7.5, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(100), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(40), leadingSection: 7.5, trailingSection: 7.5)!
             default:
                 
                 return createNestedGround(widthItem: .fractionalWidth(1.0), heightItem: .fractionalHeight(1.0), top: 5, leading: 15, bottom: 5, trailing: 15, widthVertical: .fractionalWidth(1.0), heightVertical: .fractionalHeight(1.0), widthHorizotal: .absolute(220), heightHorizotal: .absolute(300), countVertical: 3, countHorizotal: 1)!

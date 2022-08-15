@@ -26,7 +26,7 @@ class AlbumDetailViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { (_, _) -> NSCollectionLayoutSection? in
-            return HomeViewController.createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(70), top: 3, leading: 0, bottom: 3, trailing: 0, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(70), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(420))!
+            return HomeViewController.createBasicCompositionLayout(widthItem: .fractionalWidth(1.0), heightItem: .absolute(70), top: 3, leading: 0, bottom: 3, trailing: 0, widthVertical: .fractionalWidth(1.0), heightVertical: .absolute(70), scrollBehavior: .continuous, headerWidth: .fractionalWidth(1.0), headerHeight: .absolute(420), leadingSection: 7.5, trailingSection: 7.5)!
         }))
         collection.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: DetailCollectionViewCell.identifier)
         collection.register(AlbumHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: AlbumHeaderCollectionReusableView.identifier)
@@ -70,6 +70,8 @@ extension AlbumDetailViewController: UICollectionViewDelegate, UICollectionViewD
         } else {
             let song = album.songs[indexPath.row]       
             cell.getDataConfigure(song)
+            cell.backgroundColor = .secondarySystemBackground
+            cell.layer.cornerRadius = 8.0
         }
  
         return cell

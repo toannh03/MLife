@@ -25,13 +25,6 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
     
     private let imagePoster: UIImageView = {
         let imageView = UIImageView()
-        imageView.clipsToBounds = false
-        imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowOpacity = 1
-        imageView.layer.shadowOffset = CGSize.zero
-        imageView.layer.shadowRadius = 10
-        imageView.layer.cornerRadius = 10
-        imageView.layer.shadowPath = UIBezierPath(roundedRect: imageView.bounds, cornerRadius: 10).cgPath
         return imageView
     }()
     
@@ -79,9 +72,8 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         let size: CGFloat = frame.size.width / 1.5
-        imagePoster.frame = CGRect(x: (frame.size.width - size) / 2, y: 20, width: size, height: size)
-        imagePoster.clipsToBounds = true
-        imagePoster.layer.cornerRadius = 10
+        imagePoster.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: size)
+       // imagePoster.frame = CGRect(x: (frame.size.width - size) / 2, y: 20, width: size, height: size)
         nameAlbum.frame = CGRect(x: 0, y: imagePoster.frame.size.height + 23, width: frame.size.width, height: 30)
         artistsAlbum.frame = CGRect(x: 0, y: nameAlbum.frame.origin.y + nameAlbum.frame.size.height, width: frame.size.width, height: 20)
         

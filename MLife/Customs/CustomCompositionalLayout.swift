@@ -23,7 +23,9 @@ extension HomeViewController {
                                               countHorizotal: Int = 1,
                                               scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior,
                                               headerWidth: NSCollectionLayoutDimension? = nil,
-                                              headerHeight: NSCollectionLayoutDimension? = nil
+                                              headerHeight: NSCollectionLayoutDimension? = nil,
+                                              leadingSection: CGFloat = 0,
+                                              trailingSection: CGFloat = 0
     ) -> NSCollectionLayoutSection? {
     
         let itemSize = NSCollectionLayoutSize(widthDimension: widthItem, heightDimension: heightItem)  
@@ -47,7 +49,7 @@ extension HomeViewController {
                 section.boundarySupplementaryItems = [headerItem]
             }
             
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 7.5, bottom: 0, trailing: 7.5)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 7.5, bottom: 0, trailing: trailingSection)
 
             section.orthogonalScrollingBehavior = scrollBehavior
             
@@ -69,7 +71,7 @@ extension HomeViewController {
                 section.boundarySupplementaryItems = [headerItem]
             }
             
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 7.5, bottom: 0, trailing: 7.5)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: leadingSection, bottom: 0, trailing: trailingSection)
 
             return section
         }
