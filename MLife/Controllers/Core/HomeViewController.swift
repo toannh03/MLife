@@ -303,10 +303,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 navigationController?.pushViewController(vc, animated: true)
                 break
             case .MostLikeSong:
-//                let likeSong = likesongs[indexPath.row]
-                let vc = PlayerViewController()
-
-                present(vc, animated: true, completion: nil)
+                let likeSong = likesongs[indexPath.row]
+                PlayerDataTransmission.dataTransmission(self, likeSong: likeSong, playlist: nil, playlists: nil)
                 break
         }
     }

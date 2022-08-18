@@ -2,7 +2,7 @@
 //  PlayerViewController.swift
 //  MLife
 //
-//  Created by Nguyễn Hữu Toàn on 18/08/2022.
+//  Created by Nguyễn Hữu Toàn on 10/08/2022.
 //
 
 import UIKit

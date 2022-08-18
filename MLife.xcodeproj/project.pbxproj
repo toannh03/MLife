@@ -52,6 +52,7 @@
 		04DCBF6D289EDCC900EB790B /* BannerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCBF6C289EDCC900EB790B /* BannerCollectionView.swift */; };
 		04DCBF74289F055A00EB790B /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCBF73289F055A00EB790B /* BannerCollectionViewCell.swift */; };
 		04DD311128AE957100792752 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD311028AE957100792752 /* PlayerViewController.swift */; };
+		04DD311328AE982500792752 /* PlayerDataTransmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD311228AE982500792752 /* PlayerDataTransmission.swift */; };
 		80D0148A49DC127FD26CDA15 /* Pods_MLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +104,7 @@
 		04DCBF6C289EDCC900EB790B /* BannerCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionView.swift; sourceTree = "<group>"; };
 		04DCBF73289F055A00EB790B /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		04DD311028AE957100792752 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		04DD311228AE982500792752 /* PlayerDataTransmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDataTransmission.swift; sourceTree = "<group>"; };
 		1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		770A4F5DD0B2C80A17B27CC1 /* Pods-MLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLife.release.xcconfig"; path = "Target Support Files/Pods-MLife/Pods-MLife.release.xcconfig"; sourceTree = "<group>"; };
 		D8C2B94D3FA91CB0797C0F29 /* Pods-MLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLife.debug.xcconfig"; path = "Target Support Files/Pods-MLife/Pods-MLife.debug.xcconfig"; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				04D79C6E28A28B650087522A /* SettingViewController.swift */,
 				04D79C7028A2AB400087522A /* NotificationViewController.swift */,
 				049CCC2928A530CD00D1A455 /* CategoryViewController.swift */,
+				04DD311228AE982500792752 /* PlayerDataTransmission.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 				04DD311128AE957100792752 /* PlayerViewController.swift in Sources */,
 				04B9819628A1785F006EDA84 /* PlayListResponse.swift in Sources */,
 				04A85D5C2895B9E600E3EA29 /* RegistrationViewController.swift in Sources */,
+				04DD311328AE982500792752 /* PlayerDataTransmission.swift in Sources */,
 				049CCC2D28A534D500D1A455 /* AlbumDetailViewController.swift in Sources */,
 				049CCC3228A5350400D1A455 /* CategoryDetailViewController.swift in Sources */,
 				04BDB3D628A94D3B003D6F4C /* ResultSearchViewController.swift in Sources */,

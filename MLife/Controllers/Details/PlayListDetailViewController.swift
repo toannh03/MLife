@@ -77,7 +77,11 @@ extension PlayListDetailViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.cellForItem(at: indexPath)?.backgroundColor = UIColor.red
+        collectionView.deselectItem(at: indexPath, animated: true)
+        // Play song 
+        let index = indexPath.row
+        let songOfPlaylist = playlist.songs[index]
+        PlayerDataTransmission.dataTransmission(self, likeSong: nil, playlist: songOfPlaylist, playlists: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -89,4 +93,10 @@ extension PlayListDetailViewController: UICollectionViewDelegate, UICollectionVi
         return header
     }
     
+}
+
+extension PlayListDetailViewController: PlayListHeaderCollectionReusableViewDelegate {
+    func playListAllSong(_ headerSong: PlayListHeaderCollectionReusableView) {
+        print("Play all song playlist....")
+    }
 }
