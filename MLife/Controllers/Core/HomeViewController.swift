@@ -272,7 +272,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 cell.backgroundColor = .systemRed
                 cell.getDataConfigure(viewModel)    
                 cell.layer.cornerRadius = 8.0
-//                cell.getDataConfigure(viewModel)    
                 return cell
         }
         
@@ -304,6 +303,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 navigationController?.pushViewController(vc, animated: true)
                 break
             case .MostLikeSong:
+//                let likeSong = likesongs[indexPath.row]
+                let vc = PlayerViewController()
+
+                present(vc, animated: true, completion: nil)
                 break
         }
     }
