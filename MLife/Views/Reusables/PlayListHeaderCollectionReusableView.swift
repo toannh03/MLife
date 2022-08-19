@@ -73,7 +73,6 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
         super.layoutSubviews()
         let size: CGFloat = frame.size.width / 1.5
         imagePoster.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: size)
-       // imagePoster.frame = CGRect(x: (frame.size.width - size) / 2, y: 20, width: size, height: size)
         nameAlbum.frame = CGRect(x: 0, y: imagePoster.frame.size.height + 23, width: frame.size.width, height: 30)
         artistsAlbum.frame = CGRect(x: 0, y: nameAlbum.frame.origin.y + nameAlbum.frame.size.height, width: frame.size.width, height: 20)
         

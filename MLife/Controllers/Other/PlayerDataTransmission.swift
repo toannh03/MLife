@@ -12,6 +12,8 @@ class PlayerDataTransmission {
     
     static func dataTransmission(_ viewController: UIViewController, likeSong: Song?, playlist: Song?, playlists: [Song]?) {
         let vc = PlayerViewController()
-        viewController.present(vc, animated: true)
+        vc.title = playlist?.name_song
+        let nav = UINavigationController(rootViewController: vc)
+        viewController.present(nav, animated: true)
     }
 }
