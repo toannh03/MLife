@@ -81,7 +81,7 @@ extension PlayListDetailViewController: UICollectionViewDelegate, UICollectionVi
         // Play song 
         let index = indexPath.row
         let songOfPlaylist = playlist.songs[index]
-        PlayerDataTransmission.dataTransmission(self, likeSong: nil, playlist: songOfPlaylist, playlists: nil)
+        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: songOfPlaylist, playlists: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

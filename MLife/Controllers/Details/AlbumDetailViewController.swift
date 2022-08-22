@@ -78,7 +78,10 @@ extension AlbumDetailViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.cellForItem(at: indexPath)?.backgroundColor = UIColor.red
+        // Play song 
+        let index = indexPath.row
+        let songOfAlbum = album.songs[index]
+        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: songOfAlbum, playlists: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

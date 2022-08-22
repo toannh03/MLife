@@ -304,7 +304,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 break
             case .MostLikeSong:
                 let likeSong = likesongs[indexPath.row]
-                PlayerDataTransmission.dataTransmission(self, likeSong: likeSong, playlist: nil, playlists: nil)
+                
                 break
         }
     }

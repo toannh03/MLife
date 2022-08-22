@@ -14,6 +14,8 @@
 		04128C9628915B7D00224FAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04128C9428915B7D00224FAD /* LaunchScreen.storyboard */; };
 		04128CA328915BDF00224FAD /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04128CA228915BDF00224FAD /* TabBarViewController.swift */; };
 		042CA5F0289D3BA600564B7E /* CustomCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CA5EF289D3BA600564B7E /* CustomCompositionalLayout.swift */; };
+		0436059028B38545006B0228 /* Disk + Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436058F28B38545006B0228 /* Disk + Animation.swift */; };
+		0452AD1928B23FB500B57056 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0452AD1828B23FB500B57056 /* Protocols.swift */; };
 		045D1FD928A695C200246C4E /* PlayListHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D1FD828A695C200246C4E /* PlayListHeaderCollectionReusableView.swift */; };
 		0487F3DA289440F2000E86DE /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F3D9289440F2000E86DE /* AuthManager.swift */; };
 		048FB4DD2892D2060064D883 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FB4DC2892D2060064D883 /* HomeViewController.swift */; };
@@ -66,6 +68,8 @@
 		04128C9728915B7D00224FAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04128CA228915BDF00224FAD /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		042CA5EF289D3BA600564B7E /* CustomCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCompositionalLayout.swift; sourceTree = "<group>"; };
+		0436058F28B38545006B0228 /* Disk + Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Disk + Animation.swift"; sourceTree = "<group>"; };
+		0452AD1828B23FB500B57056 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		045D1FD828A695C200246C4E /* PlayListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		0487F3D9289440F2000E86DE /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		048FB4DC2892D2060064D883 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -273,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				048FB4E52892EACB0064D883 /* Utilities.swift */,
+				0452AD1828B23FB500B57056 /* Protocols.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				048FB4E82892F8CE0064D883 /* CustomTextField.swift */,
 				04A85D602895E5F700E3EA29 /* CustomNotification.swift */,
 				042CA5EF289D3BA600564B7E /* CustomCompositionalLayout.swift */,
+				0436058F28B38545006B0228 /* Disk + Animation.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -457,6 +463,7 @@
 				042CA5F0289D3BA600564B7E /* CustomCompositionalLayout.swift in Sources */,
 				04A85D612895E5F700E3EA29 /* CustomNotification.swift in Sources */,
 				04BDB3D428A93BFA003D6F4C /* ResultSearchTableViewCell.swift in Sources */,
+				0452AD1928B23FB500B57056 /* Protocols.swift in Sources */,
 				04D79C7128A2AB400087522A /* NotificationViewController.swift in Sources */,
 				04DCBF6D289EDCC900EB790B /* BannerCollectionView.swift in Sources */,
 				049CCC3428A5514C00D1A455 /* DetailCollectionViewCell.swift in Sources */,
@@ -480,6 +487,7 @@
 				04BDB3D628A94D3B003D6F4C /* ResultSearchViewController.swift in Sources */,
 				048FB4E92892F8CE0064D883 /* CustomTextField.swift in Sources */,
 				04A85D5F2895D02B00E3EA29 /* DatabaseManager.swift in Sources */,
+				0436059028B38545006B0228 /* Disk + Animation.swift in Sources */,
 				04B9819428A15C57006EDA84 /* AlbumCollectionViewCell.swift in Sources */,
 				04B9819228A128AD006EDA84 /* TopicCollectionViewCell.swift in Sources */,
 				04B9818E28A11AD4006EDA84 /* TopicResponse.swift in Sources */,
