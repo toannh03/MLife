@@ -14,6 +14,10 @@ class PlayerViewController: UIViewController {
     weak var delegate: PlayerViewControllerDelegate?
     
     public var isPlaying = true
+    public var position = 0;
+    public var isRepeat = false;
+    public var checkRandom = false;
+    public var isNext = false;
 
     // MARK: - Cover image
     private let disk = UIView()
@@ -60,28 +64,28 @@ class PlayerViewController: UIViewController {
         return button
     }()
     
-    private let previousButton: UIButton = {
+    fileprivate let previousButton: UIButton = {
         let button = UIButton()
         button.tintColor = .black
         button.setImage(UIImage(systemName: "backward.end.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 35, weight: .light, scale: .small)), for: .normal)
         return button
     }()
     
-    private let playPauseButton: UIButton = {
+    fileprivate let playPauseButton: UIButton = {
         let button = UIButton()
         button.tintColor = .black
         button.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
         return button
     }()
     
-    private let nextButton: UIButton = {
+    fileprivate let nextButton: UIButton = {
         let button = UIButton()
         button.tintColor = .black
         button.setImage(UIImage(systemName: "forward.end.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 35, weight: .light, scale: .small)), for: .normal)
         return button
     }()
     
-    private let repeatButton: UIButton = {
+    fileprivate let repeatButton: UIButton = {
         let button = UIButton()
         button.tintColor = .black
         button.setImage(UIImage(systemName: "repeat", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .light)), for: .normal)
@@ -167,6 +171,11 @@ class PlayerViewController: UIViewController {
     
     @objc func didTapShuffButton() {
         delegate?.PlayerViewControllerDidTapShuffButton(self)
+        if checkRandom == false {
+            shuffleButton.tintColor = .black
+        } else {
+            shuffleButton.tintColor = .red
+        }
     }
     
     @objc func didTapPreviousButton() {
@@ -175,8 +184,8 @@ class PlayerViewController: UIViewController {
     
     @objc func didTapPlayPauseButton() {
         
-        self.isPlaying = !isPlaying
-        
+//        self.isPlaying = !isPlaying
+    
         delegate?.PlayerViewControllerDidTapPlayPauseButton(self)
         
         let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
@@ -186,6 +195,7 @@ class PlayerViewController: UIViewController {
         playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
         
         self.isPlaying ? disk.resumeAnimation() : disk.pauseAnimation()
+        
     }
     
     @objc func didTapNextButton() {
@@ -194,6 +204,12 @@ class PlayerViewController: UIViewController {
     
     @objc func didTapRepeatButton() {
         delegate?.PlayerViewControllerDidTapRepeatButton(self)
+        if isRepeat == false {
+            repeatButton.tintColor = .black
+        } else {
+            repeatButton.tintColor = .red
+        }
+        
     }
     
 }

@@ -83,10 +83,6 @@ final class PlayerDataTransmission {
             vc.popupItem.image = UIImage(named: "IconLauch")
         }
         
-        viewController.popupBar.barStyle = .compact
-        viewController.popupInteractionStyle = .drag
-        viewController.popupBar.progressViewStyle = .top
-
         viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
             self?.player?.play()            
         })
@@ -100,10 +96,13 @@ final class PlayerDataTransmission {
 extension PlayerDataTransmission: PlayerViewControllerDelegate {
     
     func PlayerViewControllerDidTapShuffButton(_ control: PlayerViewController) {
-        if songs.isEmpty {
-            player?.pause()
+        if control.checkRandom == false {
+            if control.isRepeat == true {
+                control.isRepeat = false;
+            }
+            control.checkRandom = true;
         } else {
-            
+            control.checkRandom = false;
         }
     }
     
@@ -116,6 +115,16 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerViewControllerDidTapPlayPauseButton(_ control: PlayerViewController) {
+        if let player = player {
+            if player.isPlaying {
+                player.pause()
+                control.isPlaying = false
+            } else {
+                player.play()
+                control.isPlaying = true
+            }
+        }
+        
         if control.isPlaying {
             player?.play()
         } else {
@@ -124,11 +133,24 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerViewControllerDidTapNextButton(_ control: PlayerViewController) {
-        print("next song ...")
+        if songs.count > 0 {
+            if player!.isPlaying || player != nil {
+                player!.stop()
+                
+            }
+            
+        }
     }
     
     func PlayerViewControllerDidTapRepeatButton(_ control: PlayerViewController) {
-        print("repeart song... ")
+        if control.isRepeat == false {
+            if control.checkRandom == true {
+                control.checkRandom = false;
+            }
+            control.isRepeat = true;
+        } else {
+            control.isRepeat = false;
+        }
     }
     
 }
