@@ -114,7 +114,7 @@ class PlayerViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.disk.rotate()
         }
-        
+                
     }
     
     override func viewDidLayoutSubviews() {
@@ -171,11 +171,20 @@ class PlayerViewController: UIViewController {
     
     @objc func didTapShuffButton() {
         delegate?.PlayerViewControllerDidTapShuffButton(self)
+        
         if checkRandom == false {
-            shuffleButton.tintColor = .black
-        } else {
+            if isRepeat == true {
+                isRepeat = false;
+                shuffleButton.tintColor = .red
+                repeatButton.tintColor = .black
+            }
             shuffleButton.tintColor = .red
+            checkRandom = true;
+        } else {
+            checkRandom = false;
+            shuffleButton.tintColor = .black
         }
+        
     }
     
     @objc func didTapPreviousButton() {
@@ -183,9 +192,7 @@ class PlayerViewController: UIViewController {
     }
     
     @objc func didTapPlayPauseButton() {
-        
-//        self.isPlaying = !isPlaying
-    
+            
         delegate?.PlayerViewControllerDidTapPlayPauseButton(self)
         
         let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
@@ -204,12 +211,19 @@ class PlayerViewController: UIViewController {
     
     @objc func didTapRepeatButton() {
         delegate?.PlayerViewControllerDidTapRepeatButton(self)
-        if isRepeat == false {
-            repeatButton.tintColor = .black
-        } else {
-            repeatButton.tintColor = .red
-        }
         
+        if isRepeat == false {
+            if checkRandom == true {
+                checkRandom = false;
+                repeatButton.tintColor = .red
+                shuffleButton.tintColor = .black
+            }
+            isRepeat = true;
+            repeatButton.tintColor = .red
+        } else {
+            isRepeat = false;
+            repeatButton.tintColor = .black
+        }
     }
     
 }

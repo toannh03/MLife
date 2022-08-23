@@ -96,14 +96,6 @@ final class PlayerDataTransmission {
 extension PlayerDataTransmission: PlayerViewControllerDelegate {
     
     func PlayerViewControllerDidTapShuffButton(_ control: PlayerViewController) {
-        if control.checkRandom == false {
-            if control.isRepeat == true {
-                control.isRepeat = false;
-            }
-            control.checkRandom = true;
-        } else {
-            control.checkRandom = false;
-        }
     }
     
     func PlayerViewControllerDidTapPreviousButton(_ control: PlayerViewController) {
@@ -143,14 +135,7 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerViewControllerDidTapRepeatButton(_ control: PlayerViewController) {
-        if control.isRepeat == false {
-            if control.checkRandom == true {
-                control.checkRandom = false;
-            }
-            control.isRepeat = true;
-        } else {
-            control.isRepeat = false;
-        }
+        
     }
     
 }
