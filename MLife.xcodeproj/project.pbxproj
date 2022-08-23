@@ -43,6 +43,9 @@
 		04B9819B28A18629006EDA84 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9819A28A18629006EDA84 /* HeaderCollectionReusableView.swift */; };
 		04BDB3D428A93BFA003D6F4C /* ResultSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BDB3D328A93BFA003D6F4C /* ResultSearchTableViewCell.swift */; };
 		04BDB3D628A94D3B003D6F4C /* ResultSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BDB3D528A94D3B003D6F4C /* ResultSearchViewController.swift */; };
+		04CD6CBB28B4DBA3001C0166 /* LNPopupController in Frameworks */ = {isa = PBXBuildFile; productRef = 04CD6CBA28B4DBA3001C0166 /* LNPopupController */; };
+		04CD6CBE28B4E230001C0166 /* LNPopupController in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04CD6CBA28B4DBA3001C0166 /* LNPopupController */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		04CD6CC028B4E235001C0166 /* Pods_MLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */; };
 		04D1CE4428A0111C00622A93 /* TrendingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1CE4328A0111C00622A93 /* TrendingResponse.swift */; };
 		04D79733289E67450004D050 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79732289E67450004D050 /* APIClient.swift */; };
 		04D79735289E6BAE0004D050 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D79734289E6BAE0004D050 /* HTTPMethod.swift */; };
@@ -55,8 +58,21 @@
 		04DCBF74289F055A00EB790B /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCBF73289F055A00EB790B /* BannerCollectionViewCell.swift */; };
 		04DD311128AE957100792752 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD311028AE957100792752 /* PlayerViewController.swift */; };
 		04DD311328AE982500792752 /* PlayerDataTransmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD311228AE982500792752 /* PlayerDataTransmission.swift */; };
-		80D0148A49DC127FD26CDA15 /* Pods_MLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A90BE211B4BB129064B91D0 /* Pods_MLife.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04CD6CBF28B4E230001C0166 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				04CD6CBE28B4E230001C0166 /* LNPopupController in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		04128C8328915B7C00224FAD /* MLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,7 +135,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80D0148A49DC127FD26CDA15 /* Pods_MLife.framework in Frameworks */,
+				04CD6CC028B4E235001C0166 /* Pods_MLife.framework in Frameworks */,
+				04CD6CBB28B4DBA3001C0166 /* LNPopupController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,12 +374,16 @@
 				04128C8028915B7C00224FAD /* Frameworks */,
 				04128C8128915B7C00224FAD /* Resources */,
 				FD57A1C828C9A7B5DAE48111 /* [CP] Embed Pods Frameworks */,
+				04CD6CBF28B4E230001C0166 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = MLife;
+			packageProductDependencies = (
+				04CD6CBA28B4DBA3001C0166 /* LNPopupController */,
+			);
 			productName = MLife;
 			productReference = 04128C8328915B7C00224FAD /* MLife.app */;
 			productType = "com.apple.product-type.application";
@@ -391,6 +412,9 @@
 				Base,
 			);
 			mainGroup = 04128C7A28915B7C00224FAD;
+			packageReferences = (
+				04CD6CB928B4DBA3001C0166 /* XCRemoteSwiftPackageReference "LNPopupController" */,
+			);
 			productRefGroup = 04128C8428915B7C00224FAD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -716,6 +740,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		04CD6CB928B4DBA3001C0166 /* XCRemoteSwiftPackageReference "LNPopupController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LeoNatan/LNPopupController";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		04CD6CBA28B4DBA3001C0166 /* LNPopupController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04CD6CB928B4DBA3001C0166 /* XCRemoteSwiftPackageReference "LNPopupController" */;
+			productName = LNPopupController;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		04128C8F28915B7C00224FAD /* MLife.xcdatamodeld */ = {

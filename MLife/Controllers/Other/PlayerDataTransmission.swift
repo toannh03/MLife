@@ -8,9 +8,10 @@
 import Foundation
 import UIKit
 import AVFAudio
+import LNPopupController
 
 final class PlayerDataTransmission {
-    
+        
     // Singleton Pattern
     static var shared = PlayerDataTransmission()
     
@@ -63,10 +64,35 @@ final class PlayerDataTransmission {
         vc.dataSource = self
         vc.delegate = self
         vc.title = song?.name_song
-        let nav = UINavigationController(rootViewController: vc)
-        viewController.present(nav, animated: true, completion: { [weak self] in
-            self?.player?.play()
+        
+        vc.popupItem.title = song?.name_song
+        vc.popupItem.subtitle = song?.artists
+        if let url = song?.thumbnail {
+            
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            vc.popupItem.image = image
+                        }
+                    }
+                }
+            }
+            
+        } else {
+            vc.popupItem.image = UIImage(named: "IconLauch")
+        }
+        
+        viewController.popupBar.barStyle = .compact
+        viewController.popupInteractionStyle = .drag
+        viewController.popupBar.progressViewStyle = .top
+
+        viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
+            self?.player?.play()            
         })
+        
+
+        
     }
     
 }

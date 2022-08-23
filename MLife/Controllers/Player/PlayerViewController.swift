@@ -39,7 +39,7 @@ class PlayerViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = "___"
-        label.textColor = .label
+        label.textColor = .black
         label.font = .systemFont(ofSize: 18, weight: .bold)
         return label
     }()
@@ -55,48 +55,45 @@ class PlayerViewController: UIViewController {
     
     private let shuffleButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
+        button.tintColor = .black
         button.setImage(UIImage(systemName: "shuffle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .light)), for: .normal)
         return button
     }()
     
     private let previousButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
+        button.tintColor = .black
         button.setImage(UIImage(systemName: "backward.end.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 35, weight: .light, scale: .small)), for: .normal)
         return button
     }()
     
     private let playPauseButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
+        button.tintColor = .black
         button.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
         return button
     }()
     
     private let nextButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
+        button.tintColor = .black
         button.setImage(UIImage(systemName: "forward.end.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 35, weight: .light, scale: .small)), for: .normal)
         return button
     }()
     
     private let repeatButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
+        button.tintColor = .black
         button.setImage(UIImage(systemName: "repeat", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25, weight: .light)), for: .normal)
         return button
     }()
     
     override func viewDidLoad() {   
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemCyan
         
-        view.addSubview(disk)
-        disk.frame = CGRect(x: view.frame.size.width / 2 - 100, y: view.frame.size.width / 2 - 100, width: 200, height: 200)
-        
+        view.addSubview(disk)        
         disk.addSubview(playCoverImage)
-
         view.addSubview(controlsPlayer)
         
         controlsPlayer.addSubview(nameSong)
@@ -113,22 +110,29 @@ class PlayerViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.disk.rotate()
         }
+        
     }
     
     override func viewDidLayoutSubviews() {
         
+        let sizeDisk: CGFloat = 300
         disk.clipsToBounds = true
+        disk.layer.borderWidth = 0.4
+        disk.layer.borderColor = CGColor(red: 209, green: 209, blue: 214, alpha: 1.0)
+        disk.frame = CGRect(x: view.frame.size.width / 2 - (sizeDisk/2), y: view.frame.size.height / 3.3 - (sizeDisk/2) , width: sizeDisk, height: sizeDisk)
         disk.layer.cornerRadius = disk.frame.size.width / 2
-
+        
+        let heightImage = view.frame.size.height / 1.5 - view.safeAreaInsets.top
         playCoverImage.frame = disk.bounds
         
-        let heightImage = playCoverImage.frame.size.height
-        controlsPlayer.frame = CGRect(x: 10, y: heightImage + 10, width: view.frame.size.width - 20, height: view.frame.size.height - heightImage - view.safeAreaInsets.top)
+        controlsPlayer.frame = CGRect(x: 10, y: heightImage, width: view.frame.size.width - 20, height: view.frame.size.height - heightImage - view.safeAreaInsets.top)
+        controlsPlayer.layer.cornerRadius = 20.0
+        controlsPlayer.backgroundColor = .white
+        nameSong.frame = CGRect(x: 20, y: 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
+        descriptionSong.frame = CGRect(x: 20, y: nameSong.frame.size.height + 40, width:  controlsPlayer.frame.size.width - 40, height: 25)
         
-        nameSong.frame = CGRect(x: 20, y: 20, width:  controlsPlayer.frame.size.width - 40, height: 25)
-        descriptionSong.frame = CGRect(x: 20, y: nameSong.frame.size.height + 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
+        volumeSlider.frame = CGRect(x: 20, y: descriptionSong.frame.size.height + 60, width: controlsPlayer.frame.size.width - 40, height: 40)
         
-        volumeSlider.frame = CGRect(x: 20, y: descriptionSong.frame.size.height + 55, width: controlsPlayer.frame.size.width - 40, height: 40)
         stack.frame = CGRect(x: 20, y: volumeSlider.frame.size.height + 100, width: controlsPlayer.frame.size.width - 40, height: 80)
         
     }

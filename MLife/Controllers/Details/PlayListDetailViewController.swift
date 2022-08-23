@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import LNPopupController
+
 
 class PlayListDetailViewController: UIViewController {
 
@@ -81,6 +83,7 @@ extension PlayListDetailViewController: UICollectionViewDelegate, UICollectionVi
         // Play song 
         let index = indexPath.row
         let songOfPlaylist = playlist.songs[index]
+        
         PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: songOfPlaylist, playlists: nil)
     }
     
