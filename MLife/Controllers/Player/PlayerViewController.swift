@@ -22,10 +22,14 @@ class PlayerViewController: UIViewController {
     public var isNext = false;
 
     // MARK: - Cover image
+    private let colorCoverView = UIView()
     private let disk = UIView()
     
     private let playCoverImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 0.6
+        imageView.layer.borderColor = CGColor(red: 209, green: 209, blue: 214, alpha: 1.0)
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -35,8 +39,7 @@ class PlayerViewController: UIViewController {
     private var stack = UIStackView()
     
     private let sliderSong: UISlider = {
-        let slider = UISlider()
-        slider.tintColor = UIColor.systemGreen
+        let slider = CustomSlider()
         slider.isContinuous = true
         return slider
     }()
@@ -96,15 +99,19 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLoad() {   
         super.viewDidLoad()
-        view.backgroundColor = .systemCyan
+        
+        colorCoverView.frame = view.bounds
+        view.addSubview(colorCoverView)
         
         view.addSubview(disk)        
         disk.addSubview(playCoverImage)
+        
         view.addSubview(controlsPlayer)
         
         controlsPlayer.addSubview(nameSong)
         controlsPlayer.addSubview(descriptionSong)
         controlsPlayer.addSubview(sliderSong)
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
         
         configureStackControl()
@@ -112,16 +119,15 @@ class PlayerViewController: UIViewController {
         configureGetData()
         
         configureControlPlayer()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.disk.rotate()
-        }
-          
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.playCoverImage.rotate()
+        }
     }
     
     @objc func progressTimer() {
@@ -130,19 +136,18 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         
+        colorCoverView.addGradientWithColor(color: .random)
+        
         let sizeDisk: CGFloat = 300
-        disk.clipsToBounds = true
-        disk.layer.borderWidth = 0.4
-        disk.layer.borderColor = CGColor(red: 209, green: 209, blue: 214, alpha: 1.0)
-        disk.frame = CGRect(x: view.frame.size.width / 2 - (sizeDisk/2), y: view.frame.size.height / 3.3 - (sizeDisk/2) , width: sizeDisk, height: sizeDisk)
-        disk.layer.cornerRadius = disk.frame.size.width / 2
+        disk.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width + view.safeAreaInsets.top)
+        playCoverImage.frame = CGRect(x: disk.frame.size.width / 2 - (sizeDisk/2), y: disk.frame.size.height / 2 - (sizeDisk/2.5) , width: sizeDisk, height: sizeDisk)
+        playCoverImage.layer.cornerRadius = playCoverImage.frame.size.width / 2
+
+        let heightImage = disk.frame.size.height + view.safeAreaInsets.top
         
-        let heightImage = view.frame.size.height / 1.5 - view.safeAreaInsets.top
-        playCoverImage.frame = disk.bounds
-        
-        controlsPlayer.frame = CGRect(x: 10, y: heightImage, width: view.frame.size.width - 20, height: view.frame.size.height - heightImage - view.safeAreaInsets.top)
+        controlsPlayer.frame = CGRect(x: 10, y: heightImage, width: view.frame.size.width - 20, height: view.frame.size.height - heightImage - view.safeAreaInsets.top - 10)
         controlsPlayer.layer.cornerRadius = 20.0
-        controlsPlayer.backgroundColor = .white
+        controlsPlayer.backgroundColor = .secondarySystemFill
         nameSong.frame = CGRect(x: 20, y: 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
         descriptionSong.frame = CGRect(x: 20, y: nameSong.frame.size.height + 40, width:  controlsPlayer.frame.size.width - 40, height: 25)
         
@@ -213,7 +218,7 @@ class PlayerViewController: UIViewController {
 
         playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
         
-        self.isPlaying ? disk.resumeAnimation() : disk.pauseAnimation()
+        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
         
     }
     

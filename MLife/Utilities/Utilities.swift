@@ -92,8 +92,8 @@ extension UIView {
         let gradient = CAGradientLayer()
         
         gradient.frame = self.bounds
-        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
-        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
         gradient.colors = [UIColor.white.cgColor, color.cgColor]
         
         self.layer.insertSublayer(gradient, at: 0)
@@ -127,6 +127,17 @@ extension String {
         let subString = string[..<range]
         guard let date = DateFormatter.dateFormatter.date(from: String(subString)) else { return string }
         return DateFormatter.displayFormatter.string(from: date)
+    }
+}
+
+extension UIColor {
+    static var random: UIColor {
+        return UIColor(
+            red: .random(in: 0...1),
+            green: .random(in: 0...1),
+            blue: .random(in: 0...1),
+            alpha: 1.0
+        )
     }
 }
 
