@@ -20,4 +20,5 @@ protocol PlayerViewControllerDelegate: AnyObject {
     func PlayerViewControllerDidTapPlayPauseButton(_ control: PlayerViewController)
     func PlayerViewControllerDidTapNextButton(_ control: PlayerViewController)
     func PlayerViewControllerDidTapRepeatButton(_ control: PlayerViewController)
+    func PlayerControlSlider(_ control: PlayerViewController, didSelectSlider value: Float) 
 }

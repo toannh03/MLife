@@ -33,31 +33,10 @@ final class PlayerDataTransmission {
     var player: AVAudioPlayer?
     
     func dataTransmission(_ viewController: UIViewController, likeSong: Song?, song: Song?, playlists: [Song]?) {
-        
         if let link = song?.link {
-            guard let url = URL(string: "\(link)") else {
-                return
-            }
-            
-            do {
-                try AVAudioSession.sharedInstance().setMode(.default)
-                try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
-                
-                let data = try Data(contentsOf: url)
-                
-                player = try AVAudioPlayer(data: data)
-                
-                player?.prepareToPlay()
-                player?.volume = 1.0
-                
-            } catch let error as NSError {
-                self.player = nil
-                print(error.localizedDescription)
-            } catch {
-                print("Something wrong!")
-            }
+            streamSong(url: link)
         }
-    
+        
         self.song = song
         self.songs = []
         let vc = PlayerViewController()
@@ -67,6 +46,7 @@ final class PlayerDataTransmission {
         
         vc.popupItem.title = song?.name_song
         vc.popupItem.subtitle = song?.artists
+        
         if let url = song?.thumbnail {
             
             DispatchQueue.global().async {
@@ -82,19 +62,55 @@ final class PlayerDataTransmission {
         } else {
             vc.popupItem.image = UIImage(named: "IconLauch")
         }
-        
+                
         viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
-            self?.player?.play()            
+            self?.player?.play() 
         })
         
-
+        
+    }
+    
+    func streamSong(url: URL) {
+        
+        guard let url = URL(string: "\(url)") else {
+            return
+        }
+        
+        do {
+            try AVAudioSession.sharedInstance().setMode(.default)
+            try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+            
+            let data = try Data(contentsOf: url)
+            
+            player = try AVAudioPlayer(data: data)
+            
+            player?.prepareToPlay()
+            player?.volume = 1.0
+                        
+        } catch let error as NSError {
+            self.player = nil
+            print(error.localizedDescription)
+        } catch {
+            print("Something wrong!")
+        }
+        
+    }
+    
+        // Timer delegate method that updates current time display in minutes
+    func updateProgress(audioSlider: UISlider, timeLabel: UILabel) {
+        let total = Float(player!.duration/60)
+        let current_time = Float(player!.currentTime/60)
+        audioSlider.minimumValue = 0.00
+        audioSlider.maximumValue = Float(player!.duration/60)
+        audioSlider.setValue(Float(player!.currentTime/60), animated: true)
+        timeLabel.text = NSString(format: "%.2f/%.2f", current_time, total) as String
         
     }
     
 }
 
 extension PlayerDataTransmission: PlayerViewControllerDelegate {
-    
+
     func PlayerViewControllerDidTapShuffButton(_ control: PlayerViewController) {
     }
     
@@ -116,12 +132,6 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                 control.isPlaying = true
             }
         }
-        
-        if control.isPlaying {
-            player?.play()
-        } else {
-            player?.stop()
-        }
     }
     
     func PlayerViewControllerDidTapNextButton(_ control: PlayerViewController) {
@@ -130,7 +140,6 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                 player!.stop()
                 
             }
-            
         }
     }
     
@@ -138,6 +147,11 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
         
     }
     
+    func PlayerControlSlider(_ control: PlayerViewController, didSelectSlider value: Float) {
+        player!.currentTime = TimeInterval(value)
+    }
+    
+
 }
 
 extension PlayerDataTransmission: TransmissionDataSource {

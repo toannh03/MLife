@@ -13,6 +13,8 @@ class PlayerViewController: UIViewController {
     weak var dataSource: TransmissionDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     
+    
+    
     public var isPlaying = true
     public var position = 0;
     public var isRepeat = false;
@@ -32,11 +34,11 @@ class PlayerViewController: UIViewController {
     private let controlsPlayer = UIView()
     private var stack = UIStackView()
     
-    private let volumeSlider: UISlider = {
-        let volume = UISlider()
-        volume.value = 0.5
-        volume.tintColor = UIColor.systemGreen
-        return volume
+    private let sliderSong: UISlider = {
+        let slider = UISlider()
+        slider.tintColor = UIColor.systemGreen
+        slider.isContinuous = true
+        return slider
     }()
     
     private let nameSong: UILabel = {
@@ -102,7 +104,7 @@ class PlayerViewController: UIViewController {
         
         controlsPlayer.addSubview(nameSong)
         controlsPlayer.addSubview(descriptionSong)
-        controlsPlayer.addSubview(volumeSlider)
+        controlsPlayer.addSubview(sliderSong)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
         
         configureStackControl()
@@ -114,7 +116,16 @@ class PlayerViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.disk.rotate()
         }
-                
+          
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
+    }
+    
+    @objc func progressTimer() {
+        PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong, timeLabel: descriptionSong)
     }
     
     override func viewDidLayoutSubviews() {
@@ -135,9 +146,9 @@ class PlayerViewController: UIViewController {
         nameSong.frame = CGRect(x: 20, y: 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
         descriptionSong.frame = CGRect(x: 20, y: nameSong.frame.size.height + 40, width:  controlsPlayer.frame.size.width - 40, height: 25)
         
-        volumeSlider.frame = CGRect(x: 20, y: descriptionSong.frame.size.height + 60, width: controlsPlayer.frame.size.width - 40, height: 40)
+        sliderSong.frame = CGRect(x: 20, y: descriptionSong.frame.size.height + 60, width: controlsPlayer.frame.size.width - 40, height: 40)
         
-        stack.frame = CGRect(x: 20, y: volumeSlider.frame.size.height + 100, width: controlsPlayer.frame.size.width - 40, height: 80)
+        stack.frame = CGRect(x: 20, y: sliderSong.frame.size.height + 100, width: controlsPlayer.frame.size.width - 40, height: 80)
         
     }
     
@@ -166,6 +177,7 @@ class PlayerViewController: UIViewController {
         playPauseButton.addTarget(self, action: #selector(didTapPlayPauseButton), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         repeatButton.addTarget(self, action: #selector(didTapRepeatButton), for: .touchUpInside)
+        sliderSong.addTarget(self, action: #selector(didTapSelectSlider(_:)), for: .valueChanged)
 
     }
     
@@ -175,10 +187,10 @@ class PlayerViewController: UIViewController {
         if checkRandom == false {
             if isRepeat == true {
                 isRepeat = false;
-                shuffleButton.tintColor = .red
+                shuffleButton.tintColor = .systemGreen
                 repeatButton.tintColor = .black
             }
-            shuffleButton.tintColor = .red
+            shuffleButton.tintColor = .systemGreen
             checkRandom = true;
         } else {
             checkRandom = false;
@@ -215,15 +227,20 @@ class PlayerViewController: UIViewController {
         if isRepeat == false {
             if checkRandom == true {
                 checkRandom = false;
-                repeatButton.tintColor = .red
+                repeatButton.tintColor = .systemGreen
                 shuffleButton.tintColor = .black
             }
             isRepeat = true;
-            repeatButton.tintColor = .red
+            repeatButton.tintColor = .systemGreen
         } else {
             isRepeat = false;
             repeatButton.tintColor = .black
         }
+    }
+    
+    @objc func didTapSelectSlider(_ slider: UISlider) {
+        let value = slider.value
+        delegate?.PlayerControlSlider(self, didSelectSlider: value)
     }
     
 }
