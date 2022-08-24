@@ -96,15 +96,37 @@ final class PlayerDataTransmission {
         
     }
     
-        // Timer delegate method that updates current time display in minutes
-    func updateProgress(audioSlider: UISlider, timeLabel: UILabel) {
+    // Timer delegate method that updates current time display in minutes
+    func updateProgress(audioSlider: UISlider) {
         let total = Float(player!.duration/60)
         let current_time = Float(player!.currentTime/60)
         audioSlider.minimumValue = 0.00
         audioSlider.maximumValue = Float(player!.duration/60)
         audioSlider.setValue(Float(player!.currentTime/60), animated: true)
-        timeLabel.text = NSString(format: "%.2f/%.2f", current_time, total) as String
+        let timeLabel = NSString(format: "%.2f/%.2f", current_time, total) as String
+        audioSlider.setThumbImage(progressImage(with: timeLabel), for: .normal)
+    }
+    
+    // Create a method that returns thumb image based on UISlider progress
+    func progressImage(with progress : String) -> UIImage {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.systemGreen.cgColor
+        layer.frame = CGRect(x: 0, y: 0, width: 70, height: 20)
+        layer.cornerRadius = 8
         
+        let label = UILabel(frame: layer.frame)
+        label.text = "\(progress)"
+        layer.addSublayer(label.layer)
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 11, weight: .semibold)
+        
+        UIGraphicsBeginImageContext(layer.frame.size)
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
     }
     
 }
@@ -151,7 +173,6 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
         player!.currentTime = TimeInterval(value)
     }
     
-
 }
 
 extension PlayerDataTransmission: TransmissionDataSource {

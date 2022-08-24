@@ -10,23 +10,16 @@ import UIKit
 
 class CustomSlider: UISlider {
     
-    var thumbTextLabel: UILabel = UILabel()
-    
-    private var thumbFrame: CGRect {
-        return thumbRect(forBounds: bounds, trackRect: trackRect(forBounds: bounds), value: value)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        thumbTextLabel.frame = thumbFrame
-        thumbTextLabel.text = Double(value).description
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        addSubview(thumbTextLabel)
-        thumbTextLabel.textAlignment = .center
-        thumbTextLabel.layer.zPosition = layer.zPosition + 1
+    override func thumbRect(forBounds bounds: CGRect, trackRect rect: CGRect, value: Float) -> CGRect {
+        let newThumb = super.thumbRect(forBounds: CGRect(x: 0, y: 0, width: 60, height: 20), trackRect: rect, value: value)
+        return newThumb
     }
 }

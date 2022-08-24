@@ -39,8 +39,9 @@ class PlayerViewController: UIViewController {
     private var stack = UIStackView()
     
     private let sliderSong: UISlider = {
-        let slider = CustomSlider()
+        let slider = UISlider()
         slider.isContinuous = true
+        slider.tintColor = .systemGreen
         return slider
     }()
     
@@ -128,12 +129,15 @@ class PlayerViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.playCoverImage.rotate()
         }
+        
     }
     
     @objc func progressTimer() {
-        PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong, timeLabel: descriptionSong)
+        PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong)
     }
     
+    
+    // MARK: - Create layout
     override func viewDidLayoutSubviews() {
         
         colorCoverView.addGradientWithColor(color: .random)
