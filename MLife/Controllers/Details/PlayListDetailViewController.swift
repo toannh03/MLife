@@ -79,7 +79,6 @@ extension PlayListDetailViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
         // Play song 
         let index = indexPath.row
         let songOfPlaylist = playlist.songs[index]

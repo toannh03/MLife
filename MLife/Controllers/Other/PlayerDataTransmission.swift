@@ -17,6 +17,8 @@ final class PlayerDataTransmission {
     
     private init() {}
     
+    var player: AVAudioPlayer?
+    
     private var song: Song?
     private var songs = [Song]()
     
@@ -29,10 +31,9 @@ final class PlayerDataTransmission {
         }
         return nil
     }
-    
-    var player: AVAudioPlayer?
-    
+        
     func dataTransmission(_ viewController: UIViewController, likeSong: Song?, song: Song?, playlists: [Song]?) {
+        
         if let link = song?.link {
             streamSong(url: link)
         }
@@ -67,7 +68,6 @@ final class PlayerDataTransmission {
             self?.player?.play() 
         })
         
-        
     }
     
     func streamSong(url: URL) {
@@ -75,7 +75,6 @@ final class PlayerDataTransmission {
         guard let url = URL(string: "\(url)") else {
             return
         }
-        
         do {
             try AVAudioSession.sharedInstance().setMode(.default)
             try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
@@ -86,7 +85,7 @@ final class PlayerDataTransmission {
             
             player?.prepareToPlay()
             player?.volume = 1.0
-                        
+            
         } catch let error as NSError {
             self.player = nil
             print(error.localizedDescription)
@@ -100,9 +99,9 @@ final class PlayerDataTransmission {
     func updateProgress(audioSlider: UISlider) {
         let total = Float(player!.duration/60)
         let current_time = Float(player!.currentTime/60)
-        audioSlider.minimumValue = 0.00
+        audioSlider.minimumValue = 0.0
         audioSlider.maximumValue = Float(player!.duration/60)
-        audioSlider.setValue(Float(player!.currentTime/60), animated: true)
+        audioSlider.setValue(current_time, animated: true)
         let timeLabel = NSString(format: "%.2f/%.2f", current_time, total) as String
         audioSlider.setThumbImage(progressImage(with: timeLabel), for: .normal)
     }
@@ -170,7 +169,7 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerControlSlider(_ control: PlayerViewController, didSelectSlider value: Float) {
-        player!.currentTime = TimeInterval(value)
+        player!.currentTime = TimeInterval(value)  
     }
     
 }

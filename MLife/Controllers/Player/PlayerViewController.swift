@@ -13,8 +13,6 @@ class PlayerViewController: UIViewController {
     weak var dataSource: TransmissionDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     
-    
-    
     public var isPlaying = true
     public var position = 0;
     public var isRepeat = false;
@@ -120,22 +118,31 @@ class PlayerViewController: UIViewController {
         configureGetData()
         
         configureControlPlayer()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.playCoverImage.rotate()
+        }
+        print("viewDidLoad....")
+        
+    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(isPlaying)
+        print("viewWillAppear....")
+        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
+                
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print("viewDidAppear....")
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.playCoverImage.rotate()
-        }
-        
     }
     
     @objc func progressTimer() {
         PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong)
     }
-    
     
     // MARK: - Create layout
     override func viewDidLayoutSubviews() {
