@@ -7,6 +7,7 @@
 
 import UIKit
 import LNPopupController
+
 class AlbumDetailViewController: UIViewController {
     
     private let album: AlbumResponse

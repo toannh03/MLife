@@ -19,51 +19,34 @@ final class PlayerDataTransmission {
     
     var player: AVAudioPlayer?
     
+    var vc = PlayerViewController()
+
     private var song: Song?
     private var songs = [Song]()
+    
+    private var position: Int = 0
     
     var currentSong: Song? {
         if let song = song, songs.isEmpty {
             return song
         }
         else if !songs.isEmpty {
-            return songs.first
+            return songs[position]
         }
         return nil
     }
         
     func dataTransmission(_ viewController: UIViewController, likeSong: Song?, song: Song?, playlists: [Song]?) {
         
-        if let link = song?.link {
-            streamSong(url: link)
-        }
-        
         self.song = song
-        self.songs = []
-        let vc = PlayerViewController()
-        vc.dataSource = self
-        vc.delegate = self
-        vc.title = song?.name_song
-        
-        vc.popupItem.title = song?.name_song
-        vc.popupItem.subtitle = song?.artists
-        
-        if let url = song?.thumbnail {
-            
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: url) {
-                    if let image = UIImage(data: data) {
-                        DispatchQueue.main.async {
-                            vc.popupItem.image = image
-                        }
-                    }
-                }
-            }
-            
-        } else {
-            vc.popupItem.image = UIImage(named: "IconLauch")
+        if let playlists = playlists {
+            self.songs = playlists
         }
-                
+        guard let link = currentSong?.link else { return }
+        streamSong(url: link)
+
+        popUpController()
+        
         viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
             self?.player?.play() 
         })
@@ -86,11 +69,39 @@ final class PlayerDataTransmission {
             player?.prepareToPlay()
             player?.volume = 1.0
             
+            
         } catch let error as NSError {
             self.player = nil
             print(error.localizedDescription)
         } catch {
             print("Something wrong!")
+        }
+        
+    }
+    
+    func popUpController() {
+        
+        vc.dataSource = self
+        vc.delegate = self
+        vc.title = currentSong?.name_song
+        
+        vc.popupItem.title = currentSong?.name_song
+        vc.popupItem.subtitle = currentSong?.artists
+        
+        if let url = currentSong?.thumbnail {
+            
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async { [ weak self ] in 
+                            self?.vc.popupItem.image = image
+                        }
+                    }
+                }
+            }
+            
+        } else {
+            vc.popupItem.image = UIImage(named: "IconLauch")
         }
         
     }
@@ -136,11 +147,11 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerViewControllerDidTapPreviousButton(_ control: PlayerViewController) {
-        if songs.isEmpty {
-            player?.pause()
-        } else {
-            
-        }
+//        if songs.isEmpty {
+//            player?.pause()
+//        } else {
+//            
+//        }
     }
     
     func PlayerViewControllerDidTapPlayPauseButton(_ control: PlayerViewController) {
@@ -159,7 +170,32 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
         if songs.count > 0 {
             if player!.isPlaying || player != nil {
                 player!.stop()
+                player = nil
+            }
+            
+            if (position < songs.count) {
                 
+                position += 1
+                
+                if (position > (songs.count - 1)) {
+                    position = 0
+                } else if control.isRepeat == true {
+                    if position == 0 {
+                        position = songs.count
+                    }
+                    position -= 1
+                } else if control.checkRandom == true {
+                    let index = Int.random(in: 0 ..< songs.count)
+                    if index == position {
+                        position = index - 1
+                    }
+                    position = index
+                }
+                                
+                guard let link = currentSong?.link else { return }
+                streamSong(url: link)
+                player?.play()
+                popUpController()
             }
         }
     }

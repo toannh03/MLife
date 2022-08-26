@@ -12,7 +12,7 @@ import LNPopupController
 class PlayListDetailViewController: UIViewController {
 
     private let playlist: PlayListResponse
-    
+        
     private let imageCoverNotSong: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
@@ -91,6 +91,7 @@ extension PlayListDetailViewController: UICollectionViewDelegate, UICollectionVi
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PlayListHeaderCollectionReusableView.identifier, for: indexPath) as? PlayListHeaderCollectionReusableView , 
                 kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
         let headerViewMode = PlayListViewModel(name: playlist.name, description: "Release Date : \(String.formatedDate(string: playlist.createdAt))", thumbnail: playlist.thumbnail)
+        header.delegate = self
         header.configure(headerViewMode)
         return header
     }
@@ -99,6 +100,9 @@ extension PlayListDetailViewController: UICollectionViewDelegate, UICollectionVi
 
 extension PlayListDetailViewController: PlayListHeaderCollectionReusableViewDelegate {
     func playListAllSong(_ headerSong: PlayListHeaderCollectionReusableView) {
-        print("Play all song playlist....")
+        
+        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: nil, playlists: playlist.songs)
     }
+    
+    
 }

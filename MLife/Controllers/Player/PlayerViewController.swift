@@ -10,6 +10,7 @@ import SDWebImage
 
 class PlayerViewController: UIViewController {
     
+    
     weak var dataSource: TransmissionDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     
@@ -103,11 +104,12 @@ class PlayerViewController: UIViewController {
         colorCoverView.frame = view.bounds
         view.addSubview(colorCoverView)
         
-        view.addSubview(disk)        
+        view.addSubview(disk)
+        
         disk.addSubview(playCoverImage)
         
         view.addSubview(controlsPlayer)
-        
+                
         [nameSong, descriptionSong, sliderSong].forEach {
             controlsPlayer.addSubview($0)
         }
@@ -219,7 +221,9 @@ class PlayerViewController: UIViewController {
     }
     
     @objc func didTapNextButton() {
+        playPauseButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
         delegate?.PlayerViewControllerDidTapNextButton(self)
+        configureGetData()
     }
     
     @objc func didTapRepeatButton() {
@@ -243,5 +247,7 @@ class PlayerViewController: UIViewController {
         let value = slider.value
         delegate?.PlayerControlSlider(self, didSelectSlider: value)
     }
+    
+    
     
 }
