@@ -109,7 +109,7 @@ final class PlayerDataTransmission {
     // Create a method that returns thumb image based on UISlider progress
     func progressImage(with progress : String) -> UIImage {
         let layer = CALayer()
-        layer.backgroundColor = UIColor.systemGreen.cgColor
+        layer.backgroundColor = UIColor.black.cgColor
         layer.frame = CGRect(x: 0, y: 0, width: 70, height: 20)
         layer.cornerRadius = 8
         
@@ -169,7 +169,12 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerControlSlider(_ control: PlayerViewController, didSelectSlider value: Float) {
-        player!.currentTime = TimeInterval(value)  
+        if let player = player {
+            player.stop()
+            player.currentTime = TimeInterval(value*60) 
+            player.prepareToPlay()
+            player.play()
+        }
     }
     
 }

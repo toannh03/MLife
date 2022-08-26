@@ -36,10 +36,11 @@ class PlayerViewController: UIViewController {
     private let controlsPlayer = UIView()
     private var stack = UIStackView()
     
-    private let sliderSong: UISlider = {
+    lazy var sliderSong: UISlider = {
         let slider = UISlider()
         slider.isContinuous = true
-        slider.tintColor = .systemGreen
+        slider.tintColor = .black
+        slider.addTarget(self, action: #selector(didTapSelectSlider(_:)), for: .valueChanged)
         return slider
     }()
     
@@ -56,7 +57,7 @@ class PlayerViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = "___"
-        label.textColor = .systemGreen
+        label.textColor = .black
         label.font = .systemFont(ofSize: 15, weight: .semibold)
         return label
     }()
@@ -107,39 +108,28 @@ class PlayerViewController: UIViewController {
         
         view.addSubview(controlsPlayer)
         
-        controlsPlayer.addSubview(nameSong)
-        controlsPlayer.addSubview(descriptionSong)
-        controlsPlayer.addSubview(sliderSong)
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
-        
+        [nameSong, descriptionSong, sliderSong].forEach {
+            controlsPlayer.addSubview($0)
+        }
+
         configureStackControl()
         
         configureGetData()
         
         configureControlPlayer()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.playCoverImage.rotate()
-        }
-        print("viewDidLoad....")
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(isPlaying)
-        print("viewWillAppear....")
-        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
-                
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("viewDidAppear....")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.playCoverImage.rotate()
+        }
+        
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
+        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
     }
-    
     @objc func progressTimer() {
         PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong)
     }
@@ -175,11 +165,7 @@ class PlayerViewController: UIViewController {
         stack.distribution = .equalSpacing
         controlsPlayer.addSubview(stack)
     }
-    
-    @objc func didTapClose() {
-        print("close")
-    }
-    
+
     func configureGetData() {
         playCoverImage.sd_setImage(with: dataSource?.URL_image, completed: nil)
         nameSong.text = dataSource?.name_song
@@ -193,8 +179,7 @@ class PlayerViewController: UIViewController {
         playPauseButton.addTarget(self, action: #selector(didTapPlayPauseButton), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         repeatButton.addTarget(self, action: #selector(didTapRepeatButton), for: .touchUpInside)
-        sliderSong.addTarget(self, action: #selector(didTapSelectSlider(_:)), for: .valueChanged)
-
+        
     }
     
     @objc func didTapShuffButton() {

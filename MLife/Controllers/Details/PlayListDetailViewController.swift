@@ -72,7 +72,7 @@ extension PlayListDetailViewController: UICollectionViewDelegate, UICollectionVi
         } else {
             let song = playlist.songs[indexPath.row]       
             cell.getDataConfigure(song)
-            cell.backgroundColor = .secondarySystemBackground
+            cell.backgroundColor = .secondarySystemFill
         }
         
         return cell
