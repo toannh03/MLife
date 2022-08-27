@@ -115,9 +115,7 @@ class PlayerViewController: UIViewController {
         }
 
         configureStackControl()
-        
-        configureGetData()
-        
+                
         configureControlPlayer()
         
     }
@@ -131,6 +129,10 @@ class PlayerViewController: UIViewController {
         
         Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
         self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
+        
+        // Configure data when next song of click one song 
+        configureGetData()
+                
     }
     @objc func progressTimer() {
         PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong)
@@ -140,7 +142,7 @@ class PlayerViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         
         colorCoverView.addGradientWithColor(color: .random)
-        
+                
         let sizeDisk: CGFloat = 300
         disk.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width + view.safeAreaInsets.top)
         playCoverImage.frame = CGRect(x: disk.frame.size.width / 2 - (sizeDisk/2), y: disk.frame.size.height / 2 - (sizeDisk/2.5) , width: sizeDisk, height: sizeDisk)
@@ -172,6 +174,8 @@ class PlayerViewController: UIViewController {
         playCoverImage.sd_setImage(with: dataSource?.URL_image, completed: nil)
         nameSong.text = dataSource?.name_song
         descriptionSong.text = dataSource?.description
+        colorCoverView.addGradientWithColor(color: .random)
+
     }
     
     func configureControlPlayer() {
@@ -185,6 +189,7 @@ class PlayerViewController: UIViewController {
     }
     
     @objc func didTapShuffButton() {
+        
         delegate?.PlayerViewControllerDidTapShuffButton(self)
         
         if checkRandom == false {
@@ -204,6 +209,10 @@ class PlayerViewController: UIViewController {
     
     @objc func didTapPreviousButton() {
         delegate?.PlayerViewControllerDidTapPreviousButton(self)
+        
+        playPauseButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
+        configureGetData()
+        
     }
     
     @objc func didTapPlayPauseButton() {
@@ -221,9 +230,11 @@ class PlayerViewController: UIViewController {
     }
     
     @objc func didTapNextButton() {
-        playPauseButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
         delegate?.PlayerViewControllerDidTapNextButton(self)
+        
+        playPauseButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
         configureGetData()
+        
     }
     
     @objc func didTapRepeatButton() {
