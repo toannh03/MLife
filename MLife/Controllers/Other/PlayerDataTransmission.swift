@@ -54,6 +54,7 @@ final class PlayerDataTransmission {
         
         viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
             self?.player?.play() 
+            print("click new song....")
         })
         
     }
@@ -89,6 +90,9 @@ final class PlayerDataTransmission {
                 
         vc.dataSource = self
         vc.delegate = self
+        
+        vc.isPlaying = true
+                
         vc.title = currentSong?.name_song
         
         vc.popupItem.title = currentSong?.name_song
@@ -203,7 +207,7 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerViewControllerDidTapNextButton(_ control: PlayerViewController) {
-        
+                
         if songs.count > 0 {
             if player!.isPlaying || player != nil {
                 player!.stop()
