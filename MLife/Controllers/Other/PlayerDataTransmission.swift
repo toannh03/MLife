@@ -38,7 +38,12 @@ final class PlayerDataTransmission {
         
     func dataTransmission(_ viewController: UIViewController, likeSong: Song?, song: Song?, playlists: [Song]?) {
         
-        self.song = song
+        if let song = song {
+            self.song = song
+            self.songs = []
+            position = 0
+        }
+        
         if let playlists = playlists {
             self.songs = playlists
         }
@@ -69,7 +74,8 @@ final class PlayerDataTransmission {
             player?.prepareToPlay()
             player?.volume = 1.0
             
-            
+
+
         } catch let error as NSError {
             self.player = nil
             print(error.localizedDescription)
@@ -80,7 +86,7 @@ final class PlayerDataTransmission {
     }
     
     func popUpController() {
-        
+                
         vc.dataSource = self
         vc.delegate = self
         vc.title = currentSong?.name_song
@@ -115,6 +121,7 @@ final class PlayerDataTransmission {
         audioSlider.setValue(current_time, animated: true)
         let timeLabel = NSString(format: "%.2f/%.2f", current_time, total) as String
         audioSlider.setThumbImage(progressImage(with: timeLabel), for: .normal)
+        
     }
     
     // Create a method that returns thumb image based on UISlider progress
@@ -147,11 +154,40 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerViewControllerDidTapPreviousButton(_ control: PlayerViewController) {
-//        if songs.isEmpty {
-//            player?.pause()
-//        } else {
-//            
-//        }
+        
+        if songs.count > 0 {
+            if player!.isPlaying || player != nil {
+                player!.stop()
+                player = nil
+            }
+            
+            if position >= 0 {
+                position -= 1
+                
+                if position < 0 {
+                    position = songs.count - 1 
+                } else if control.isRepeat == true {
+                    
+                    if position == 0 {
+                        position = songs.count
+                    }
+                    position += 1
+                    
+                } else if control.checkRandom == true {
+                    let index = Int.random(in: 0 ..< songs.count)
+                    if index == position {
+                        position = index - 1
+                    }
+                    position = index
+                }
+                
+                guard let link = currentSong?.link else { return }
+                streamSong(url: link)
+                player?.play()
+                popUpController()
+                
+            }
+        }
     }
     
     func PlayerViewControllerDidTapPlayPauseButton(_ control: PlayerViewController) {
@@ -167,6 +203,7 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     }
     
     func PlayerViewControllerDidTapNextButton(_ control: PlayerViewController) {
+        
         if songs.count > 0 {
             if player!.isPlaying || player != nil {
                 player!.stop()
