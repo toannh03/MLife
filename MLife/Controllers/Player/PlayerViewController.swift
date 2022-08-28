@@ -169,19 +169,6 @@ class PlayerViewController: UIViewController {
         
     }
     
-    func checkControl() {
-    
-        let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
-        let play = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
-        
-        playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
-        
-        colorCoverView.addGradientWithColor(color: .random)
-        
-        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
-        
-    }
-
     // MARK: - Configure 
     
     func configureGetData() {
@@ -193,6 +180,19 @@ class PlayerViewController: UIViewController {
         checkControl()
         
     }
+    
+    func checkControl() {
+        
+        let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
+        let play = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
+        
+        playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
+                        
+        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
+                
+    }
+    
+
     
     func configureControlPlayer() {
         

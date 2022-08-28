@@ -46,15 +46,19 @@ final class PlayerDataTransmission {
         
         if let playlists = playlists {
             self.songs = playlists
+            position = 0
         }
         guard let link = currentSong?.link else { return }
         streamSong(url: link)
 
         popUpController()
         
+        viewController.tabBarController?.popupContentView.popupCloseButtonStyle = .round
+        viewController.tabBarController?.popupInteractionStyle = .drag
+        viewController.tabBarController?.popupBar.barStyle = .custom
+        viewController.tabBarController?.popupBar.progressViewStyle = .top
         viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
             self?.player?.play() 
-            print("click new song....")
         })
         
     }
@@ -75,8 +79,6 @@ final class PlayerDataTransmission {
             player?.prepareToPlay()
             player?.volume = 1.0
             
-
-
         } catch let error as NSError {
             self.player = nil
             print(error.localizedDescription)
@@ -114,14 +116,48 @@ final class PlayerDataTransmission {
             vc.popupItem.image = UIImage(named: "IconLauch")
         }
         
+        let barButtonPlay = UIBarButtonItem(image: UIImage(systemName: "play.fill"), style: .plain, target: self, action: #selector(didTapPlayPauseButtonBar))
+        
+        let barButtonPause = UIBarButtonItem(image: UIImage(systemName: "pause.fill"), style: .plain, target: self, action: #selector(didTapPlayPauseButtonBar))
+        
+        let barButtonNext = UIBarButtonItem(image: UIImage(systemName: "forward.fill"), style: .plain, target: self, action: #selector(didTapNextButtonBar))
+                
+        vc.popupItem.leadingBarButtonItems = [vc.isPlaying ? barButtonPlay : barButtonPause , barButtonNext]
+                
+//        vc.popupItem.leadingBarButtonItems = [ UIBarButtonItem(
+//            image: UIImage(systemName: "play.fill"),
+//            style: .plain,
+//            target: self,
+//            action: #selector(didTapPlayPauseButtonBar)
+//        ),
+//            UIBarButtonItem(
+//            image: UIImage(systemName: "forward.fill"),
+//            style: .plain,
+//            target: self,
+//            action: #selector(didTapNextButtonBar)
+//        ) ]
+        
+    }
+    
+    @objc func didTapPlayPauseButtonBar() {
+        vc.didTapPlayPauseButton()
+    }
+    
+    @objc func didTapNextButtonBar() {
+        vc.didTapNextButton()
     }
     
     // Timer delegate method that updates current time display in minutes
     func updateProgress(audioSlider: UISlider) {
-        let total = Float(player!.duration/60)
-        let current_time = Float(player!.currentTime/60)
+        
+        guard let player = player else {
+            return
+        }
+
+        let total = Float(player.duration/60)
+        let current_time = Float(player.currentTime/60)
         audioSlider.minimumValue = 0.0
-        audioSlider.maximumValue = Float(player!.duration/60)
+        audioSlider.maximumValue = Float(player.duration/60)
         audioSlider.setValue(current_time, animated: true)
         let timeLabel = NSString(format: "%.2f/%.2f", current_time, total) as String
         audioSlider.setThumbImage(progressImage(with: timeLabel), for: .normal)
