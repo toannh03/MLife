@@ -116,30 +116,20 @@ final class PlayerDataTransmission {
             vc.popupItem.image = UIImage(named: "IconLauch")
         }
         
-        let barButtonPlay = UIBarButtonItem(image: UIImage(systemName: "play.fill"), style: .plain, target: self, action: #selector(didTapPlayPauseButtonBar))
-        
-        let barButtonPause = UIBarButtonItem(image: UIImage(systemName: "pause.fill"), style: .plain, target: self, action: #selector(didTapPlayPauseButtonBar))
+        let barButtonPause = UIBarButtonItem(image: UIImage(systemName: "pause.fill"), style: .plain, target: self, action: #selector(didTapPlayPauseButtonBar(_:)))
         
         let barButtonNext = UIBarButtonItem(image: UIImage(systemName: "forward.fill"), style: .plain, target: self, action: #selector(didTapNextButtonBar))
                 
-        vc.popupItem.leadingBarButtonItems = [vc.isPlaying ? barButtonPlay : barButtonPause , barButtonNext]
-                
-//        vc.popupItem.leadingBarButtonItems = [ UIBarButtonItem(
-//            image: UIImage(systemName: "play.fill"),
-//            style: .plain,
-//            target: self,
-//            action: #selector(didTapPlayPauseButtonBar)
-//        ),
-//            UIBarButtonItem(
-//            image: UIImage(systemName: "forward.fill"),
-//            style: .plain,
-//            target: self,
-//            action: #selector(didTapNextButtonBar)
-//        ) ]
+        vc.popupItem.leadingBarButtonItems = [ barButtonPause , barButtonNext]
         
     }
     
-    @objc func didTapPlayPauseButtonBar() {
+    @objc func didTapPlayPauseButtonBar(_ button: UIBarButtonItem) {
+        if vc.isPlaying {
+            button.image = UIImage(systemName: "play.fill")
+        } else {
+            button.image = UIImage(systemName: "pause.fill")
+        }
         vc.didTapPlayPauseButton()
     }
     
