@@ -13,6 +13,8 @@ class PlayerViewController: UIViewController {
     weak var dataSource: TransmissionDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     
+    var timerProgress : Timer?
+
     public var isPlaying = true
     public var isRepeat = false;
     public var checkRandom = false;
@@ -98,8 +100,9 @@ class PlayerViewController: UIViewController {
     //MARK: - Life Cycle
     override func viewDidLoad() {   
         super.viewDidLoad()
-                
+                        
         colorCoverView.frame = view.bounds
+        
         view.addSubview(colorCoverView)
         
         view.addSubview(disk)
@@ -119,27 +122,44 @@ class PlayerViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             self?.playCoverImage.rotate()
         }
-        
+                        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-                        
         // Configure data when next song of click one song 
         configureGetData()
-
-        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
+        startTimer()
     }
+    
+    // Configure timer for slider progress
+    func startTimer() {
+        stopTimer()
+        guard timerProgress == nil else { return }
         
+        timerProgress = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
+    }
+    
+    func stopTimer() {
+        guard timerProgress != nil else { return }
+        timerProgress?.invalidate()
+        timerProgress = nil
+    }
+    
     @objc func progressTimer() {
         PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong)
     }
     
+    
     // MARK: - Create layout
     override func viewDidLayoutSubviews() {
-                
-        colorCoverView.addGradientWithColor(color: .random)
-                
+        
+        if isPlaying {
+            colorCoverView.addGradientWithColor(color: .random)
+        } else {
+            colorCoverView.addGradientWithColor(color: .random)
+        }
+        
         let sizeDisk: CGFloat = 300
         disk.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width + view.safeAreaInsets.top)
         playCoverImage.frame = CGRect(x: disk.frame.size.width / 2 - (sizeDisk/2), y: disk.frame.size.height / 2 - (sizeDisk/2.5) , width: sizeDisk, height: sizeDisk)
@@ -185,14 +205,14 @@ class PlayerViewController: UIViewController {
         
         let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
         let play = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
-        
+                
         playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
                         
         self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
-                
+        self.isPlaying ? startTimer() : stopTimer()
+        
+        
     }
-    
-
     
     func configureControlPlayer() {
         
@@ -274,7 +294,6 @@ extension PlayerViewController {
     }
     
     @objc func didTapSelectSlider(_ slider: UISlider) {
-        
         let value = slider.value
         delegate?.PlayerControlSlider(self, didSelectSlider: value)
         
