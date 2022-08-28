@@ -80,17 +80,9 @@ extension AlbumDetailViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Play song 
-//        let index = indexPath.row
-//        let songOfAlbum = album.songs[index]
-//        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: songOfAlbum, playlists: nil)
-        
-        let demoVC = PlayerViewController()
-        demoVC.view.backgroundColor = .red
-        demoVC.popupItem.title = "Hello World"
-        demoVC.popupItem.subtitle = "And a subtitle!"
-        demoVC.popupItem.progress = 0.34
-        
-        tabBarController?.presentPopupBar(withContentViewController: demoVC, animated: true, completion: nil)
+        let index = indexPath.row
+        let songOfAlbum = album.songs[index]
+        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: songOfAlbum, playlists: nil)
 
     }
     
@@ -108,7 +100,8 @@ extension AlbumDetailViewController: UICollectionViewDelegate, UICollectionViewD
 
 extension AlbumDetailViewController: AlbumHeaderCollectionReusableViewDelegate {
     func playListAllSong(_ headerSong: AlbumHeaderCollectionReusableView) {
-        print("Play all....")
+        
+        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: nil, playlists: album.songs)
     }
     
 }

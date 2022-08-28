@@ -269,7 +269,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             case .MostLikeSong(let model):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MostLikeSongCollectionViewCell.identifier, for: indexPath) as? MostLikeSongCollectionViewCell else { return UICollectionViewCell() }
                 let viewModel = model[indexPath.row]
-                cell.backgroundColor = .systemRed
                 cell.getDataConfigure(viewModel)    
                 cell.layer.cornerRadius = 8.0
                 return cell
@@ -304,7 +303,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 break
             case .MostLikeSong:
                 let likeSong = likesongs[indexPath.row]
-                
+                PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: likeSong, playlists: nil)
                 break
         }
     }
