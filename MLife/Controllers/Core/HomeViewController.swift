@@ -33,11 +33,15 @@ class HomeViewController: UIViewController {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
         collection.register(BannerCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier)
+        
         collection.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
    
         collection.register(TopicCollectionViewCell.self, forCellWithReuseIdentifier: TopicCollectionViewCell.identifier)
+        
         collection.register(AlbumCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCollectionViewCell.identifier)
+        
         collection.register(PlayListCollectionViewCell.self, forCellWithReuseIdentifier: PlayListCollectionViewCell.identifier)
+        
         collection.register(MostLikeSongCollectionViewCell.self, forCellWithReuseIdentifier: MostLikeSongCollectionViewCell.identifier)
 
         return collection
@@ -299,6 +303,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 let playlist = playlists[indexPath.row]
                 let vc = PlayListDetailViewController(playlist: playlist)
                 vc.navigationItem.largeTitleDisplayMode = .never
+                vc.navigationItem.hidesBackButton = true
                 navigationController?.pushViewController(vc, animated: true)
                 break
             case .MostLikeSong:

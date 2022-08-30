@@ -25,6 +25,8 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
     
     private let imagePoster: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .systemTeal
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -83,6 +85,8 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
     override func prepareForReuse() {
         super.prepareForReuse()
         imagePoster.image = nil
+        nameAlbum.text = nil
+        artistsAlbum.text = nil
     }
     
     func configure(_ viewModel: PlayListViewModel) {
