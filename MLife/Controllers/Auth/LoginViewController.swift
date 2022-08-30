@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
 //    var loginViewModel = LoginViewModel()
     
     // MARK: - Create view
+    private let coverBackground = UIView()
     private let coverBackgroundLogin = UIView()
     var stackView: UIStackView!
     
@@ -82,6 +83,10 @@ class LoginViewController: UIViewController {
         createAccountButton.addTarget(self, action: #selector(didTapCreateAccountButton), for: .touchUpInside)
         
         self.hideKeyboardWhenTappedAround() 
+        
+        coverBackground.frame = view.bounds
+        coverBackground.addGradientWithColor(color: .random)
+        view.insertSubview(coverBackground, at: 0)
 
     }
     
@@ -118,17 +123,14 @@ class LoginViewController: UIViewController {
         coverBackgroundLogin.layer.shadowOffset = CGSize(width: 2, height: 2)
         coverBackgroundLogin.layer.shadowOpacity = 3.0
         coverBackgroundLogin.backgroundColor = .systemTeal
-        coverBackgroundLogin.centerY(withView: self.view)
-        coverBackgroundLogin.centerX(with: self.view)
-        coverBackgroundLogin.anchor(height: 210, left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 10, paddingRight: 10)
-        coverBackgroundLogin.setWidth(width: view.frame.size.width - 30)
+        coverBackgroundLogin.frame = CGRect(x: 10 , y: view.frame.size.height / 2 - 100 , width: view.frame.size.width - 20, height: 200)
         
     }
     
     func ConfigureLayoutStackView() {
-        emailTextField.anchor(height: 50)
-        stackView.centerX(with: self.coverBackgroundLogin)
-        stackView.centerY(withView: self.coverBackgroundLogin)
+        emailTextField.anchor(height: 46)
+        stackView.centerX(with: coverBackgroundLogin)
+        stackView.centerY(withView: coverBackgroundLogin)
         stackView.anchor(left: coverBackgroundLogin.leftAnchor, right: coverBackgroundLogin.rightAnchor, paddingLeft: 10, paddingRight: 10)
     }
     
