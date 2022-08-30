@@ -16,16 +16,9 @@ class LoginViewController: UIViewController {
 //    var loginViewModel = LoginViewModel()
     
     // MARK: - Create view
-        
+    private let coverBackgroundLogin = UIView()
     var stackView: UIStackView!
     
-    private let backgroundLogin: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleToFill
-        image.image = UIImage(named: "bgRegister")
-        return image
-    }()
-
     lazy var indicatorLogin: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.style = .large
@@ -60,7 +53,7 @@ class LoginViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = Constants.cornerRadius
-        button.backgroundColor = .systemMint
+        button.backgroundColor = .systemIndigo
         return button
     }()
     
@@ -71,35 +64,37 @@ class LoginViewController: UIViewController {
         button.setTitle("New user? Create an account", for: .normal)
         return button
     }()
-    
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
-        view.addSubview(backgroundLogin)
-//        self.view.addGradientWithColor(color: UIColor.red)
-        self.hideKeyboardWhenTappedAround() 
+        view.backgroundColor = .tertiarySystemBackground
+        
+        view.addSubview(coverBackgroundLogin)
+        
         view.addSubview(createAccountButton)
+        coverBackgroundLogin.backgroundColor = .systemPink
         
         configureStackView()
         
         asyncLoginButton.addTarget(self, action: #selector(pressLogin), for: .touchUpInside)
         createAccountButton.addTarget(self, action: #selector(didTapCreateAccountButton), for: .touchUpInside)
+        
+        self.hideKeyboardWhenTappedAround() 
+
     }
     
     // MARK: - Layout
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        backgroundLogin.frame = view.bounds
-        // Anchor function is defined in Utilities
-        emailTextField.anchor(height: 50)
         
-        stackView.centerY(withView: self.view)
-        stackView.centerX(with: self.view)
-        stackView.setWidth(width: view.frame.size.width - 30)
-        createAccountButton.centerX(with: self.view, topAnchor: stackView.bottomAnchor, paddingTop: 10)
+        ConfigureLayoutCoverImage()
+        ConfigureLayoutStackView()
+        
+        createAccountButton.centerX(with: self.coverBackgroundLogin, topAnchor: coverBackgroundLogin.bottomAnchor, paddingTop: 10)
+            
         indicatorLogin.frame = CGRect(x: (stackView.frame.size.width / 2) - 40, y: (stackView.frame.size.height / 2) - 40, width: 80, height: 80)
     }
     
@@ -113,8 +108,28 @@ class LoginViewController: UIViewController {
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addSubview(indicatorLogin)
-        view.addSubview(stackView)
+        coverBackgroundLogin.addSubview(stackView)
         
+    }
+    
+    func ConfigureLayoutCoverImage() {
+        coverBackgroundLogin.layer.masksToBounds = false
+        coverBackgroundLogin.layer.cornerRadius = 8.0
+        coverBackgroundLogin.layer.shadowOffset = CGSize(width: 2, height: 2)
+        coverBackgroundLogin.layer.shadowOpacity = 3.0
+        coverBackgroundLogin.backgroundColor = .systemTeal
+        coverBackgroundLogin.centerY(withView: self.view)
+        coverBackgroundLogin.centerX(with: self.view)
+        coverBackgroundLogin.anchor(height: 210, left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 10, paddingRight: 10)
+        coverBackgroundLogin.setWidth(width: view.frame.size.width - 30)
+        
+    }
+    
+    func ConfigureLayoutStackView() {
+        emailTextField.anchor(height: 50)
+        stackView.centerX(with: self.coverBackgroundLogin)
+        stackView.centerY(withView: self.coverBackgroundLogin)
+        stackView.anchor(left: coverBackgroundLogin.leftAnchor, right: coverBackgroundLogin.rightAnchor, paddingLeft: 10, paddingRight: 10)
     }
     
     // MARK: - Login

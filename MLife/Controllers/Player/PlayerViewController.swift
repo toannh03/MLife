@@ -167,9 +167,12 @@ class PlayerViewController: UIViewController {
 
         let heightImage = disk.frame.size.height + view.safeAreaInsets.top
         
+        
+        // Configure control button
         controlsPlayer.frame = CGRect(x: 10, y: heightImage, width: view.frame.size.width - 20, height: view.frame.size.height - heightImage - view.safeAreaInsets.top - 10)
         controlsPlayer.layer.cornerRadius = 20.0
         controlsPlayer.backgroundColor = .secondarySystemFill
+        
         nameSong.frame = CGRect(x: 20, y: 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
         descriptionSong.frame = CGRect(x: 20, y: nameSong.frame.size.height + 40, width:  controlsPlayer.frame.size.width - 40, height: 25)
         
