@@ -10,15 +10,14 @@ import SDWebImage
 
 class PlayerViewController: UIViewController {
     
-    
     weak var dataSource: TransmissionDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     
+    var timerProgress : Timer?
+
     public var isPlaying = true
-    public var position = 0;
     public var isRepeat = false;
     public var checkRandom = false;
-    public var isNext = false;
 
     // MARK: - Cover image
     private let colorCoverView = UIView()
@@ -98,10 +97,12 @@ class PlayerViewController: UIViewController {
         return button
     }()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {   
         super.viewDidLoad()
-        
+                        
         colorCoverView.frame = view.bounds
+        
         view.addSubview(colorCoverView)
         
         view.addSubview(disk)
@@ -115,31 +116,49 @@ class PlayerViewController: UIViewController {
         }
 
         configureStackControl()
-        
-        configureGetData()
-        
+                
         configureControlPlayer()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             self?.playCoverImage.rotate()
         }
-        
-        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
-        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
+                        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Configure data when next song of click one song 
+        configureGetData()
+        startTimer()
+    }
+    
+    // Configure timer for slider progress
+    func startTimer() {
+        stopTimer()
+        guard timerProgress == nil else { return }
+        
+        timerProgress = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
+    }
+    
+    func stopTimer() {
+        guard timerProgress != nil else { return }
+        timerProgress?.invalidate()
+        timerProgress = nil
+    }
+    
     @objc func progressTimer() {
         PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong)
     }
     
+    
     // MARK: - Create layout
     override func viewDidLayoutSubviews() {
         
-        colorCoverView.addGradientWithColor(color: .random)
+        if isPlaying {
+            colorCoverView.addGradientWithColor(color: .random)
+        } else {
+            colorCoverView.addGradientWithColor(color: .random)
+        }
         
         let sizeDisk: CGFloat = 300
         disk.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width + view.safeAreaInsets.top)
@@ -161,17 +180,38 @@ class PlayerViewController: UIViewController {
     }
     
     func configureStackControl() {
+        
         stack = UIStackView(arrangedSubviews: [shuffleButton ,previousButton , playPauseButton ,nextButton, repeatButton])
         stack.axis = .horizontal
         stack.alignment = .center
         stack.distribution = .equalSpacing
         controlsPlayer.addSubview(stack)
+        
     }
-
+    
+    // MARK: - Configure 
+    
     func configureGetData() {
+        
         playCoverImage.sd_setImage(with: dataSource?.URL_image, completed: nil)
         nameSong.text = dataSource?.name_song
         descriptionSong.text = dataSource?.description
+        
+        checkControl()
+        
+    }
+    
+    func checkControl() {
+        
+        let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
+        let play = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
+                
+        playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
+                        
+        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
+        self.isPlaying ? startTimer() : stopTimer()
+        
+        
     }
     
     func configureControlPlayer() {
@@ -184,7 +224,14 @@ class PlayerViewController: UIViewController {
         
     }
     
+}
+
+// MARK: - Control play song
+
+extension PlayerViewController {
+    
     @objc func didTapShuffButton() {
+        
         delegate?.PlayerViewControllerDidTapShuffButton(self)
         
         if checkRandom == false {
@@ -203,30 +250,32 @@ class PlayerViewController: UIViewController {
     }
     
     @objc func didTapPreviousButton() {
+
         delegate?.PlayerViewControllerDidTapPreviousButton(self)
+        
+        playPauseButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
+        configureGetData()
+        
     }
     
     @objc func didTapPlayPauseButton() {
-            
+        
         delegate?.PlayerViewControllerDidTapPlayPauseButton(self)
         
-        let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
-        
-        let play = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
-
-        playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
-        
-        self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
-        
+        checkControl()
     }
     
     @objc func didTapNextButton() {
-        playPauseButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
+        
         delegate?.PlayerViewControllerDidTapNextButton(self)
+        
+        playPauseButton.setImage(UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small)), for: .normal)
+        
         configureGetData()
     }
     
     @objc func didTapRepeatButton() {
+        
         delegate?.PlayerViewControllerDidTapRepeatButton(self)
         
         if isRepeat == false {
@@ -241,13 +290,13 @@ class PlayerViewController: UIViewController {
             isRepeat = false;
             repeatButton.tintColor = .black
         }
+        
     }
     
     @objc func didTapSelectSlider(_ slider: UISlider) {
         let value = slider.value
         delegate?.PlayerControlSlider(self, didSelectSlider: value)
+        
     }
-    
-    
     
 }
