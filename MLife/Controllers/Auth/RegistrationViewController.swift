@@ -15,15 +15,8 @@ class RegistrationViewController: UIViewController {
     }
         
         // MARK: - Create view
-    
+    private let coverBackground = UIView()
     var stackView: UIStackView!
-    
-    private let backgroundRegister: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "bgLogin")
-        return image
-    }()
     
     lazy var indicatorRegister: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -75,11 +68,14 @@ class RegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(backgroundRegister)
             //        self.view.addGradientWithColor(color: UIColor.red)
         self.hideKeyboardWhenTappedAround() 
         
         configureStackView()
+        
+        coverBackground.frame = view.bounds
+        coverBackground.addGradientWithColor(color: .random)
+        view.insertSubview(coverBackground, at: 0)
         
         asyncSignInButton.addTarget(self, action: #selector(pressLogin), for: .touchUpInside)
     }
@@ -88,7 +84,6 @@ class RegistrationViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        backgroundRegister.frame = view.bounds
             // Anchor function is defined in Utilities
         emailTextField.anchor(height: 50)
         stackView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: view.safeAreaInsets.top + view.frame.size.height / 10, paddingLeft: 20, paddingRight: 20)

@@ -118,32 +118,40 @@ class PlayerViewController: UIViewController {
         configureStackControl()
                 
         configureControlPlayer()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.playCoverImage.rotate()
-        }
-                        
+                
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Configure data when next song of click one song 
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.playCoverImage.rotate()
+        }
+        
         configureGetData()
+        
         startTimer()
+        
+        checkControl()
+        
     }
     
     // Configure timer for slider progress
     func startTimer() {
+        
         stopTimer()
         guard timerProgress == nil else { return }
-        
         timerProgress = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
+        
     }
     
     func stopTimer() {
+        
         guard timerProgress != nil else { return }
         timerProgress?.invalidate()
         timerProgress = nil
+        
     }
     
     @objc func progressTimer() {
@@ -199,9 +207,7 @@ class PlayerViewController: UIViewController {
         playCoverImage.sd_setImage(with: dataSource?.URL_image, completed: nil)
         nameSong.text = dataSource?.name_song
         descriptionSong.text = dataSource?.description
-        
-        checkControl()
-        
+            
     }
     
     func checkControl() {

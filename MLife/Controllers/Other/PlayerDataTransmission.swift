@@ -37,14 +37,16 @@ final class PlayerDataTransmission {
     }
         
     func dataTransmission(_ viewController: UIViewController, likeSong: Song?, song: Song?, playlists: [Song]?) {
-        
+                
         if let song = song {
+            player = nil
             self.song = song
             self.songs = []
             position = 0
         }
         
         if let playlists = playlists {
+            player = nil
             self.songs = playlists
             position = 0
         }
@@ -199,6 +201,13 @@ final class PlayerDataTransmission {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
+    }
+    
+    func destroyPlayer() {
+        if player!.isPlaying {
+            player?.stop()
+            player = nil
+        }
     }
     
 }

@@ -99,6 +99,7 @@ class AuthManager {
         do {
             UserDefaults.standard.removeObject(forKey: "access_token")
             try Auth.auth().signOut()
+            PlayerDataTransmission.shared.destroyPlayer()
             completion(true)
             return
         } catch {

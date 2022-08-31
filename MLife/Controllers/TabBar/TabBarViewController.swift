@@ -22,7 +22,13 @@ class TabBarViewController: UITabBarController {
         let searchVC = SearchViewController()
         let profileVC = ProfileViewController()
         
-        let navigationHome = createTabBarController(view: homeVC, title: "For you", titleTabBar: "Home", imageTabBar: "house", imageTabBarSelected: "house.fill")
+        homeVC.navigationItem.largeTitleDisplayMode = .never
+
+        let navigationHome = UINavigationController(rootViewController: homeVC)
+        navigationHome.navigationBar.prefersLargeTitles = false
+        navigationHome.tabBarItem = UITabBarItem(title: nil , image: UIImage(systemName: "house" ), selectedImage: UIImage(systemName: "house.fill" ))
+        navigationHome.navigationBar.tintColor = .label
+
         let navigationSearch = createTabBarController(view: searchVC, title: "Search", titleTabBar: "Search", imageTabBar: "magnifyingglass", imageTabBarSelected: "text.magnifyingglass")
         let navigationProfile = createTabBarController(view: profileVC, title: "Profile", titleTabBar: "Me", imageTabBar: "person", imageTabBarSelected: "person.fill")
         
