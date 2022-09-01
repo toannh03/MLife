@@ -50,9 +50,10 @@ final class PlayerDataTransmission {
             self.songs = playlists
             position = 0
         }
+                
         guard let link = currentSong?.link else { return }
         streamSong(url: link)
-
+        
         popUpController()
         
         viewController.tabBarController?.popupContentView.popupCloseButtonStyle = .round
@@ -61,7 +62,9 @@ final class PlayerDataTransmission {
         viewController.tabBarController?.popupBar.progressViewStyle = .top
         viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
             self?.player?.play() 
+            self?.vc.rotateAnimationDisk()
         })
+        
         
     }
     
@@ -248,7 +251,10 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                 
                 guard let link = currentSong?.link else { return }
                 streamSong(url: link)
+                player?.prepareToPlay()
                 player?.play()
+                control.isPlaying = true
+                control.checkControl()
                 popUpController()
                 
             }
@@ -298,7 +304,10 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                                 
                 guard let link = currentSong?.link else { return }
                 streamSong(url: link)
+                player?.prepareToPlay()
                 player?.play()
+                control.isPlaying = true
+                control.checkControl()
                 popUpController()
             }
         }

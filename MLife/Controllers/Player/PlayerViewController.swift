@@ -118,23 +118,21 @@ class PlayerViewController: UIViewController {
         configureStackControl()
                 
         configureControlPlayer()
-                
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Configure data when next song of click one song 
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.playCoverImage.rotate()
-        }
-        
+                
         configureGetData()
+        
+        print("Hello check ....")
         
         startTimer()
         
         checkControl()
-        
+                
     }
     
     // Configure timer for slider progress
@@ -158,16 +156,11 @@ class PlayerViewController: UIViewController {
         PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong)
     }
     
-    
     // MARK: - Create layout
     override func viewDidLayoutSubviews() {
-        
-        if isPlaying {
-            colorCoverView.addGradientWithColor(color: .random)
-        } else {
-            colorCoverView.addGradientWithColor(color: .random)
-        }
-        
+  
+        colorCoverView.addGradientWithColor(color: .random)
+
         let sizeDisk: CGFloat = 300
         disk.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width + view.safeAreaInsets.top)
         playCoverImage.frame = CGRect(x: disk.frame.size.width / 2 - (sizeDisk/2), y: disk.frame.size.height / 2 - (sizeDisk/2.5) , width: sizeDisk, height: sizeDisk)
@@ -187,6 +180,14 @@ class PlayerViewController: UIViewController {
         sliderSong.frame = CGRect(x: 20, y: descriptionSong.frame.size.height + 60, width: controlsPlayer.frame.size.width - 40, height: 40)
         
         stack.frame = CGRect(x: 20, y: sliderSong.frame.size.height + 100, width: controlsPlayer.frame.size.width - 40, height: 80)
+        
+    }
+    
+    func rotateAnimationDisk() {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.playCoverImage.rotate()
+        }
         
     }
     
@@ -212,6 +213,8 @@ class PlayerViewController: UIViewController {
     
     func checkControl() {
         
+        print("Check control player: \(isPlaying)")
+        
         let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
         let play = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
                 
@@ -219,7 +222,6 @@ class PlayerViewController: UIViewController {
                         
         self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
         self.isPlaying ? startTimer() : stopTimer()
-        
         
     }
     
