@@ -207,10 +207,14 @@ final class PlayerDataTransmission {
     }
     
     func destroyPlayer() {
-        if player!.isPlaying {
+        
+        if player == nil {
+            return 
+        } else if player!.isPlaying {
             player?.stop()
             player = nil
         }
+        
     }
     
 }
