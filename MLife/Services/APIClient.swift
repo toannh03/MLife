@@ -7,24 +7,14 @@
 
 import Foundation
 
-
 class APIClient {
     
     // singletion
     static let shared = APIClient()
     
     private init() {}
-    
-    struct Constant {
-        static let baseURL = "https://yomusic-api.herokuapp.com/api"
-    }
-    
-    // Error handling
-    enum APIError: Error {
-        case failureToGetData
-    }
-    
-    private func createRequest(url: URL?, method: HTTPMethod, completionHandler: @escaping(URLRequest) -> Void) {
+
+    private func createRequest(url: URL?, method: HTTPMethod, completionHandler: @escaping (URLRequest) -> Void) {
         
         guard let url = url else {
             return
@@ -41,7 +31,7 @@ class APIClient {
     
     func getTopics(completion: @escaping (Result<[TopicResponse], Error>) -> Void) {
         
-        createRequest(url: URL(string: Constant.baseURL + "/getCategoryForTopic/"), method: .GET) { URLRequest in
+        createRequest(url: URL(string: Config.baseURL + "/getCategoryForTopic/"), method: .GET) { URLRequest in
             
             URLSession.shared.dataTask(with: URLRequest) { (data, _, error) in
                 guard let data = data, error == nil else {
@@ -62,7 +52,7 @@ class APIClient {
     
     func getSongInAlbum(completion: @escaping (Result<[AlbumResponse], Error>) -> Void) {
         
-        createRequest(url: URL(string: Constant.baseURL + "/getAllSongInAlbum/"), method: .GET) { URLRequest in
+        createRequest(url: URL(string: Config.baseURL + "/getAllSongInAlbum/"), method: .GET) { URLRequest in
             
             URLSession.shared.dataTask(with: URLRequest) { (data, _, error) in
                 guard let data = data, error == nil else {
@@ -84,7 +74,7 @@ class APIClient {
     
     func getSongInTrending(completion: @escaping (Result<[TredingResponse], Error>) -> Void) {
         
-        createRequest(url: URL(string: Constant.baseURL + "/getSongInTrending/"), method: .GET) { URLRequest in
+        createRequest(url: URL(string: Config.baseURL + "/getSongInTrending/"), method: .GET) { URLRequest in
             
             URLSession.shared.dataTask(with: URLRequest) { (data, _, error) in
                 guard let data = data, error == nil else {
@@ -107,7 +97,7 @@ class APIClient {
     
     func getSongInPlayList(completion: @escaping (Result<[PlayListResponse], Error>) -> Void) {
         
-        createRequest(url: URL(string: Constant.baseURL + "/getSongPlayList/"), method: .GET) { URLRequest in
+        createRequest(url: URL(string: Config.baseURL + "/getSongPlayList/"), method: .GET) { URLRequest in
             
             URLSession.shared.dataTask(with: URLRequest) { (data, _, error) in
                 guard let data = data, error == nil else {
@@ -130,7 +120,7 @@ class APIClient {
     
     func getMostLikeSong(completion: @escaping (Result<[Song], Error>) -> Void) {
         
-        createRequest(url: URL(string: Constant.baseURL + "/getMostLikeSong?limit=6"), method: .GET) { URLRequest in
+        createRequest(url: URL(string: Config.baseURL + "/getMostLikeSong?limit=6"), method: .GET) { URLRequest in
             
             URLSession.shared.dataTask(with: URLRequest) { (data, _, error) in
                 guard let data = data, error == nil else {
