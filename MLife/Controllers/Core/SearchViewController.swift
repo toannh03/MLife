@@ -31,11 +31,11 @@ class SearchViewController: UIViewController {
 
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
-        view.addSubview(searchTable)
+//        view.addSubview(searchTable)
 //        
-        searchTable.delegate = self
-        searchTable.dataSource = self
-        navigationController?.navigationBar.tintColor = .label
+//        searchTable.delegate = self
+//        searchTable.dataSource = self
+//        navigationController?.navigationBar.tintColor = .label
         searchController.searchResultsUpdater = self
 
     }
@@ -48,26 +48,26 @@ class SearchViewController: UIViewController {
 
 }
 
-extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ResultSearchTableViewCell.identifier, for: indexPath) as? ResultSearchTableViewCell else { return UITableViewCell() }
-//        let title = titles[indexPath.row]
-//        let model = TitleViewModel(titleName: title.original_title ?? title.original_title ?? "Unknow name", posterURL: title.poster_path ?? "")
-        
-//        cell.configure(with: model)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 140
-    }
-    
-}
+//extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+//    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return 10
+//    }
+//    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: ResultSearchTableViewCell.identifier, for: indexPath) as? ResultSearchTableViewCell else { return UITableViewCell() }
+////        let title = titles[indexPath.row]
+////        let model = TitleViewModel(titleName: title.original_title ?? title.original_title ?? "Unknow name", posterURL: title.poster_path ?? "")
+//        
+////        cell.configure(with: model)
+//        return cell
+//    }
+//    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 140
+//    }
+//    
+//}
 
 extension SearchViewController: UISearchResultsUpdating {
     
@@ -78,18 +78,16 @@ extension SearchViewController: UISearchResultsUpdating {
               query.trimmingCharacters(in: .whitespaces).count >= 2,
               let resultsController = searchController.searchResultsController as? ResultSearchViewController else { return }
         
-        print(query)
-        APISearch.shared.searchResults(with: query) {
-            _ in 
-//            DispatchQueue.main.async {
-//                switch result {
-//                    case .success(let titles):
-//                        resultsController.titles = titles
-//                        resultsController.searchResultCollectionView.reloadData()
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                }
-//            }
+        APISearch.shared.searchResults(with: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                    case .success(let songs):
+                        resultsController.resultSongs = songs
+                        resultsController.tableView.reloadData()
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                }
+            }
         }
         
     }
