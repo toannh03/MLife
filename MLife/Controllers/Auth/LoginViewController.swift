@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class LoginViewController: UIViewController {
     
@@ -18,7 +19,8 @@ class LoginViewController: UIViewController {
     // MARK: - Create view
     private let coverBackgroundLogin = UIView()
     var stackView: UIStackView!
-    
+    let animationView = AnimationView()
+
     private let lableLogin: UILabel = {
         let label = UILabel()
         label.text = "MLife"
@@ -91,6 +93,7 @@ class LoginViewController: UIViewController {
         
         view.addSubview(coverBackgroundLogin)
         view.addSubview(lableLogin)
+        setUpAnimationLoading()
 
         configureStackView()
         
@@ -129,6 +132,16 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Configure
+    
+    func setUpAnimationLoading() {
+        let size: CGFloat = view.frame.size.width
+        animationView.frame = CGRect(x: 0, y: view.frame.size.height - size, width: size, height: size)
+        animationView.animation = Animation.named("polygons")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.play()
+        imageCover.addSubview(animationView)
+    }
     
     func configureStackView() {
         

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 enum HomeSectionType {
     case Topic(model: [TopicResponse])
@@ -24,6 +25,8 @@ class HomeViewController: UIViewController {
     
     private var titleHeader: [String] = ["","Today's Like", "New Relases", "Songs"]
     private var sections = [HomeSectionType]()
+    
+    let animationView = AnimationView()
 
     private let collectionView: UICollectionView = {
         
@@ -49,15 +52,27 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .systemBackground
         configureNavigationBar() 
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        fetchData()
-        
+    }
+    
+    func setUpAnimationLoading() {
+        let size: CGFloat = 200
+        animationView.frame = CGRect(x: view.frame.size.width / 2 - (size / 2), y: view.frame.size.height / 2 - (size / 2), width: size, height: size)
+        animationView.animation = Animation.named("loading")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.play()
+        view.addSubview(animationView)
+    }
+    
+    func stopAnimationLoading() {
+        animationView.stop()
+        animationView.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,6 +109,16 @@ class HomeViewController: UIViewController {
     
     @objc func didTapSearchButton(sender: AnyObject){
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpAnimationLoading() 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fetchData()
     }
     
     func fetchData() {
@@ -191,6 +216,8 @@ class HomeViewController: UIViewController {
         sections.append(.PlayList(model: playlists))
         sections.append(.MostLikeSong(model: likesongs))
         collectionView.reloadData()
+        stopAnimationLoading()
+
     }
 }
 
