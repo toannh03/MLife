@@ -65,7 +65,6 @@ final class PlayerDataTransmission {
             self?.vc.rotateAnimationDisk()
         })
         
-        
     }
     
     func streamSong(url: URL) {
@@ -335,6 +334,10 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
             }
             
         }
+    }
+    
+    func PlayerControlVolumeSlider(_ control: PlayerViewController, didSelectSlider value: Float) {
+        player?.volume = value
     }
     
 }

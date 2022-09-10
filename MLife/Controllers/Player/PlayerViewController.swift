@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import AVFoundation
 
 class PlayerViewController: UIViewController {
     
@@ -14,6 +15,9 @@ class PlayerViewController: UIViewController {
     weak var delegate: PlayerViewControllerDelegate?
     
     var timerProgress : Timer?
+    
+    var vol = AVAudioSession.sharedInstance().outputVolume
+
 
     public var isPlaying = true
     public var isRepeat = false;
@@ -42,6 +46,15 @@ class PlayerViewController: UIViewController {
         slider.tintColor = .black
         slider.addTarget(self, action: #selector(didTapSelectSlider(_:)), for: .valueChanged)
         return slider
+    }()
+    
+    lazy var volumeSong: UISlider = {
+        let volume = UISlider()
+        volume.tintColor = .black
+        volume.minimumValue = vol
+        volume.maximumValue = vol + 10.0
+        volume.addTarget(self, action: #selector(didTapSelectVolumeSlider(_:)), for: .valueChanged)
+        return volume
     }()
     
     private let nameSong: UILabel = {
@@ -111,13 +124,16 @@ class PlayerViewController: UIViewController {
         
         view.addSubview(controlsPlayer)
                 
-        [nameSong, descriptionSong, sliderSong].forEach {
+        [nameSong, descriptionSong, sliderSong, volumeSong].forEach {
             controlsPlayer.addSubview($0)
         }
 
         configureStackControl()
                 
         configureControlPlayer()
+        
+        let thumbImage = UIImage(systemName: "speaker.wave.2.fill")!
+        volumeSong.setThumbImage( thumbImage, for: .normal)
         
     }
     
@@ -126,9 +142,7 @@ class PlayerViewController: UIViewController {
         // Configure data when next song of click one song 
                 
         configureGetData()
-        
-        print("Hello check ....")
-        
+                
         startTimer()
         
         checkControl()
@@ -174,12 +188,15 @@ class PlayerViewController: UIViewController {
         controlsPlayer.layer.cornerRadius = 20.0
         controlsPlayer.backgroundColor = .secondarySystemFill
         
-        nameSong.frame = CGRect(x: 20, y: 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
-        descriptionSong.frame = CGRect(x: 20, y: nameSong.frame.size.height + 40, width:  controlsPlayer.frame.size.width - 40, height: 25)
+        let padding: CGFloat = 20
+        nameSong.frame = CGRect(x: padding, y: 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
+        descriptionSong.frame = CGRect(x: padding, y: nameSong.frame.size.height + 40, width:  controlsPlayer.frame.size.width - 40, height: 25)
         
-        sliderSong.frame = CGRect(x: 20, y: descriptionSong.frame.size.height + 60, width: controlsPlayer.frame.size.width - 40, height: 40)
+        sliderSong.frame = CGRect(x: padding, y: descriptionSong.frame.size.height + 60, width: controlsPlayer.frame.size.width - 40, height: 40)
         
-        stack.frame = CGRect(x: 20, y: sliderSong.frame.size.height + 100, width: controlsPlayer.frame.size.width - 40, height: 80)
+        stack.frame = CGRect(x: padding, y: sliderSong.frame.size.height + 80, width: controlsPlayer.frame.size.width - 40, height: 80)
+        
+        volumeSong.frame = CGRect(x: padding + 10, y: stack.frame.size.height + 120, width: controlsPlayer.frame.size.width - 60, height: 40)
         
     }
     
@@ -307,7 +324,11 @@ extension PlayerViewController {
     @objc func didTapSelectSlider(_ slider: UISlider) {
         let value = slider.value
         delegate?.PlayerControlSlider(self, didSelectSlider: value)
-        
+    }
+    
+    @objc func didTapSelectVolumeSlider(_ slider: UISlider) {
+        let value = slider.value
+        delegate?.PlayerControlVolumeSlider(self, didSelectSlider: value)
     }
     
 }

@@ -24,6 +24,7 @@ class HomeViewController: UIViewController {
     private var likesongs: [Song] = []
     
     private var titleHeader: [String] = ["","Today's Like", "New Relases", "Songs"]
+    
     private var sections = [HomeSectionType]()
     
     let animationView = AnimationView()
@@ -49,7 +50,9 @@ class HomeViewController: UIViewController {
 
         return collection
     }()
-
+    
+    // MARK: - Life cycle when fetching data from service
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -60,19 +63,16 @@ class HomeViewController: UIViewController {
         
     }
     
-    func setUpAnimationLoading() {
-        let size: CGFloat = 200
-        animationView.frame = CGRect(x: view.frame.size.width / 2 - (size / 2), y: view.frame.size.height / 2 - (size / 2), width: size, height: size)
-        animationView.animation = Animation.named("loading")
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .loop
-        animationView.play()
-        view.addSubview(animationView)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpAnimationLoading() 
     }
     
-    func stopAnimationLoading() {
-        animationView.stop()
-        animationView.isHidden = true
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if albums.isEmpty, trending.isEmpty, topics.isEmpty, playlists.isEmpty, likesongs.isEmpty {
+            fetchData()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -111,14 +111,19 @@ class HomeViewController: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setUpAnimationLoading() 
+    func setUpAnimationLoading() {
+        let size: CGFloat = 200
+        animationView.frame = CGRect(x: view.frame.size.width / 2 - (size / 2), y: view.frame.size.height / 2 - (size / 2), width: size, height: size)
+        animationView.animation = Animation.named("loading")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.play()
+        view.addSubview(animationView)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        fetchData()
+    func stopAnimationLoading() {
+        animationView.stop()
+        animationView.isHidden = true
     }
     
     func fetchData() {
