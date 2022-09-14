@@ -17,3 +17,7 @@ A music player app that streams songs online.
 <p align="center">
     <img alt="Swift MLife" src="music_logo.png" width="400" height="400">
 </p>
+
+<p align="center">
+    <img alt="Swift MLife" src="music_image.png" width="1000" height="400">
+</p>
