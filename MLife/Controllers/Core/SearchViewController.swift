@@ -19,7 +19,6 @@ class SearchViewController: UIViewController {
     }()
     
     private let searchController: UISearchController = {
-//        let results = ResultSearchViewController()
         let controller = UISearchController(searchResultsController: nil)
         controller.searchBar.placeholder = "Songs"
         controller.searchBar.searchBarStyle = .minimal
@@ -35,8 +34,10 @@ class SearchViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always        
         view.addSubview(searchTable)
+        
         searchTable.delegate = self
         searchTable.dataSource = self
+        
         navigationController?.navigationBar.tintColor = .label
         searchController.searchResultsUpdater = self
     }

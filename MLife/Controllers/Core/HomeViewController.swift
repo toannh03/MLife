@@ -108,7 +108,10 @@ class HomeViewController: UIViewController {
     }
     
     @objc func didTapSearchButton(sender: AnyObject){
-        
+        let vc = SearchViewController()
+        vc.title = "Search"
+        vc.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func setUpAnimationLoading() {
@@ -335,7 +338,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 let playlist = playlists[indexPath.row]
                 let vc = PlayListDetailViewController(playlist: playlist)
                 vc.navigationItem.largeTitleDisplayMode = .never
-                vc.navigationItem.hidesBackButton = true
                 navigationController?.pushViewController(vc, animated: true)
                 break
             case .MostLikeSong:
@@ -351,6 +353,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             case 0:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier, for: indexPath) as! BannerCollectionReusableView
                 header.configure(with: trending)
+                header.delegate = self
                 return header             
             case 1:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
@@ -371,5 +374,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
 
+}
+
+extension HomeViewController: BannerCollectionReusableViewProtocol {
+    
+    func BannerCollectionReusableViewDidTapBanner(_ indexPath: Int) {
+        let song = trending[indexPath].song_id
+        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: song, playlists: nil)
+    }
+    
 }
 

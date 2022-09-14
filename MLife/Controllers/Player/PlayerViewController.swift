@@ -229,9 +229,7 @@ class PlayerViewController: UIViewController {
     }
     
     func checkControl() {
-        
-        print("Check control player: \(isPlaying)")
-        
+                
         let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
         let play = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
                 

@@ -32,7 +32,6 @@ class PlayListDetailViewController: UIViewController {
         
         collection.register(PlayListHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlayListHeaderCollectionReusableView.identifier)
         
-        collection.backgroundColor = .systemOrange
         return collection
     }()
     
@@ -52,6 +51,7 @@ class PlayListDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
+        collectionView.addGradientWithColor(color: .random)
         view.addSubview(imageCoverNotSong)
         collectionView.delegate = self
         collectionView.dataSource = self

@@ -8,9 +8,15 @@
 import UIKit
 import Gemini
 
+protocol BannerCollectionReusableViewProtocol: AnyObject {
+    func BannerCollectionReusableViewDidTapBanner(_ indexPath: Int) 
+}
+
 class BannerCollectionReusableView: UICollectionReusableView {
     
     static let identifier = "BannerCollectionReusableView"
+    
+    weak var delegate: BannerCollectionReusableViewProtocol?
     
     var trending = [TredingResponse]()
 
@@ -134,6 +140,7 @@ extension BannerCollectionReusableView: UICollectionViewDelegate, UICollectionVi
         collectionView.deselectItem(at: indexPath, animated: true)
         
         // navigation to play song here ....
+        delegate?.BannerCollectionReusableViewDidTapBanner(indexPath.row)
         
     }
     
