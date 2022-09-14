@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Lottie
 
 class SearchViewController: UIViewController {
+    
+    var resultSongs = [Song]()
     
     private let searchTable: UITableView = {
         let table = UITableView()
@@ -16,8 +19,7 @@ class SearchViewController: UIViewController {
     }()
     
     private let searchController: UISearchController = {
-        let results = ResultSearchViewController()
-        let controller = UISearchController(searchResultsController: results)
+        let controller = UISearchController(searchResultsController: nil)
         controller.searchBar.placeholder = "Songs"
         controller.searchBar.searchBarStyle = .minimal
         controller.definesPresentationContext = true
@@ -26,46 +28,60 @@ class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()        
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        view.addSubview(searchTable)
-//        
-//        searchTable.delegate = self
-//        searchTable.dataSource = self
+        title = "Search"
         navigationItem.searchController = searchController
-//        navigationController?.navigationBar.tintColor = .label
-        searchController.searchResultsUpdater = self
 
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always        
+        view.addSubview(searchTable)
+        
+        searchTable.delegate = self
+        searchTable.dataSource = self
+        
+        navigationController?.navigationBar.tintColor = .label
+        searchController.searchResultsUpdater = self
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        searchTable.frame = view.bounds
-//        
-//    }
+    override func viewDidAppear(_ animated: Bool) {
+        if !resultSongs.isEmpty {
+            resultSongs = []
+            self.searchTable.reloadData()
+            searchController.automaticallyShowsCancelButton = true
+        }
+    }
+        
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        searchTable.frame = view.bounds
+        
+    }
 
 }
 
-//extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
-//    
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 10
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: ResultSearchTableViewCell.identifier, for: indexPath) as? ResultSearchTableViewCell else { return UITableViewCell() }
-////        let title = titles[indexPath.row]
-////        let model = TitleViewModel(titleName: title.original_title ?? title.original_title ?? "Unknow name", posterURL: title.poster_path ?? "")
-//        
-////        cell.configure(with: model)
-//        return cell
-//    }
-//    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 140
-//    }
-//    
-//}
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return resultSongs.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ResultSearchTableViewCell.identifier, for: indexPath) as? ResultSearchTableViewCell else { return UITableViewCell() }
+        let model = resultSongs[indexPath.row]
+        cell.getDataResultSearch(model)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedSong = resultSongs[indexPath.row]
+        searchController.hidesNavigationBarDuringPresentation = true
+        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: selectedSong, playlists: nil)
+    }
+    
+}
 
 extension SearchViewController: UISearchResultsUpdating {
     
@@ -73,24 +89,20 @@ extension SearchViewController: UISearchResultsUpdating {
         let searchBar =  searchController.searchBar
         guard let query = searchBar.text,
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
-              query.trimmingCharacters(in: .whitespaces).count >= 2,
-              let resultsController = searchController.searchResultsController as? ResultSearchViewController else { return }
+              query.trimmingCharacters(in: .whitespaces).count >= 2 else { return }
         
-        print(query)
-//        APIClient.shared.searchResults(with: query) {
-//            result in 
-//            DispatchQueue.main.async {
-//                switch result {
-//                    case .success(let titles):
-//                        resultsController.titles = titles
-//                        resultsController.searchResultCollectionView.reloadData()
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                }
-//            }
-//        }
+        APISearch.shared.searchResults(with: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                    case .success(let songs):
+                        self.resultSongs = songs
+                        self.searchTable.reloadData()
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                }
+            }
+        }
         
     }
-    
     
 }

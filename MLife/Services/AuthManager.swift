@@ -6,6 +6,7 @@
 //
 
 import FirebaseAuth
+import FirebaseDatabase
 
 class AuthManager {
     
@@ -41,10 +42,11 @@ class AuthManager {
                     UserDefaults.standard.setValue(access_token, forKey: "access_token")   
                     
                     Auth.auth().signIn(withCustomToken: access_token)
-                    
+        
                 }
                 
                 completion(true)
+                
             }    
         } else {
             completion(false)
@@ -93,12 +95,41 @@ class AuthManager {
         }
     }
     
+    // MARK: - GET USER INFO
+    
+    func getUserInfo(completion: @escaping(Bool) -> Void) {
+        let ref = Database.database().reference()
+        let defaults = UserDefaults.standard
+        
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            return
+//        }
+                
+        ref.child("users").observe(.value) { DataSnapshot in
+            if let dictionary = DataSnapshot.value as? [String: Any] {
+                                
+                let username = dictionary["username"] as! String
+                let id = dictionary["id"] as! String
+                
+                let userNameUppercase = username.uppercased()
+                
+                defaults.set(id, forKey: "IDKey")
+                defaults.set(userNameUppercase, forKey: "usernameKey")
+                
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
     // MARK: - LOGOUT
     
     func logOut(completion: (Bool) -> Void) {
         do {
             UserDefaults.standard.removeObject(forKey: "access_token")
             try Auth.auth().signOut()
+            PlayerDataTransmission.shared.destroyPlayer()
             completion(true)
             return
         } catch {

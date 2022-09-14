@@ -96,11 +96,11 @@ class SettingViewController: UIViewController {
         let urlString: String
         switch type {
             case .terms: 
-                urlString = "https://help.instagram.com/581066165581870"
+                urlString = ""
             case .privacy:
-                urlString = "https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect"
+                urlString = ""
             case .help:
-                urlString = "https://help.instagram.com/"
+                urlString = ""
         }
         
         guard let url = URL(string: urlString) else { return }

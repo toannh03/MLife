@@ -23,8 +23,14 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
         
     weak var delegate: PlayListHeaderCollectionReusableViewDelegate?
     
+    private let coverImageView: UIView = {
+        let coverView = UIView()
+        return coverView
+    }()
+    
     private let imagePoster: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -58,7 +64,9 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(imagePoster)
+        addSubview(coverImageView)
+        coverImageView.addSubview(imagePoster)
+//        addSubview(imagePoster)
         addSubview(nameAlbum)
         addSubview(artistsAlbum)
         addSubview(playAllSongButton)
@@ -72,7 +80,12 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         let size: CGFloat = frame.size.width / 1.5
-        imagePoster.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: size)
+        coverImageView.frame = CGRect(x: frame.size.width / 2 - (size/2), y: 0, width: size, height: size)
+
+        imagePoster.frame = CGRect(x: 0, y: 0, width: coverImageView.frame.size.width, height: coverImageView.frame.size.height)
+        
+        imagePoster.applyshadowWithCorner(containerView: coverImageView, cornerRadious: 10)
+        
         nameAlbum.frame = CGRect(x: 0, y: imagePoster.frame.size.height + 23, width: frame.size.width, height: 30)
         artistsAlbum.frame = CGRect(x: 0, y: nameAlbum.frame.origin.y + nameAlbum.frame.size.height, width: frame.size.width, height: 20)
         
@@ -83,6 +96,8 @@ class PlayListHeaderCollectionReusableView: UICollectionReusableView {
     override func prepareForReuse() {
         super.prepareForReuse()
         imagePoster.image = nil
+        nameAlbum.text = nil
+        artistsAlbum.text = nil
     }
     
     func configure(_ viewModel: PlayListViewModel) {

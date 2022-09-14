@@ -37,23 +37,32 @@ final class PlayerDataTransmission {
     }
         
     func dataTransmission(_ viewController: UIViewController, likeSong: Song?, song: Song?, playlists: [Song]?) {
-        
+                
         if let song = song {
+            player = nil
             self.song = song
             self.songs = []
             position = 0
         }
         
         if let playlists = playlists {
+            player = nil
             self.songs = playlists
+            position = 0
         }
+                
         guard let link = currentSong?.link else { return }
         streamSong(url: link)
-
+        
         popUpController()
         
+        viewController.tabBarController?.popupContentView.popupCloseButtonStyle = .round
+        viewController.tabBarController?.popupInteractionStyle = .drag
+        viewController.tabBarController?.popupBar.barStyle = .custom
+        viewController.tabBarController?.popupBar.progressViewStyle = .top
         viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
             self?.player?.play() 
+            self?.vc.rotateAnimationDisk()
         })
         
     }
@@ -73,9 +82,8 @@ final class PlayerDataTransmission {
             
             player?.prepareToPlay()
             player?.volume = 1.0
+            player?.play()
             
-
-
         } catch let error as NSError {
             self.player = nil
             print(error.localizedDescription)
@@ -89,11 +97,13 @@ final class PlayerDataTransmission {
                 
         vc.dataSource = self
         vc.delegate = self
+        
+        vc.isPlaying = true
+                
         vc.title = currentSong?.name_song
         
         vc.popupItem.title = currentSong?.name_song
         vc.popupItem.subtitle = currentSong?.artists
-        
         if let url = currentSong?.thumbnail {
             
             DispatchQueue.global().async {
@@ -110,15 +120,64 @@ final class PlayerDataTransmission {
             vc.popupItem.image = UIImage(named: "IconLauch")
         }
         
+        checkPlayPauseInBar()
+        
+    }
+    
+    func checkPlayPauseInBar() {
+        
+        guard let player = player else {
+            return
+            
+        }
+
+        let barButtonPause = UIBarButtonItem(image: UIImage(systemName: "pause.fill"), style: .plain, target: self, action: #selector(didTapPlayPauseButtonBar(_:)))
+        configureColorButtonBar(barButtonPause)
+
+        let barButtonPlay = UIBarButtonItem(image: UIImage(systemName: "play.fill"), style: .plain, target: self, action: #selector(didTapPlayPauseButtonBar(_:)))
+        configureColorButtonBar(barButtonPlay)
+        
+        let barButtonNext = UIBarButtonItem(image: UIImage(systemName: "forward.fill"), style: .plain, target: self, action: #selector(didTapNextButtonBar))
+        configureColorButtonBar(barButtonNext)
+        
+        vc.popupItem.leadingBarButtonItems = [player.isPlaying ? barButtonPause : barButtonPlay, barButtonNext]
+    }
+    
+    func configureColorButtonBar(_ button: UIBarButtonItem) {
+        button.tintColor = UIColor.init(red: 247/255, green: 65/255, blue: 126/255, alpha: 1.0)
+    }
+    
+    @objc func didTapPlayPauseButtonBar(_ button: UIBarButtonItem) {
+        
+        if vc.isPlaying {
+            button.image = UIImage(systemName: "play.fill")
+        } else {
+            button.image = UIImage(systemName: "pause.fill")
+        }
+        vc.didTapPlayPauseButton()
+        
+    }
+    
+    @objc func didTapNextButtonBar() {
+        vc.didTapNextButton()
     }
     
     // Timer delegate method that updates current time display in minutes
     func updateProgress(audioSlider: UISlider) {
-        let total = Float(player!.duration/60)
-        let current_time = Float(player!.currentTime/60)
+        
+        guard let player = player else {
+            return
+        }
+        
+        let total = Float(player.duration/60) - 0.1
+        let current_time = Float(player.currentTime/60)
+        
+        if total <= current_time {
+            vc.didTapNextButton()
+        }
         audioSlider.minimumValue = 0.0
-        audioSlider.maximumValue = Float(player!.duration/60)
-        audioSlider.setValue(current_time, animated: true)
+        audioSlider.maximumValue = Float(player.duration/60)
+        audioSlider.setValue( current_time, animated: true)
         let timeLabel = NSString(format: "%.2f/%.2f", current_time, total) as String
         audioSlider.setThumbImage(progressImage(with: timeLabel), for: .normal)
         
@@ -146,11 +205,23 @@ final class PlayerDataTransmission {
         return image!
     }
     
+    func destroyPlayer() {
+        
+        if player == nil {
+            return 
+        } else if player!.isPlaying {
+            player?.stop()
+            player = nil
+        }
+        
+    }
+    
 }
 
 extension PlayerDataTransmission: PlayerViewControllerDelegate {
 
     func PlayerViewControllerDidTapShuffButton(_ control: PlayerViewController) {
+        
     }
     
     func PlayerViewControllerDidTapPreviousButton(_ control: PlayerViewController) {
@@ -183,7 +254,10 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                 
                 guard let link = currentSong?.link else { return }
                 streamSong(url: link)
+                player?.prepareToPlay()
                 player?.play()
+                control.isPlaying = true
+                control.checkControl()
                 popUpController()
                 
             }
@@ -194,12 +268,15 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
         if let player = player {
             if player.isPlaying {
                 player.pause()
+                checkPlayPauseInBar()
                 control.isPlaying = false
             } else {
                 player.play()
+                checkPlayPauseInBar()
                 control.isPlaying = true
             }
         }
+        
     }
     
     func PlayerViewControllerDidTapNextButton(_ control: PlayerViewController) {
@@ -209,7 +286,6 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                 player!.stop()
                 player = nil
             }
-            
             if (position < songs.count) {
                 
                 position += 1
@@ -231,7 +307,10 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                                 
                 guard let link = currentSong?.link else { return }
                 streamSong(url: link)
+                player?.prepareToPlay()
                 player?.play()
+                control.isPlaying = true
+                control.checkControl()
                 popUpController()
             }
         }
@@ -243,11 +322,22 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
     
     func PlayerControlSlider(_ control: PlayerViewController, didSelectSlider value: Float) {
         if let player = player {
-            player.stop()
-            player.currentTime = TimeInterval(value*60) 
-            player.prepareToPlay()
-            player.play()
+            if player.isPlaying {
+                player.stop()
+                player.currentTime = TimeInterval(value*60) 
+                player.prepareToPlay()
+                player.play()
+            } else {
+                player.stop()
+                player.currentTime = TimeInterval(value*60) 
+                player.prepareToPlay()
+            }
+            
         }
+    }
+    
+    func PlayerControlVolumeSlider(_ control: PlayerViewController, didSelectSlider value: Float) {
+        player?.volume = value
     }
     
 }
