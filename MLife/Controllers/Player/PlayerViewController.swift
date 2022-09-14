@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import AVFoundation
 
 class PlayerViewController: UIViewController {
     
@@ -14,6 +15,9 @@ class PlayerViewController: UIViewController {
     weak var delegate: PlayerViewControllerDelegate?
     
     var timerProgress : Timer?
+    
+    var vol = AVAudioSession.sharedInstance().outputVolume
+
 
     public var isPlaying = true
     public var isRepeat = false;
@@ -42,6 +46,15 @@ class PlayerViewController: UIViewController {
         slider.tintColor = .black
         slider.addTarget(self, action: #selector(didTapSelectSlider(_:)), for: .valueChanged)
         return slider
+    }()
+    
+    lazy var volumeSong: UISlider = {
+        let volume = UISlider()
+        volume.tintColor = .black
+        volume.minimumValue = vol
+        volume.maximumValue = vol + 10.0
+        volume.addTarget(self, action: #selector(didTapSelectVolumeSlider(_:)), for: .valueChanged)
+        return volume
     }()
     
     private let nameSong: UILabel = {
@@ -111,7 +124,7 @@ class PlayerViewController: UIViewController {
         
         view.addSubview(controlsPlayer)
                 
-        [nameSong, descriptionSong, sliderSong].forEach {
+        [nameSong, descriptionSong, sliderSong, volumeSong].forEach {
             controlsPlayer.addSubview($0)
         }
 
@@ -119,47 +132,49 @@ class PlayerViewController: UIViewController {
                 
         configureControlPlayer()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.playCoverImage.rotate()
-        }
-                        
+        let thumbImage = UIImage(systemName: "speaker.wave.2.fill")!
+        volumeSong.setThumbImage( thumbImage, for: .normal)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Configure data when next song of click one song 
+                
         configureGetData()
+                
         startTimer()
+        
+        checkControl()
+                
     }
     
     // Configure timer for slider progress
     func startTimer() {
+        
         stopTimer()
         guard timerProgress == nil else { return }
-        
         timerProgress = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(progressTimer), userInfo: nil, repeats: true)
+        
     }
     
     func stopTimer() {
+        
         guard timerProgress != nil else { return }
         timerProgress?.invalidate()
         timerProgress = nil
+        
     }
     
     @objc func progressTimer() {
         PlayerDataTransmission.shared.updateProgress(audioSlider: sliderSong)
     }
     
-    
     // MARK: - Create layout
     override func viewDidLayoutSubviews() {
-        
-        if isPlaying {
-            colorCoverView.addGradientWithColor(color: .random)
-        } else {
-            colorCoverView.addGradientWithColor(color: .random)
-        }
-        
+  
+        colorCoverView.addGradientWithColor(color: .random)
+
         let sizeDisk: CGFloat = 300
         disk.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width + view.safeAreaInsets.top)
         playCoverImage.frame = CGRect(x: disk.frame.size.width / 2 - (sizeDisk/2), y: disk.frame.size.height / 2 - (sizeDisk/2.5) , width: sizeDisk, height: sizeDisk)
@@ -167,15 +182,29 @@ class PlayerViewController: UIViewController {
 
         let heightImage = disk.frame.size.height + view.safeAreaInsets.top
         
+        
+        // Configure control button
         controlsPlayer.frame = CGRect(x: 10, y: heightImage, width: view.frame.size.width - 20, height: view.frame.size.height - heightImage - view.safeAreaInsets.top - 10)
         controlsPlayer.layer.cornerRadius = 20.0
         controlsPlayer.backgroundColor = .secondarySystemFill
-        nameSong.frame = CGRect(x: 20, y: 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
-        descriptionSong.frame = CGRect(x: 20, y: nameSong.frame.size.height + 40, width:  controlsPlayer.frame.size.width - 40, height: 25)
         
-        sliderSong.frame = CGRect(x: 20, y: descriptionSong.frame.size.height + 60, width: controlsPlayer.frame.size.width - 40, height: 40)
+        let padding: CGFloat = 20
+        nameSong.frame = CGRect(x: padding, y: 30, width:  controlsPlayer.frame.size.width - 40, height: 25)
+        descriptionSong.frame = CGRect(x: padding, y: nameSong.frame.size.height + 40, width:  controlsPlayer.frame.size.width - 40, height: 25)
         
-        stack.frame = CGRect(x: 20, y: sliderSong.frame.size.height + 100, width: controlsPlayer.frame.size.width - 40, height: 80)
+        sliderSong.frame = CGRect(x: padding, y: descriptionSong.frame.size.height + 60, width: controlsPlayer.frame.size.width - 40, height: 40)
+        
+        stack.frame = CGRect(x: padding, y: sliderSong.frame.size.height + 80, width: controlsPlayer.frame.size.width - 40, height: 80)
+        
+        volumeSong.frame = CGRect(x: padding + 10, y: stack.frame.size.height + 120, width: controlsPlayer.frame.size.width - 60, height: 40)
+        
+    }
+    
+    func rotateAnimationDisk() {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.playCoverImage.rotate()
+        }
         
     }
     
@@ -196,13 +225,11 @@ class PlayerViewController: UIViewController {
         playCoverImage.sd_setImage(with: dataSource?.URL_image, completed: nil)
         nameSong.text = dataSource?.name_song
         descriptionSong.text = dataSource?.description
-        
-        checkControl()
-        
+            
     }
     
     func checkControl() {
-        
+                
         let pause = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
         let play = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 80, weight: .light, scale: .small))
                 
@@ -210,7 +237,6 @@ class PlayerViewController: UIViewController {
                         
         self.isPlaying ? playCoverImage.resumeAnimation() : playCoverImage.pauseAnimation()
         self.isPlaying ? startTimer() : stopTimer()
-        
         
     }
     
@@ -296,7 +322,11 @@ extension PlayerViewController {
     @objc func didTapSelectSlider(_ slider: UISlider) {
         let value = slider.value
         delegate?.PlayerControlSlider(self, didSelectSlider: value)
-        
+    }
+    
+    @objc func didTapSelectVolumeSlider(_ slider: UISlider) {
+        let value = slider.value
+        delegate?.PlayerControlVolumeSlider(self, didSelectSlider: value)
     }
     
 }

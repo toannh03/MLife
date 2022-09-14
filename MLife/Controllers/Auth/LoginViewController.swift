@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class LoginViewController: UIViewController {
     
@@ -16,16 +17,27 @@ class LoginViewController: UIViewController {
 //    var loginViewModel = LoginViewModel()
     
     // MARK: - Create view
-        
+    private let coverBackgroundLogin = UIView()
     var stackView: UIStackView!
-    
-    private let backgroundLogin: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleToFill
-        image.image = UIImage(named: "bgRegister")
-        return image
-    }()
+    let animationView = AnimationView()
 
+    private let lableLogin: UILabel = {
+        let label = UILabel()
+        label.text = "MLife"
+        label.textAlignment = .center
+        label.textColor = .black
+        let font = UIFont(name: "Noteworthy-Bold", size: 50)!
+        label.font = font
+        return label
+    }()
+    
+    private let imageCover: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "bgLogin")
+        return imageView
+    }()
+    
     lazy var indicatorLogin: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.style = .large
@@ -59,61 +71,110 @@ class LoginViewController: UIViewController {
         button.setTitle("Sign In", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.masksToBounds = true
-        button.layer.cornerRadius = Constants.cornerRadius
-        button.backgroundColor = .systemMint
+        button.layer.cornerRadius = Constants.cornerRadius        
         return button
     }()
     
     lazy var createAccountButton: UIButton = {
         let button = UIButton()
         button.setTitleColor( .black , for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16)
+        let font = UIFont(name: "Noteworthy-Bold", size: 16)!
+        button.titleLabel?.font = font
         button.setTitle("New user? Create an account", for: .normal)
         return button
     }()
-    
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
-        view.addSubview(backgroundLogin)
-//        self.view.addGradientWithColor(color: UIColor.red)
-        self.hideKeyboardWhenTappedAround() 
-        view.addSubview(createAccountButton)
         
+        view.backgroundColor = .tertiarySystemBackground
+        
+        view.addSubview(coverBackgroundLogin)
+        view.addSubview(lableLogin)
+        setUpAnimationLoading()
+
         configureStackView()
         
         asyncLoginButton.addTarget(self, action: #selector(pressLogin), for: .touchUpInside)
         createAccountButton.addTarget(self, action: #selector(didTapCreateAccountButton), for: .touchUpInside)
+        
+        self.hideKeyboardWhenTappedAround() 
+        
+        imageCover.frame = view.bounds
+                
+        view.insertSubview(imageCover, at: 0)
+                    
     }
     
     // MARK: - Layout
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        backgroundLogin.frame = view.bounds
-        // Anchor function is defined in Utilities
-        emailTextField.anchor(height: 50)
         
-        stackView.centerY(withView: self.view)
-        stackView.centerX(with: self.view)
-        stackView.setWidth(width: view.frame.size.width - 30)
-        createAccountButton.centerX(with: self.view, topAnchor: stackView.bottomAnchor, paddingTop: 10)
+        ConfigureLayoutCoverImage()
+        ConfigureLayoutStackView()
+        
+        lableLogin.frame = CGRect(x: 0, y: stackView.frame.origin.y , width: view.frame.size.width, height: 60)
+                
+//        let red = CGFloat.random(in: 0...1)
+//        let green = CGFloat.random(in: 0...1)
+//        let blue = CGFloat.random(in: 0...1)
+//        print("RGBA(\(red),\(green), \(blue))")
+        
+        asyncLoginButton.backgroundColor = .init(red: 0.052664157415666435,
+                                                 green: 0.5005925079915937,
+                                                 blue: 0.60022910677199,
+                                                 alpha: 0.5)
+
         indicatorLogin.frame = CGRect(x: (stackView.frame.size.width / 2) - 40, y: (stackView.frame.size.height / 2) - 40, width: 80, height: 80)
     }
     
     // MARK: - Configure
     
+    func setUpAnimationLoading() {
+        let size: CGFloat = view.frame.size.width
+        animationView.frame = CGRect(x: 0, y: view.frame.size.height - size, width: size, height: size)
+        animationView.animation = Animation.named("polygons")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.play()
+        imageCover.addSubview(animationView)
+    }
+    
     func configureStackView() {
         
-        stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, asyncLoginButton])
+        stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, asyncLoginButton, createAccountButton])
         stackView.axis = .vertical
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addSubview(indicatorLogin)
-        view.addSubview(stackView)
+        coverBackgroundLogin.addSubview(stackView)
+        
+    }
+    
+    func ConfigureLayoutCoverImage() {
+        
+        coverBackgroundLogin.layer.masksToBounds = false
+        coverBackgroundLogin.layer.cornerRadius = 20.0
+        coverBackgroundLogin.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        coverBackgroundLogin.layer.shadowOpacity = 0.5
+        coverBackgroundLogin.backgroundColor = .init(red: 0.5098501072066315,
+                                                     green: 0.7839224830120503,
+                                                     blue: 0.6957724175105579,
+                                                     alpha: 0.3)
+        coverBackgroundLogin.frame = CGRect(x: 30 , y: (view.frame.size.height / 2) - (view.frame.size.height / 4) + 20 , width: view.frame.size.width - 60, height: view.frame.size.height / 2)
+        
+    }
+    
+    func ConfigureLayoutStackView() {
+        
+        emailTextField.anchor(height: 46)
+        stackView.centerX(with: coverBackgroundLogin)
+        stackView.centerY(withView: coverBackgroundLogin)
+        stackView.anchor(left: coverBackgroundLogin.leftAnchor, right: coverBackgroundLogin.rightAnchor, paddingLeft: 10, paddingRight: 10)
         
     }
     

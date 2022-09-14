@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 enum HomeSectionType {
     case Topic(model: [TopicResponse])
@@ -23,7 +24,10 @@ class HomeViewController: UIViewController {
     private var likesongs: [Song] = []
     
     private var titleHeader: [String] = ["","Today's Like", "New Relases", "Songs"]
+    
     private var sections = [HomeSectionType]()
+    
+    let animationView = AnimationView()
 
     private let collectionView: UICollectionView = {
         
@@ -33,27 +37,42 @@ class HomeViewController: UIViewController {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         
         collection.register(BannerCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier)
+        
         collection.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
    
         collection.register(TopicCollectionViewCell.self, forCellWithReuseIdentifier: TopicCollectionViewCell.identifier)
+        
         collection.register(AlbumCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCollectionViewCell.identifier)
+        
         collection.register(PlayListCollectionViewCell.self, forCellWithReuseIdentifier: PlayListCollectionViewCell.identifier)
+        
         collection.register(MostLikeSongCollectionViewCell.self, forCellWithReuseIdentifier: MostLikeSongCollectionViewCell.identifier)
 
         return collection
     }()
-
+    
+    // MARK: - Life cycle when fetching data from service
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .systemBackground
         configureNavigationBar() 
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        fetchData()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpAnimationLoading() 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if albums.isEmpty, trending.isEmpty, topics.isEmpty, playlists.isEmpty, likesongs.isEmpty {
+            fetchData()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -89,7 +108,25 @@ class HomeViewController: UIViewController {
     }
     
     @objc func didTapSearchButton(sender: AnyObject){
-        
+        let vc = SearchViewController()
+        vc.title = "Search"
+        vc.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func setUpAnimationLoading() {
+        let size: CGFloat = 200
+        animationView.frame = CGRect(x: view.frame.size.width / 2 - (size / 2), y: view.frame.size.height / 2 - (size / 2), width: size, height: size)
+        animationView.animation = Animation.named("loading")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.play()
+        view.addSubview(animationView)
+    }
+    
+    func stopAnimationLoading() {
+        animationView.stop()
+        animationView.isHidden = true
     }
     
     func fetchData() {
@@ -187,6 +224,8 @@ class HomeViewController: UIViewController {
         sections.append(.PlayList(model: playlists))
         sections.append(.MostLikeSong(model: likesongs))
         collectionView.reloadData()
+        stopAnimationLoading()
+
     }
 }
 
@@ -314,6 +353,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             case 0:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BannerCollectionReusableView.identifier, for: indexPath) as! BannerCollectionReusableView
                 header.configure(with: trending)
+                header.delegate = self
                 return header             
             case 1:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
@@ -334,5 +374,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
 
+}
+
+extension HomeViewController: BannerCollectionReusableViewProtocol {
+    
+    func BannerCollectionReusableViewDidTapBanner(_ indexPath: Int) {
+        let song = trending[indexPath].song_id
+        PlayerDataTransmission.shared.dataTransmission(self, likeSong: nil, song: song, playlists: nil)
+    }
+    
 }
 

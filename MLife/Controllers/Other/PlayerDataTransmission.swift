@@ -37,20 +37,23 @@ final class PlayerDataTransmission {
     }
         
     func dataTransmission(_ viewController: UIViewController, likeSong: Song?, song: Song?, playlists: [Song]?) {
-        
+                
         if let song = song {
+            player = nil
             self.song = song
             self.songs = []
             position = 0
         }
         
         if let playlists = playlists {
+            player = nil
             self.songs = playlists
             position = 0
         }
+                
         guard let link = currentSong?.link else { return }
         streamSong(url: link)
-
+        
         popUpController()
         
         viewController.tabBarController?.popupContentView.popupCloseButtonStyle = .round
@@ -59,6 +62,7 @@ final class PlayerDataTransmission {
         viewController.tabBarController?.popupBar.progressViewStyle = .top
         viewController.tabBarController?.presentPopupBar(withContentViewController: vc, openPopup:true , animated: false, completion: { [weak self] in
             self?.player?.play() 
+            self?.vc.rotateAnimationDisk()
         })
         
     }
@@ -201,6 +205,17 @@ final class PlayerDataTransmission {
         return image!
     }
     
+    func destroyPlayer() {
+        
+        if player == nil {
+            return 
+        } else if player!.isPlaying {
+            player?.stop()
+            player = nil
+        }
+        
+    }
+    
 }
 
 extension PlayerDataTransmission: PlayerViewControllerDelegate {
@@ -239,7 +254,10 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                 
                 guard let link = currentSong?.link else { return }
                 streamSong(url: link)
+                player?.prepareToPlay()
                 player?.play()
+                control.isPlaying = true
+                control.checkControl()
                 popUpController()
                 
             }
@@ -289,7 +307,10 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
                                 
                 guard let link = currentSong?.link else { return }
                 streamSong(url: link)
+                player?.prepareToPlay()
                 player?.play()
+                control.isPlaying = true
+                control.checkControl()
                 popUpController()
             }
         }
@@ -313,6 +334,10 @@ extension PlayerDataTransmission: PlayerViewControllerDelegate {
             }
             
         }
+    }
+    
+    func PlayerControlVolumeSlider(_ control: PlayerViewController, didSelectSlider value: Float) {
+        player?.volume = value
     }
     
 }
