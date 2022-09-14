@@ -17,3 +17,31 @@ A music player app that streams songs online.
 <p align="center">
     <img alt="Swift MLife" src="music_image.png" width="800" height="400">
 </p>
+## Guide
+
+You need to download Cocoapods and add third party APIs to run the app
+Login account with ***test@gmail.com*** and ***12345678***
+
+***Third party APIs***
+
+```Swift
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
+pod 'Firebase/Analytics'
+pod 'Firebase/Crashlytics'
+pod 'Firebase/Storage'
+
+pod 'NotificationBannerSwift', '~> 3.0.0'
+
+# Gemini is rich scroll based animation framework.
+pod "Gemini" 
+
+# -> Gradient animation effect like Instagram.
+pod 'Pastel', '~> 0.6.0'
+
+pod 'SDWebImage', '~> 5.0'
+
+pod 'lottie-ios'
+```
+
