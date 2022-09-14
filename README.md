@@ -17,6 +17,7 @@ A music player app that streams songs online.
 <p align="center">
     <img alt="Swift MLife" src="music_image.png" width="800" height="400">
 </p>
+
 ## Guide
 
 You need to download Cocoapods and add third party APIs to run the app.</br>
