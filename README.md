@@ -19,8 +19,8 @@ A music player app that streams songs online.
 </p>
 ## Guide
 
-You need to download Cocoapods and add third party APIs to run the app
-Login account with ***test@gmail.com*** and ***12345678***
+You need to download Cocoapods and add third party APIs to run the app.</br>
+Login account with ***test@gmail.com*** and ***12345678***.</br>
 
 ***Third party APIs***
 
